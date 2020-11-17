@@ -5,7 +5,7 @@ export{getToDoFromUser, getToDoItemThatsClicked, closeModal, detailsBtnClicked, 
 let toDoItem;
 let storingAllToDos = new ToDoList()
 
-
+//After users clicks submit button, this code runs to get user data
 const getToDoFromUser= (e)=>{
   e.preventDefault()
   let list;
@@ -20,88 +20,122 @@ const getToDoFromUser= (e)=>{
   removeDisplayedModuleAndOverlay()
 }
 
+//remove displayed modal and overlay
 const removeDisplayedModuleAndOverlay= ()=>{
   modalTwo.classList.add('hidden');
   overlay.classList.add('hidden');
 }
 
-
+//generate a todo
 const generateToDoItem=(title, list, description, dueDate, priority, notes)=>{
   toDoItem = new ToDoItem(title, list, description, dueDate, priority, notes, count())
   passToDoItemToContainer(toDoItem)
 }
 
+//place todo inside of array
 const passToDoItemToContainer=(toDoItem)=>{
   storingAllToDos.placeToDoItemInMyArray(toDoItem)
-  passToDoToAppend(toDoItem)
+  passToDoToAppendTitleToPage(toDoItem)
 }
 
-const passToDoToAppend=(toDo)=>{
-  appendToDoTitleToPage(toDo)
-}
- 
-const appendToDoTitleToPage = (toDoItem)=>{
- displayingTitleOfToDo(toDoItem.title)
+//get title of current todo 
+const passToDoToAppendTitleToPage = (toDoItem)=>{
+ displayingTitleOfToDoAndMoreDetailsBtn(toDoItem.title)
 }
 
-const displayingTitleOfToDo = (title)=>{
-  let num;
+//displaying title of todo on page
+const displayingTitleOfToDoAndMoreDetailsBtn = (title)=>{
   const titleAndMoreDetailsBtn = `
           <div class="content-line" data-number=${toDoItem.getCounter()}>
           <div name-num=${toDoItem.getCounter()} >${title}</div><button data-number=${toDoItem.getCounter()} id="details-btn">More Details</button></div>`
-          if(toDoItem.list === 'Personal'){
-            num = modalThree
-          }else if(toDoItem.list === "Work"){
-            num = modalFour
-          }else if (toDoItem.list === 'Grocery Store'){
-            num = modalFive
-          }
-          num.insertAdjacentHTML('beforeend', titleAndMoreDetailsBtn)
-          num.classList.remove('hidden');
+          determingListType(titleAndMoreDetailsBtn)   
 }
 
+//determines list type  
+const determingListType=(titleAndMoreDetailsBtn)=>{
+  let modal;
+  if(toDoItem.list === 'Personal'){
+    modal = modalThree
+  }else if(toDoItem.list === "Work"){
+    modal = modalFour
+  }else if (toDoItem.list === 'Grocery Store'){
+    modal = modalFive
+  }
+  appendTitleToModal(modal, titleAndMoreDetailsBtn)//is it ok to pass a variable even though it doesnt get used at this point
+}
 
+// appends todo title on respective list type
+const appendTitleToModal=(modal, titleAndMoreDetailsBtn)=>{
+  modal.insertAdjacentHTML('beforeend', titleAndMoreDetailsBtn)
+  showModal(modal)
+}
+
+//display modal for current list type with respective todo title on it
+const showModal =(modal)=>{
+  modal.classList.remove('hidden');
+}
+
+//user clicks details button
 const detailsBtnClicked =(e)=>{ 
   if (e.target.id === 'details-btn' ) getToDoItemThatsClicked(e)
 }
   
-  const getToDoItemThatsClicked = (e)=>{
-  let dataNumOfCurrentToDo = Number(e.target.getAttribute('data-number'))
-  const toDoItemThatWasClicked = storingAllToDos._toDoList.find(item=>item.counter === dataNumOfCurrentToDo)
-  showDetailsOnPage(toDoItemThatWasClicked)
-  openModal()
+//get todo associated with the details btn that was clicked
+const getToDoItemThatsClicked = (e)=>{
+  const toDoItemThatWasClicked = storingAllToDos._toDoList.find(item=>item.counter === getDataNumberOfBtnClicked(e))
+  getValuesFromToDoPlaceInInputElement(toDoItemThatWasClicked)
 }
 
+//returns data-number attribute associated with clicked element
+const getDataNumberOfBtnClicked=(e)=>{
+  const dataNumberOfCurrentToDo = Number(e.target.getAttribute('data-number'))
+  return dataNumberOfCurrentToDo
+}
 
-const showDetailsOnPage = (toDoItem)=>{
+//takes values from todo item and places them in input element
+const getValuesFromToDoPlaceInInputElement = (toDoItem)=>{
   for(const [key, value] of Object.entries(toDoItem)){
     if(key != 'counter' && key != 'list'){
-      const content = `<input name-number=${toDoItem.getCounter()} value="${value}" class="user-content" data-number=${toDoItem.counter} ></input>`
-      modal.insertAdjacentHTML('beforeend', content)
+      const toDoItemValueInElement = `<input value-number=${toDoItem.getCounter()} value="${value}" class="user-content" data-number=${toDoItem.counter} ></input>`
+      appendsInputElementToModal(toDoItemValueInElement)
     }
   }
-   createEditAndDeleteBtns(toDoItem)
+   createDeleteAndSaveBtns(toDoItem)
 }
 
 
+//appends value of todo to modal on screen
+const appendsInputElementToModal=(toDoItemValueInElement)=>{
+  modal.insertAdjacentHTML('beforeend', toDoItemValueInElement)
+}
 
-const createEditAndDeleteBtns =(toDoItem)=>{
-  const editAndDeleteBtns = `<button class="user-content save" data-number=${toDoItem.counter}>Save<button>
+// create delete and save buttons
+const createDeleteAndSaveBtns =(toDoItem)=>{
+  const deleteAndSaveBtns = `<button class="user-content save" data-number=${toDoItem.counter}>Save<button>
   <button class="user-content del" data-number=${toDoItem.counter} >Delete</button>`
-  placeBtnsOnPage(editAndDeleteBtns)
+  placeBtnsOnModal(deleteAndSaveBtns)
 } 
 
-const placeBtnsOnPage =(btns)=>{
+// place delete and save button on unseenmodal
+const placeBtnsOnModal =(btns)=>{
   modal.insertAdjacentHTML('beforeend', btns)
+  displayModalSoToDoInfoWillDisplayOnPage()
 }
 
-const openModal=()=>{
+//displays modal and overlay (with user info on top)
+const displayModalSoToDoInfoWillDisplayOnPage=()=>{
   overlay.classList.remove('hidden')
   modal.classList.remove('hidden');
+  loadDeleteAndSaveBtns()
+}
+
+// load Delete And Save Btns handlers (that are in modal)
+const loadDeleteAndSaveBtns=()=>{
   loadListenerFordeletingToDo()
   loadListenerForSavingToDoAfterEdit()
 }
 
+//figure out exactly whats happening here and fix this....
 const closeModal=()=>{
   //should this be in the selectors.js file? if so, how do i grab elements that are created dynamically
   const userContent = document.querySelectorAll('.user-content')
@@ -111,50 +145,58 @@ const closeModal=()=>{
   modalTwo.classList.add('hidden');
 }
 
+//loading handler listener for delete
 const loadListenerFordeletingToDo =()=>{
   //should this be in the selectors.js file? if so, how do i grab elements that are created dynamically
   const deleteBtn = document.querySelector('.del')
   deleteBtn.addEventListener('click', getAllElementsAssociatedWithCurrentToDo)
 }
 
+//loading handler listener for save
 const loadListenerForSavingToDoAfterEdit= ()=>{
   const saveBtn = document.querySelector('.save')
-  saveBtn.addEventListener('click', getDataNumberAssociatedWithClickedToDo)
+  saveBtn.addEventListener('click', getToDoItemToUpdateAfterSavedClicked)
 }
 
+//get elements associated with the delete button clicked
 const getAllElementsAssociatedWithCurrentToDo =(e)=>{
-  let dataNumOfCurrentToDo = Number(e.target.getAttribute('data-number'))
-  let nodeOfElements = Array.from(document.querySelectorAll(`[data-number="${dataNumOfCurrentToDo}"]`))
-    deleteElementsAssocatedWithCurrentToDo(nodeOfElements)
+  let arrayOfElements = Array.from(document.querySelectorAll(`[data-number="${getDataNumberOfBtnClicked(e)}"]`))
+    deleteElementsAssocatedWithCurrentToDo(arrayOfElements)
     updateArrayOfToDos(e)
 }
 
-const getDataNumberAssociatedWithClickedToDo =(e)=>{
-  let dataNumOfCurrentToDo = Number(e.target.getAttribute('data-number'))
-  getToDoItemToUpdate(dataNumOfCurrentToDo)
+//deleting elements associated with delete button clicked 
+const deleteElementsAssocatedWithCurrentToDo=(elements)=>elements.forEach(element => element.remove())
+
+// get elements associcated with the save button clicked 
+// get todo item from array associated with save button clicked
+const getToDoItemToUpdateAfterSavedClicked=(e)=>{
+ const toDoFromArray = storingAllToDos.getToDoList().find(toDo=>toDo.counter == getDataNumberOfBtnClicked(e))
+ let arrayOfNewElementsUserEntered = Array.from(document.querySelectorAll(`[value-number="${getDataNumberOfBtnClicked(e)}"]`))
+ updateTodoInSideOfArray(e, toDoFromArray, arrayOfNewElementsUserEntered)
 }
 
+//update todo object in array
+//find more efficent way to do this....
+const updateTodoInSideOfArray=(e, toDo, userInputElement)=>{
+  toDo.title = userInputElement[0].value
+  toDo.description = userInputElement[1].value
+  toDo.dueDate = userInputElement[2].value
+  toDo.priority = userInputElement[3].value
+  toDo.notes = userInputElement[4].value 
+  updateDisplayedTitleToUserInputTitle(e, userInputElement)
+}
 
-const getToDoItemToUpdate=(dataNumOfCurrentToDo)=>{
- const newToDo = storingAllToDos.getToDoList().find(toDo=>toDo.counter == dataNumOfCurrentToDo)
- let arrayOfElements = Array.from(document.querySelectorAll(`[name-number="${dataNumOfCurrentToDo}"]`))
- newToDo.title = arrayOfElements[0].value
- newToDo.description = arrayOfElements[1].value
- newToDo.dueDate = arrayOfElements[2].value
- newToDo.priority = arrayOfElements[3].value
- newToDo.notes = arrayOfElements[4].value 
- let displayedTitle = document.querySelector(`[name-num="${dataNumOfCurrentToDo}"]`)
- displayedTitle.textContent =  arrayOfElements[0].value
-
-
+//updating Title that is displayed to new title entered by user
+const updateDisplayedTitleToUserInputTitle=(e, userInputElement)=>{
+  const displayedTitle = document.querySelector(`[name-num="${getDataNumberOfBtnClicked(e)}"]`)
+ displayedTitle.textContent =  userInputElement[0].value
  closeModal()
 }
 
-const deleteElementsAssocatedWithCurrentToDo=(elements)=>elements.forEach(element => element.remove())
-
+// update array of todo object after delete
 const updateArrayOfToDos =(e)=>{
-  let dataNumOfCurrentToDo = Number(e.target.getAttribute('data-number'))
-  storingAllToDos.deleteToDo(dataNumOfCurrentToDo)
+  storingAllToDos.deleteToDo(getDataNumberOfBtnClicked(e))
   closeModal()
 }
 
@@ -165,6 +207,8 @@ const displayModalToAddToDo =()=>{
   listType.classList.remove('hidden')
   document.querySelector('#todo-form').reset()
 }
+
+//find more efficient to create different toDo list
 
 const createPersonalToDo=()=>{
   const listType = document.querySelector('.listType')
