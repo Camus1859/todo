@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToDo App</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <button id="create-task-btn">Create Task</button>
+  <div class="modalThree hidden">    <button class="addPersonal">+</button>
+    Personal</div>
+  <div class="modalFour hidden">  <button class="addWork">+</button>Work</div>
+  <div class="modalFive hidden">  <button class="addStore">+</button>Grocery-Store</div>
+
+
+
+  
+<div class="modalTwo hidden">
+  <form id="todo-form">
+
+    <label for="title"></label><br>
+    <input class="createTask" type="text" id="title" name="title" value="" placeholder="TITLE"><br>
+
+    <div class="listType">
+      <label for="list"></label><br>
+      <select name="list" class="list">
+        <option value="" disabled selected value>List Type</option>
+
+        <option value ="Personal">Personal</option>
+        <option value ="Work">Work</option>
+        <option value ="Grocery Store">Grocery Store</option>
+      </select><br>
+    </div>
+    <label for="description"></label><br>
+    <input class="createTask" type="text" id="description" name="description" value="" placeholder="DESCRIPTION"><br>
+
+    <label for="due-date"></label><br>
+    <input type="date" id="due-date" name="due-date" value="" placeholder="Due Date:"><br>
+
+    <label for="priority"></label><br>
+      <select  id="priority">
+        <option value="" disabled selected value>Priority</option>
+        <option value = "high">High</option>
+        <option value = "medium">Medium</option>
+        <option value = "low">Low</option>
+      </select> <br>
+
+      <label for="notes"></label> <br>
+      <textarea class="createTask" id="notes" name="notes" rows="4" cols="20" value="" placeholder="Notes..."></textarea>
+      <input id="submit" type="submit" value="Submit">
+
+  </form>
+</div>
+
+  <div id="container"></div>
+  <div class="modal hidden">
+    <button class="close-modal">&times;</button>
+
+  </div>
+
+
+
+
+
+  <div class="overlay hidden"></div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
