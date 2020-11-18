@@ -84,7 +84,7 @@ const detailsBtnClicked =(e)=>{
 //get todo associated with the details btn that was clicked
 const getToDoItemThatsClicked = (e)=>{
   const toDoItemThatWasClicked = storingAllToDos._toDoList.find(item=>item.counter === getDataNumberOfBtnClicked(e))
-  getValuesFromToDoPlaceInInputElement(toDoItemThatWasClicked)
+  checkIfToDoClickedIsAlreadyOnTheScreen(e, toDoItemThatWasClicked)
 }
 
 //returns data-number attribute associated with clicked element
@@ -93,9 +93,12 @@ const getDataNumberOfBtnClicked=(e)=>{
   return dataNumberOfCurrentToDo
 }
 
+
+
 //takes values from todo item and places them in input element
-const getValuesFromToDoPlaceInInputElement = (toDoItem)=>{
+const getValuesFromToDoPlaceInInputElement = (e, toDoItem)=>{
   let toDoItemValueInElement;
+  console.log('getValuesFromToDoPlaceInInputElement  runs')
   for(const [key, value] of Object.entries(toDoItem)){
     if(key === 'counter' || key === 'list'){
       continue
@@ -109,7 +112,6 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem)=>{
         toDoItemValueInElement =
          `
         <select value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter}>
-        
           <option value = "High">High</option>
           <option value = "Medium">Medium</option>
           <option value = "Low"{}>Low</option>
@@ -126,6 +128,21 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem)=>{
       appendsInputElementToModal(toDoItemValueInElement)
   }
    createDeleteAndSaveBtns(toDoItem)
+}
+
+const checkIfToDoClickedIsAlreadyOnTheScreen=(e, toDoItemThatWasClicked)=>{
+  if(!modal.classList.contains('hidden')){
+    const clickedDetailsIdNum = e.target.getAttribute('data-number')
+    const elementDisplayingOnModalIdNum = document.querySelector('.user-content').getAttribute('data-number')
+    if (clickedDetailsIdNum === elementDisplayingOnModalIdNum){
+      console.log("???")
+      return
+    }
+  }
+  else if(modal.classList.contains('hidden')){
+    getValuesFromToDoPlaceInInputElement(e, toDoItemThatWasClicked)
+
+  }
 }
 
 
