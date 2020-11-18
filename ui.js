@@ -18,18 +18,19 @@ const getToDoFromUser= (e)=>{
   listType.classList.contains('hidden') ? list = toDoItem.list : list = document.querySelector('.list').value
   generateToDoItem(title, list, description, dueDate, priority, notes)
   removeDisplayedModuleAndOverlay()
-}
-
-//remove displayed modal and overlay
-const removeDisplayedModuleAndOverlay= ()=>{
-  modalTwo.classList.add('hidden');
-  overlay.classList.add('hidden');
+  console.log(toDoItem)
 }
 
 //generate a todo
 const generateToDoItem=(title, list, description, dueDate, priority, notes)=>{
   toDoItem = new ToDoItem(title, list, description, dueDate, priority, notes, count())
   passToDoItemToContainer(toDoItem)
+}
+
+//remove displayed modal and overlay
+const removeDisplayedModuleAndOverlay= ()=>{
+  modalTwo.classList.add('hidden');
+  overlay.classList.add('hidden');
 }
 
 //place todo inside of array
@@ -94,11 +95,35 @@ const getDataNumberOfBtnClicked=(e)=>{
 
 //takes values from todo item and places them in input element
 const getValuesFromToDoPlaceInInputElement = (toDoItem)=>{
+  let toDoItemValueInElement;
   for(const [key, value] of Object.entries(toDoItem)){
-    if(key != 'counter' && key != 'list'){
-      const toDoItemValueInElement = `<input value-number=${toDoItem.getCounter()} value="${value}" class="user-content" data-number=${toDoItem.counter} ></input>`
-      appendsInputElementToModal(toDoItemValueInElement)
+    if(key === 'counter' || key === 'list'){
+      continue
     }
+    else if (key === 'title' || key === 'description'){
+       toDoItemValueInElement = `<input value-number=${toDoItem.getCounter()} value="${value}" class="user-content" data-number=${toDoItem.counter} ></input>`
+     } 
+     else if(key === 'priority'){
+      //  console.log(document.getElementById('high'))
+      //  document.getElementById("low").selected = true
+        toDoItemValueInElement =
+         `
+        <select value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter}>
+        
+          <option value = "High">High</option>
+          <option value = "Medium">Medium</option>
+          <option value = "Low"{}>Low</option>
+        </select>
+        `
+      }
+      else if(key === 'notes') {
+        toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter} >${value}</textarea>`
+      }
+      
+      else if(key === 'dueDate'){
+        toDoItemValueInElement = `<input type="date" value-number=${toDoItem.getCounter()} value="${value}" class="user-content" data-number=${toDoItem.counter} ></input>`
+      }
+      appendsInputElementToModal(toDoItemValueInElement)
   }
    createDeleteAndSaveBtns(toDoItem)
 }
@@ -179,11 +204,13 @@ const getToDoItemToUpdateAfterSavedClicked=(e)=>{
 //update todo object in array
 //find more efficent way to do this....
 const updateTodoInSideOfArray=(e, toDo, userInputElement)=>{
+  console.log(userInputElement)
   toDo.title = userInputElement[0].value
   toDo.description = userInputElement[1].value
   toDo.dueDate = userInputElement[2].value
   toDo.priority = userInputElement[3].value
-  toDo.notes = userInputElement[4].value 
+  console.log(userInputElement[4].textContent)
+  toDo.notes = userInputElement[4].value
   updateDisplayedTitleToUserInputTitle(e, userInputElement)
 }
 

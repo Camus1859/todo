@@ -8,8 +8,7 @@
 </head>
 <body>
   <button id="create-task-btn">Create Task</button>
-  <div class="modalThree hidden">    <button class="addPersonal">+</button>
-    Personal</div>
+  <div class="modalThree hidden">    <button class="addPersonal">+</button>Personal</div>
   <div class="modalFour hidden">  <button class="addWork">+</button>Work</div>
   <div class="modalFive hidden">  <button class="addStore">+</button>Grocery-Store</div>
 
@@ -17,6 +16,7 @@
 
   
 <div class="modalTwo hidden">
+  
   <form id="todo-form">
 
     <label for="title"></label><br>
@@ -41,9 +41,9 @@
     <label for="priority"></label><br>
       <select  id="priority">
         <option value="" disabled selected value>Priority</option>
-        <option value = "high">High</option>
-        <option value = "medium">Medium</option>
-        <option value = "low">Low</option>
+        <option id="high" value = "high">High</option>
+        <option id="medium"value = "medium">Medium</option>
+        <option id="low"value = "low">Low</option>
       </select> <br>
 
       <label for="notes"></label> <br>
