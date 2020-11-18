@@ -141,7 +141,9 @@ const checkIfToDoClickedIsAlreadyOnTheScreen=(e, toDoItemThatWasClicked)=>{
   }
   else if(modal.classList.contains('hidden')){
     getValuesFromToDoPlaceInInputElement(e, toDoItemThatWasClicked)
-
+    modalThree.classList.add('hidden')
+    modalFour.classList.add('hidden')
+    modalFive.classList.add('hidden')
   }
 }
 
@@ -185,7 +187,22 @@ const closeModal=()=>{
   modal.classList.add('hidden');
   overlay.classList.add('hidden');
   modalTwo.classList.add('hidden');
+  displayCertainListModals()
 }
+
+const displayCertainListModals=()=>{
+  if(modalThree.firstElementChild.nextElementSibling){
+    modalThree.classList.remove('hidden')
+  }
+  if(modalFour.firstElementChild.nextElementSibling){
+    modalFour.classList.remove('hidden')
+  }if(modalFive.firstElementChild.nextElementSibling){
+    modalFive.classList.remove('hidden')
+  }
+}
+
+ 
+
 
 //loading handler listener for delete
 const loadListenerFordeletingToDo =()=>{
@@ -258,6 +275,7 @@ const createPersonalToDo=()=>{
   const listType = document.querySelector('.listType')
   displayModalToAddToDo()
   toDoItem.list = 'Personal'
+
   listType.classList.add('hidden')
 }
 

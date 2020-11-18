@@ -13,6 +13,9 @@ const modalFive = document.querySelector('.modalFive')
 const addToDoToPersonalModalBtn = document.querySelector('.addPersonal')
 const addToDoToWorkModalBtn = document.querySelector('.addWork')
 const addToDoToStoreModalBtn = document.querySelector('.addStore')
+const allListModals = Array.from(document.querySelectorAll('.listModal'))
+const allListTypes = Array.from(document.querySelectorAll('.listType'))
+
 
 
 
@@ -25,8 +28,20 @@ const loadEventListeners = ()=>{
   addToDoToPersonalModalBtn.addEventListener('click', createPersonalToDo)
   addToDoToStoreModalBtn.addEventListener('click', createStoreToDo )
   addToDoToWorkModalBtn.addEventListener('click', createWorkToDo)
- }
-  
+  allListModals.forEach(listBtn=>listBtn.addEventListener('click', function(e){
+    allListModals.forEach(list=>{
+      if(e.target.id === 'details-btn'){
+        list.classList.add('hidden')
+      }
+      else if(e.target.classList.contains('listType')){
+        allListModals.forEach(list=>list.classList.add('hidden'))
+       
+
+      }
+})
+
+  }))
+}
 
 
 
