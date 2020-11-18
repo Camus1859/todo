@@ -8,14 +8,15 @@ let storingAllToDos = new ToDoList()
 //After users clicks submit button, this code runs to get user data
 const getToDoFromUser= (e)=>{
   e.preventDefault()
-  let list;
   const title = document.querySelector('#title').value
   const description = document.querySelector('#description').value
   const dueDate = document.querySelector('#due-date').value
   const priority = document.querySelector('#priority').value
   const notes = document.querySelector('#notes').value
-  const listType = document.querySelector('.listType')
-  listType.classList.contains('hidden') ? list = toDoItem.list : list = document.querySelector('.list').value
+  let listTypeDiv = document.querySelector('.listTypeDiv')
+
+  let list;
+  listTypeDiv.classList.contains('hidden') ? list = toDoItem.list : list = document.querySelector('.list').value
   generateToDoItem(title, list, description, dueDate, priority, notes)
   removeDisplayedModuleAndOverlay()
   console.log(toDoItem)
@@ -62,6 +63,8 @@ const determingListType=(titleAndMoreDetailsBtn)=>{
   }else if (toDoItem.list === 'Grocery Store'){
     modal = modalFive
   }
+  console.log(toDoItem)
+  console.log(modal)
   appendTitleToModal(modal, titleAndMoreDetailsBtn)//is it ok to pass a variable even though it doesnt get used at this point
 }
 
@@ -262,33 +265,32 @@ const updateArrayOfToDos =(e)=>{
 }
 
 const displayModalToAddToDo =()=>{
-  const listType = document.querySelector('.listType')
+  const listTypeDiv = document.querySelector('.listTypeDiv')
   modalTwo.classList.remove('hidden');
   overlay.classList.remove('hidden')
-  listType.classList.remove('hidden')
+  listTypeDiv.classList.remove('hidden')
   document.querySelector('#todo-form').reset()
 }
 
 //find more efficient to create different toDo list
 
 const createPersonalToDo=()=>{
-  const listType = document.querySelector('.listType')
+  const listTypeDiv = document.querySelector('.listTypeDiv')
   displayModalToAddToDo()
   toDoItem.list = 'Personal'
-
-  listType.classList.add('hidden')
+  listTypeDiv.classList.add('hidden')
 }
 
 const createStoreToDo =()=>{
-  const listType = document.querySelector('.listType')
+  const listTypeDiv = document.querySelector('.listTypeDiv')
   displayModalToAddToDo()
   toDoItem.list = 'Grocery Store'
-  listType.classList.add('hidden')
+  listTypeDiv.classList.add('hidden')
 }
 
 const createWorkToDo =()=>{
-  const listType = document.querySelector('.listType')
+  const list = document.querySelector('.listTypeDiv')
   displayModalToAddToDo()
   toDoItem.list = 'Work'
-  listType.classList.add('hidden')
+  listTypeDiv.classList.add('hidden')
 }
