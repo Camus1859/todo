@@ -275,6 +275,9 @@ const displayModalToAddToDo =()=>{
   overlay.classList.remove('hidden')
   listTypeDiv.classList.remove('hidden')
   document.querySelector('#todo-form').reset()
+  modalThree.classList.add('hidden')
+  modalFour.classList.add('hidden')
+  modalFive.classList.add('hidden')
 }
 
 //find more efficient to create different toDo list
