@@ -19,6 +19,8 @@ const getToDoFromUser= (e)=>{
   listTypeDiv.classList.contains('hidden') ? list = toDoItem.list : list = document.querySelector('.list').value
   generateToDoItem(title, list, description, dueDate, priority, notes)
   removeDisplayedModuleAndOverlay()
+  createTimeUntilTodo()
+
   console.log(toDoItem)
 }
 
@@ -49,7 +51,8 @@ const passToDoToAppendTitleToPage = (toDoItem)=>{
 const displayingTitleOfToDoAndMoreDetailsBtn = (title)=>{
   const titleAndMoreDetailsBtn = `
           <div class="content-line" data-number=${toDoItem.getCounter()}>
-          <div name-num=${toDoItem.getCounter()} >${title}</div><button data-number=${toDoItem.getCounter()} id="details-btn">More Details</button></div>`
+          <div name-num=${toDoItem.getCounter()} >${title}</div><div data-class="${toDoItem.getCounter()}"></div>
+          <button data-number=${toDoItem.getCounter()} id="details-btn">More Details</button></div>`
           determingListType(titleAndMoreDetailsBtn)   
 }
 
@@ -126,7 +129,7 @@ const getValuesFromToDoPlaceInInputElement = (e, toDoItem)=>{
       }
       
       else if(key === 'dueDate'){
-        toDoItemValueInElement = `<input type="date" value-number=${toDoItem.getCounter()} value="${value}" class="user-content" data-number=${toDoItem.counter} ></input>`
+        toDoItemValueInElement = `<input type="date" min="${today}" value-number=${toDoItem.getCounter()} value="${value}" class="user-content" data-number=${toDoItem.counter} ></input>`
       }
       appendsInputElementToModal(toDoItemValueInElement)
   }
@@ -245,10 +248,12 @@ const updateTodoInSideOfArray=(e, toDo, userInputElement)=>{
   toDo.title = userInputElement[0].value
   toDo.description = userInputElement[1].value
   toDo.dueDate = userInputElement[2].value
+  console.log(toDo.dueDate)
   toDo.priority = userInputElement[3].value
   console.log(userInputElement[4].textContent)
   toDo.notes = userInputElement[4].value
   updateDisplayedTitleToUserInputTitle(e, userInputElement)
+  createTimeUntilTodo()
 }
 
 //updating Title that is displayed to new title entered by user
@@ -289,8 +294,42 @@ const createStoreToDo =()=>{
 }
 
 const createWorkToDo =()=>{
-  const list = document.querySelector('.listTypeDiv')
+  const listTypeDiv = document.querySelector('.listTypeDiv')
   displayModalToAddToDo()
   toDoItem.list = 'Work'
   listTypeDiv.classList.add('hidden')
 }
+
+
+const createTimeUntilTodo=()=>{
+  let daysUntilTodo = document.querySelector(`[data-class="${toDoItem.getCounter()}"]`)
+  let toDoDueDate = new Date(`${toDoItem.dueDate}`.replace(/-/g, '\/'))
+  let today = new Date();
+  const dd = String(today.getDate());
+  const mm = String(today.getMonth() + 1);
+  const yyyy = today.getFullYear();
+  today = new Date(`${mm}-${dd}-${yyyy}`)
+  const diffTime = Math.abs(toDoDueDate - today)
+  let diffDays = Number(Math.ceil(diffTime / (1000 * 60 * 60 * 24)))
+
+  if(diffDays === 1){
+    daysUntilTodo.textContent = 'Tomorrow'
+  }
+  else if(diffDays === 0){
+    daysUntilTodo.textContent = 'Today'
+  }
+  else if(diffDays >= 2){
+    daysUntilTodo.textContent = `in ${diffDays} days`
+  }
+  else if(diffDays > 0 ){
+    daysUntilTodo.textContent = 'Over Due'
+  }
+}
+
+let today = new Date();
+  const dd = String(today.getDate());
+  const mm = String(today.getMonth() + 1);
+  const yyyy = today.getFullYear();
+  today = `${yyyy}-${mm}-${dd}`
+  document.querySelector('#due-date').setAttribute('min', today)
+
