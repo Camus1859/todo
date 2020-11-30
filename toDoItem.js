@@ -10,7 +10,7 @@ class ToDoItem {
     this.notes = notes
     this.counter = counter
   }
-  static counting =()=>{
+  static counting (){
     let counter = 0
     return function (){
       return counter++

@@ -14,19 +14,17 @@ const getToDoFromUser= (e)=>{
   const priority = document.querySelector('#priority').value
   const notes = document.querySelector('#notes').value
   let listTypeDiv = document.querySelector('.listTypeDiv')
-
   let list;
   listTypeDiv.classList.contains('hidden') ? list = toDoItem.list : list = document.querySelector('.list').value
   generateToDoItem(title, list, description, dueDate, priority, notes)
   removeDisplayedModuleAndOverlay()
   createTimeUntilTodo()
-
-  console.log(toDoItem)
 }
 
 //generate a todo
 const generateToDoItem=(title, list, description, dueDate, priority, notes)=>{
   toDoItem = new ToDoItem(title, list, description, dueDate, priority, notes, count())
+  console.log(toDoItem)
   passToDoItemToContainer(toDoItem)
 }
 
@@ -56,7 +54,6 @@ const displayingTitleOfToDoAndMoreDetailsBtn = (title)=>{
           determingListType(titleAndMoreDetailsBtn)   
 }
 
-//determines list type  
 const determingListType=(titleAndMoreDetailsBtn)=>{
   let modal;
   if(toDoItem.list === 'Personal'){
@@ -66,9 +63,7 @@ const determingListType=(titleAndMoreDetailsBtn)=>{
   }else if (toDoItem.list === 'Grocery Store'){
     modal = modalFive
   }
-  console.log(toDoItem)
-  console.log(modal)
-  appendTitleToModal(modal, titleAndMoreDetailsBtn)//is it ok to pass a variable even though it doesnt get used at this point
+  appendTitleToModal(modal, titleAndMoreDetailsBtn)
 }
 
 // appends todo title on respective list type
@@ -100,36 +95,56 @@ const getDataNumberOfBtnClicked=(e)=>{
 }
 
 
+//after the user inputs certain values and creates a todo object. 
+// 'show details' button is clicked
+//below i pass it this toDoItem object, iterate over it to retrieve certain values, then i create an element that displays those values.
 
-//takes values from todo item and places them in input element
 const getValuesFromToDoPlaceInInputElement = (e, toDoItem)=>{
   let toDoItemValueInElement;
-  console.log('getValuesFromToDoPlaceInInputElement  runs')
   for(const [key, value] of Object.entries(toDoItem)){
     if(key === 'counter' || key === 'list'){
       continue
     }
-    else if (key === 'title' || key === 'description'){
-       toDoItemValueInElement = `<input value-number=${toDoItem.getCounter()} value="${value}" class="user-content" data-number=${toDoItem.counter} ></input>`
+    else if (key === 'title'){
+       toDoItemValueInElement = `<input value-number=${toDoItem.getCounter()} value="${toDoItem.title}" class="user-content" data-number=${toDoItem.counter} ></input>`
      } 
+     else if (key === 'description'){
+      toDoItemValueInElement = `<input value-number=${toDoItem.getCounter()} value="${toDoItem.description}" class="user-content" data-number=${toDoItem.counter} ></input>`
+     }
      else if(key === 'priority'){
-      //  console.log(document.getElementById('high'))
-      //  document.getElementById("low").selected = true
+       if (value === 'high'){
         toDoItemValueInElement =
-         `
-        <select value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter}>
-          <option value = "High">High</option>
-          <option value = "Medium">Medium</option>
-          <option value = "Low"{}>Low</option>
-        </select>
         `
+       <select value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter}>
+         <option value="High" selected>High</option>
+         <option value="Medium">Medium</option>
+         <option value="Low" >Low</option>
+       </select>
+       `
+       }
+       else if (value === 'medium'){
+        toDoItemValueInElement =
+        `
+       <select value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter}>
+         <option value="High">High</option>
+         <option value="Medium" selected>Medium</option>
+         <option value="Low" >Low</option>
+       </select>
+       `
+       }else if (value === 'low'){
+        toDoItemValueInElement =
+        ` <select value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter}>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low" selected >Low</option>
+      </select>`
+       }
       }
       else if(key === 'notes') {
-        toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter} >${value}</textarea>`
+        toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter} >${toDoItem.notes}</textarea>`
       }
-      
       else if(key === 'dueDate'){
-        toDoItemValueInElement = `<input type="date" min="${today}" value-number=${toDoItem.getCounter()} value="${value}" class="user-content" data-number=${toDoItem.counter} ></input>`
+        toDoItemValueInElement = `<input type="date" min="${today}" value-number=${toDoItem.getCounter()} value="${toDoItem.dueDate}" class="user-content" data-number=${toDoItem.counter} ></input>`
       }
       appendsInputElementToModal(toDoItemValueInElement)
   }
@@ -187,7 +202,6 @@ const loadDeleteAndSaveBtns=()=>{
 
 //figure out exactly whats happening here and fix this....
 const closeModal=()=>{
-  //should this be in the selectors.js file? if so, how do i grab elements that are created dynamically
   const userContent = document.querySelectorAll('.user-content')
   userContent.forEach(content=>content.remove())
   modal.classList.add('hidden');
@@ -208,11 +222,8 @@ const displayCertainListModals=()=>{
 }
 
  
-
-
 //loading handler listener for delete
 const loadListenerFordeletingToDo =()=>{
-  //should this be in the selectors.js file? if so, how do i grab elements that are created dynamically
   const deleteBtn = document.querySelector('.del')
   deleteBtn.addEventListener('click', getAllElementsAssociatedWithCurrentToDo)
 }
@@ -244,11 +255,9 @@ const getToDoItemToUpdateAfterSavedClicked=(e)=>{
 //update todo object in array
 //find more efficent way to do this....
 const updateTodoInSideOfArray=(e, toDo, userInputElement)=>{
-  console.log(userInputElement)
   toDo.title = userInputElement[0].value
   toDo.description = userInputElement[1].value
   toDo.dueDate = userInputElement[2].value
-  console.log(toDo.dueDate)
   toDo.priority = userInputElement[3].value
   console.log(userInputElement[4].textContent)
   toDo.notes = userInputElement[4].value
