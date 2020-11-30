@@ -18,13 +18,14 @@ const getToDoFromUser= (e)=>{
   listTypeDiv.classList.contains('hidden') ? list = toDoItem.list : list = document.querySelector('.list').value
   generateToDoItem(title, list, description, dueDate, priority, notes)
   removeDisplayedModuleAndOverlay()
-  createTimeUntilTodo()
 }
 
 //generate a todo
 const generateToDoItem=(title, list, description, dueDate, priority, notes)=>{
   toDoItem = new ToDoItem(title, list, description, dueDate, priority, notes, count())
   passToDoItemToContainer(toDoItem)
+  createTimeUntilTodo(toDoItem)
+
 }
 
 //remove displayed modal and overlay
@@ -269,7 +270,8 @@ const updateTodoInSideOfArray=(e, toDo, userInputElement)=>{
   toDo.priority = userInputElement[3].value
   toDo.notes = userInputElement[4].value
   updateDisplayedTitleToUserInputTitle(e, userInputElement)
-  createTimeUntilTodo()
+  console.log(toDo)
+  createTimeUntilTodo(toDo)
 
 }
 
@@ -321,9 +323,10 @@ const createWorkToDo =()=>{
 }
 
 
-const createTimeUntilTodo=()=>{
-  let daysUntilTodo = document.querySelector(`[data-class="${toDoItem.getCounter()}"]`)
-  let toDoDueDate = new Date(`${toDoItem.dueDate}`.replace(/-/g, '\/'))
+const createTimeUntilTodo=(toDo)=>{
+  console.log(toDo)
+  let daysUntilTodo = document.querySelector(`[data-class="${toDo.counter}"]`)
+  let toDoDueDate = new Date(`${toDo.dueDate}`.replace(/-/g, '\/'))
   let today = new Date();
   const dd = String(today.getDate());
   const mm = String(today.getMonth() + 1);
