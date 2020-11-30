@@ -24,7 +24,6 @@ const getToDoFromUser= (e)=>{
 //generate a todo
 const generateToDoItem=(title, list, description, dueDate, priority, notes)=>{
   toDoItem = new ToDoItem(title, list, description, dueDate, priority, notes, count())
-  console.log(toDoItem)
   passToDoItemToContainer(toDoItem)
 }
 
@@ -101,7 +100,8 @@ const getDataNumberOfBtnClicked=(e)=>{
 
 const getValuesFromToDoPlaceInInputElement = (e, toDoItem)=>{
   let toDoItemValueInElement;
-  for(const [key, value] of Object.entries(toDoItem)){
+  for(let [key, value] of Object.entries(toDoItem)){
+
     if(key === 'counter' || key === 'list'){
       continue
     }
@@ -111,8 +111,12 @@ const getValuesFromToDoPlaceInInputElement = (e, toDoItem)=>{
      else if (key === 'description'){
       toDoItemValueInElement = `<input value-number=${toDoItem.getCounter()} value="${toDoItem.description}" class="user-content" data-number=${toDoItem.counter} ></input>`
      }
-     else if(key === 'priority'){
-       if (value === 'high'){
+
+
+
+
+
+     else if(key === 'priority'  && value.toLowerCase() === 'high' ){
         toDoItemValueInElement =
         `
        <select value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter}>
@@ -121,8 +125,8 @@ const getValuesFromToDoPlaceInInputElement = (e, toDoItem)=>{
          <option value="Low" >Low</option>
        </select>
        `
-       }
-       else if (value === 'medium'){
+     } 
+       else if (key === 'priority' && value.toLowerCase() === 'medium'){
         toDoItemValueInElement =
         `
        <select value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter}>
@@ -131,7 +135,7 @@ const getValuesFromToDoPlaceInInputElement = (e, toDoItem)=>{
          <option value="Low" >Low</option>
        </select>
        `
-       }else if (value === 'low'){
+       }else if (key === 'priority' && value.toLowerCase() === 'low'){
         toDoItemValueInElement =
         ` <select value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter}>
         <option value="High">High</option>
@@ -139,7 +143,9 @@ const getValuesFromToDoPlaceInInputElement = (e, toDoItem)=>{
         <option value="Low" selected >Low</option>
       </select>`
        }
-      }
+
+
+
       else if(key === 'notes') {
         toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter} >${toDoItem.notes}</textarea>`
       }
@@ -156,7 +162,6 @@ const checkIfToDoClickedIsAlreadyOnTheScreen=(e, toDoItemThatWasClicked)=>{
     const clickedDetailsIdNum = e.target.getAttribute('data-number')
     const elementDisplayingOnModalIdNum = document.querySelector('.user-content').getAttribute('data-number')
     if (clickedDetailsIdNum === elementDisplayingOnModalIdNum){
-      console.log("???")
       return
     }
   }
@@ -247,22 +252,25 @@ const deleteElementsAssocatedWithCurrentToDo=(elements)=>elements.forEach(elemen
 // get elements associcated with the save button clicked 
 // get todo item from array associated with save button clicked
 const getToDoItemToUpdateAfterSavedClicked=(e)=>{
- const toDoFromArray = storingAllToDos.getToDoList().find(toDo=>toDo.counter == getDataNumberOfBtnClicked(e))
+ const toDoFromArray = storingAllToDos.getToDoList().find(toDo=>toDo.counter === getDataNumberOfBtnClicked(e))
  let arrayOfNewElementsUserEntered = Array.from(document.querySelectorAll(`[value-number="${getDataNumberOfBtnClicked(e)}"]`))
  updateTodoInSideOfArray(e, toDoFromArray, arrayOfNewElementsUserEntered)
 }
 
+
 //update todo object in array
 //find more efficent way to do this....
 const updateTodoInSideOfArray=(e, toDo, userInputElement)=>{
+
   toDo.title = userInputElement[0].value
   toDo.description = userInputElement[1].value
   toDo.dueDate = userInputElement[2].value
+ 
   toDo.priority = userInputElement[3].value
-  console.log(userInputElement[4].textContent)
   toDo.notes = userInputElement[4].value
   updateDisplayedTitleToUserInputTitle(e, userInputElement)
   createTimeUntilTodo()
+
 }
 
 //updating Title that is displayed to new title entered by user
