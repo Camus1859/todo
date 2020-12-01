@@ -20,5 +20,5 @@ class ToDoItem {
     return this.counter
   }
 }
-const count =  ToDoItem.counting()
+let count =  ToDoItem.counting()
 

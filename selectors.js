@@ -1,8 +1,10 @@
-export{loadEventListeners, overlay, modal, modalTwo, modalThree, modalFour, modalFive}
+export{loadEventListeners, overlay, modal, modal55, modalTwo, modalThree, modalFour, modalFive}
 import{getToDoFromUser, closeModal, detailsBtnClicked, displayModalToAddToDo, createPersonalToDo, createStoreToDo, createWorkToDo} from './ui.js'
 
 const overlay = document.querySelector('.overlay')
 const modal = document.querySelector('.modal');
+const modal55 = document.querySelector('.modal55');
+
 const btnCloseModal = document.querySelector('.close-modal');
 const submit = document.querySelector('#submit')
 const createTaskBtn = document.querySelector('#create-task-btn')
