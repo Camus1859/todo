@@ -1,15 +1,10 @@
-/* * {
+* {
   margin: 0;
   padding: 0;
   box-sizing: inherit;
-} */
+}
 
 
-/* .modal{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-} */
 
 .content-line{
   display: flex;
@@ -18,7 +13,7 @@
 .hidden {
   display: none;
 }
-/* 
+
 .overlay {
   position: absolute;
   top: 0;
@@ -28,12 +23,8 @@
   background-color: rgba(170, 170, 170, 0.6);
   backdrop-filter: blur(3px);
   z-index: 5;
-} */
+}
 
- /* .modal {
-  display: flex;
-  flex-direction: column ; 
-}  */
 
 .modal55 {
   position: absolute;
@@ -48,51 +39,9 @@
   z-index: 10;
 }
 
-/* .modalThree {
-position: absolute;
-top: 40%;
-transform: translate(-50%, -50%);
-left: 20%;
-width: 10%;
-height: 10%;
-background-color: white;
-padding: 6rem;
-border-radius: 5px;
-box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
-z-index: 10;
-}
 
 
-.modalFour {
-  position: absolute;
-  top: 40%;
-  transform: translate(-50%, -50%);
-  left: 50%;
-  width: 10%;
-  height: 10%;
-  background-color: white;
-  padding: 6rem;
-  border-radius: 5px;
-  box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
-  z-index: 10;
-  }
 
-  .modalFive {
-    position: absolute;
-    top: 40%;
-    transform: translate(-50%, -50%);
-    left: 80%;
-    width: 10%;
-    height: 10;
-    background-color: white;
-    padding: 6rem;
-    border-radius: 5px;
-    box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
-    z-index: 10;
-    } */
-
-
-/* 
 .close-modal {
   position: absolute;
   top: 1.2rem;
@@ -102,7 +51,7 @@ z-index: 10;
   cursor: pointer;
   border: none;
   background: none;
-} */
+}
 
 .holdingList{
   display: inline-block;
