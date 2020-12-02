@@ -12,6 +12,7 @@
 
 <div class="body">
 
+
     <div class="menu">
         <div class="containerForTodoLabel">
           <i class="fa fa-bars fa-" aria-hidden="true"></i>
@@ -60,34 +61,46 @@
   
   <form id="todo-form">
     <label for="title"></label><br>
-    <input class="createTask" type="text" id="title" name="title" value="" placeholder="TITLE"><br>
+    <input class="createTask the-form" type="text" id="title" name="title" value="" placeholder="TITLE"><br>
 
     <div class="listTypeDiv">
       <label for="list"></label><br>
-      <select name="list" class="list">
+
+      <select name="list" class="list the-form">
         <option value="" disabled selected value>List Type</option>
         <option value ="Personal">Personal</option>
         <option value ="Work">Work</option>
         <option value ="Grocery Store">Grocery Store</option>
       </select><br>
+
+
     </div>
     <label for="description"></label><br>
-    <input class="createTask" type="text" id="description" name="description" value="" placeholder="DESCRIPTION"><br>
+    <input class="createTask the-form" type="text" id="description" name="description" value="" placeholder="DESCRIPTION"><br>
     <label for="due-date"></label><br>
-    <input type="date" id="due-date" name="due-date" value="" placeholder="Due Date:"><br>
+    <input type="date" id="due-date" class="the-form" name="due-date" value="" placeholder="Due Date:"><br>
+
+
     <label for="priority"></label><br>
-      <select  id="priority">
+
+      <select  id="priority" class="the-form">
         <option value="" disabled selected value>Priority</option>
         <option id="high" value = "high">High</option>
         <option id="medium"value = "medium">Medium</option>
         <option id="low"value = "low">Low</option>
       </select> <br>
+
+
       <label for="notes"></label> <br>
-      <textarea class="createTask" id="notes" name="notes" rows="4" cols="20" value="" placeholder="Notes..."></textarea>
-      <input id="submit" type="submit" value="Submit">
+      <textarea class="createTask the-form" id="notes" name="notes" rows="4" cols="20" value="" placeholder="Notes..."></textarea>
+      <input id="submit" type="submit" class="the-form" value="Submit">
+
   </form>
+
+
   
 </div>
+
 
   <div id="container"></div>
     <button class="close-modal">&times;</button>

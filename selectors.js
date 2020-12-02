@@ -14,11 +14,7 @@ const modalTwo = document.querySelector('.modalTwo')
 const modalThree = document.querySelector('.modalThree')
 const modalFour = document.querySelector('.modalFour')
 const modalFive = document.querySelector('.modalFive')
-const addToDoToPersonalModalBtn = document.querySelector('.addPersonal')
-const addToDoToWorkModalBtn = document.querySelector('.addWork')
-const addToDoToStoreModalBtn = document.querySelector('.addStore')
 const allListModals = Array.from(document.querySelectorAll('.listModal'))
-const allListTypes = Array.from(document.querySelectorAll('.listType'))
 
 
 
