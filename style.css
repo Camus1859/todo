@@ -8,10 +8,23 @@
 
 .content-line{
   display: flex;
+  width: 85%;
+  justify-content: center;
+  border-radius: 4%;
+  border: 2px solid #9da8ff;
+  padding: 6% 2%;
+  margin-top: 3%;
+
+
 }
 
 .hidden {
   display: none;
+}
+
+.title-of-todo{
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .overlay {
@@ -25,8 +38,31 @@
   z-index: 5;
 }
 
+ del{
+  text-decoration: none;
+}
 
-.modal55 {
+  input[type=checkbox]:checked ~ del {
+  text-decoration: line-through;
+}
+
+.days-until-due{
+  display: flex;
+  border: 1px solid gray;
+  color: rgb(107, 105, 105);
+  flex-direction: column;
+  align-items: center;
+
+
+
+  
+
+
+
+}
+
+
+.modal55, .modalTwo, .modal100 {
   position: absolute;
   top: 40%;
   left: 50%;
@@ -37,6 +73,9 @@
   border-radius: 5px;
   box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
   z-index: 10;
+}
+
+.strike{
 }
 
 
@@ -54,10 +93,27 @@
 }
 
 .holdingList{
-  display: inline-block;
-  width:10rem;
-  height:20rem;
-  background-color: rgb(172, 172, 231);
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width:25rem;
+  height:40rem;
+  background-color: rgb(227, 227, 255);
+  border-radius: 3%;
+  margin: 3%;
+  padding: 5%;
+  align-items: center;
 
+
+}
+
+.checkbox{
+}
+
+.btn-for-list-type{
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.listTypeModal{
 }

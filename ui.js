@@ -1,8 +1,8 @@
 import{ToDoItem, count} from './toDoItem.js'
 import{ToDoList} from './toDoList.js'
-import{overlay, modal, modal55, modalTwo, modalThree, modalFour, modalFive} from './selectors.js'
+import{overlay, modal, modal55, modal100, modalTwo} from './selectors.js'
 import { ListType } from './listType.js';
-export{getToDoFromUser, getToDoItemThatsClicked, closeModal, detailsBtnClicked, displayModalToAddToDo, createPersonalToDo, createStoreToDo, createWorkToDo}
+export{getToDoFromUser, getToDoItemThatsClicked, closeModal, detailsBtnClicked, displayModalToAddToDo}
 let toDoItem;
 let listTypeModal;
 let storingAllToDos = new ToDoList()
@@ -38,21 +38,22 @@ const createNewListType=(listTypeModal)=>{
 
   const titleAndMoreDetailsBtn = `
                         <div class="holdingList">
-                          <div class="listTypeModal ${listTypeModal.list}">${listTypeModal.list}</div>
+                          <div class="listTypeModal ${listTypeModal.list}"><button class="btn-for-list-type"">+${listTypeModal.list}</button></div>
                           <div class="content-line" data-number=${listTypeModal.getCounter()}>
                           <div name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</div>
                           <div data-class="${listTypeModal.getCounter()}"></div>
                           <button data-number=${listTypeModal.getCounter()} id="details-btn">More Details</button>
                           </div>
                       </div>`
-                      
+                    //<li><input type="checkbox"><del>This is a list-item</del></li>
+
                       const titleAndMoreDetailsBtn2 =
                       `
-                      <div class="content-line" data-number=${listTypeModal.getCounter()}>
-                      <div name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</div>
-                      <div data-class="${listTypeModal.getCounter()}"></div>
-                      <button data-number=${listTypeModal.getCounter()} id="details-btn">More Details</button>
-                      </div>`
+       <div class="content-line" data-number=${listTypeModal.getCounter()}>
+         <input class="checkbox" type="checkbox">
+         <del class="strike"><p class="title-of-todo" name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del>
+         <div class="days-until-due" data-class="${listTypeModal.getCounter()}"></div>
+       </div>             `
                                             
     const listName = document.querySelector(`.${listTypeModal.list}`)
     if (listName){
@@ -61,6 +62,7 @@ const createNewListType=(listTypeModal)=>{
     modal.insertAdjacentHTML('beforeend', titleAndMoreDetailsBtn)
     }
     modal.classList.remove('hidden');
+    turnOnListenForBtnList()
 
 }
 
@@ -74,6 +76,50 @@ const createNewListType=(listTypeModal)=>{
 // const showModal =(modal)=>{
 //   modal.classList.remove('hidden');
 // }
+
+const turnOnListenForBtnList=()=>{
+  const listBtn = document.querySelector('.modal')
+listBtn.addEventListener('click', updateForm)
+}
+
+const updateForm=(e)=>{
+  if (e.target.classList.contains('btn-for-list-type')){
+    const listTypeDiv = document.querySelector('.listTypeDiv')
+    modalTwo.classList.remove('hidden');
+    overlay.classList.remove('hidden');
+    listTypeDiv.classList.add('hidden')
+    document.querySelector('#todo-form').reset()
+    //addingListWithUniqueBtn(e)
+
+  }
+
+
+
+
+
+}
+
+
+// const addingListWithUniqueBtn=(e)=>{
+//     let titleAndMoreDetailsBtn
+//     console.log('oh no')
+//    const listTypeName = e.target.textContent.substring(1)
+//    const listElement = document.querySelector(`.${listTypeName}`)
+//    titleAndMoreDetailsBtn =
+//    `
+//    <div class="content-line" data-number=${listTypeModal.getCounter()}>
+//    <div name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</div>
+//    <div data-class="${listTypeModal.getCounter()}"></div>
+//    <button data-number=${listTypeModal.getCounter()} id="details-btn">More Details</button>
+//    </div>
+//    `
+//   listElement.insertAdjacentHTML('beforeend', titleAndMoreDetailsBtn)
+// }
+
+ 
+
+
+
 
 
 
@@ -183,7 +229,7 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem)=>{//////////////////////
         toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter} >${toDoItem.notes}</textarea>`
       }
       else if(key === 'dueDate'){
-        toDoItemValueInElement = `<input type="date" min="${today}" value-number=${toDoItem.getCounter()} value="${toDoItem.dueDate}" class="user-content" data-number=${toDoItem.counter} ></input>`
+        toDoItemValueInElement = `<input type="date" min="${todaysDate}" value-number=${toDoItem.getCounter()} value="${toDoItem.dueDate}" class="user-content" data-number=${toDoItem.counter} ></input>`
       }
       appendsInputElementToModal(toDoItemValueInElement)
   }
@@ -238,19 +284,19 @@ const closeModal=()=>{
   modal55.classList.add('hidden');
   overlay.classList.add('hidden');
   modalTwo.classList.add('hidden');
-  displayCertainListModals()
+  //displayCertainListModals()
 }
 
-const displayCertainListModals=()=>{
-  if(modalThree.firstElementChild.nextElementSibling){
-    modalThree.classList.remove('hidden')
-  }
-  if(modalFour.firstElementChild.nextElementSibling){
-    modalFour.classList.remove('hidden')
-  }if(modalFive.firstElementChild.nextElementSibling){
-    modalFive.classList.remove('hidden')
-  }
-}
+// const displayCertainListModals=()=>{
+//   if(modalThree.firstElementChild.nextElementSibling){
+//     modalThree.classList.remove('hidden')
+//   }
+//   if(modalFour.firstElementChild.nextElementSibling){
+//     modalFour.classList.remove('hidden')
+//   }if(modalFive.firstElementChild.nextElementSibling){
+//     modalFive.classList.remove('hidden')
+//   }
+// }
 
  
 //loading handler listener for delete
@@ -270,6 +316,8 @@ const getAllElementsAssociatedWithCurrentToDo =(e)=>{
   let arrayOfElements = Array.from(document.querySelectorAll(`[data-number="${getDataNumberOfBtnClicked(e)}"]`))
     deleteElementsAssocatedWithCurrentToDo(arrayOfElements)
     updateArrayOfToDos(e)
+    overlay.classList.add('hidden');
+    modal55.classList.add('hidden')
 }
 
 //deleting elements associated with delete button clicked 
@@ -312,9 +360,12 @@ const updateArrayOfToDos =(e)=>{
 const displayModalToAddToDo =()=>{
   const listTypeDiv = document.querySelector('.listTypeDiv')
   modalTwo.classList.remove('hidden');
+  modal.classList.add('hidden');
+  overlay.classList.remove('hidden')
   listTypeDiv.classList.remove('hidden')
   document.querySelector('#todo-form').reset()
 }
+
 
 
 
@@ -352,4 +403,5 @@ const todaysDate =()=>{
   document.querySelector('#due-date').setAttribute('min', today)
 }
 todaysDate()
+
 

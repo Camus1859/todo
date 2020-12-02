@@ -8,18 +8,16 @@
 </head>
 <body>
   <button id="create-task-btn">Create Task</button>
-  <div class="modalThree hidden listModal">    <button class="addPersonal listType">+</button>Personal</div>
-  <div class="modalFour hidden listModal">  <button class="addWork listType">+</button>Work</div>
-  <div class="modalFive hidden listModal">  <button class="addStore listType">+</button>Grocery-Store</div>
   <div class="modal hidden"></div>
   <div class="modal55  hidden"></div>
+  <div class="modal100  hidden"></div>
+
 
 
   
 <div class="modalTwo hidden">
   
   <form id="todo-form">
-
     <label for="title"></label><br>
     <input class="createTask" type="text" id="title" name="title" value="" placeholder="TITLE"><br>
 
@@ -27,7 +25,6 @@
       <label for="list"></label><br>
       <select name="list" class="list">
         <option value="" disabled selected value>List Type</option>
-
         <option value ="Personal">Personal</option>
         <option value ="Work">Work</option>
         <option value ="Grocery Store">Grocery Store</option>
@@ -35,10 +32,8 @@
     </div>
     <label for="description"></label><br>
     <input class="createTask" type="text" id="description" name="description" value="" placeholder="DESCRIPTION"><br>
-
     <label for="due-date"></label><br>
     <input type="date" id="due-date" name="due-date" value="" placeholder="Due Date:"><br>
-
     <label for="priority"></label><br>
       <select  id="priority">
         <option value="" disabled selected value>Priority</option>
@@ -46,12 +41,11 @@
         <option id="medium"value = "medium">Medium</option>
         <option id="low"value = "low">Low</option>
       </select> <br>
-
       <label for="notes"></label> <br>
       <textarea class="createTask" id="notes" name="notes" rows="4" cols="20" value="" placeholder="Notes..."></textarea>
       <input id="submit" type="submit" value="Submit">
-
   </form>
+  
 </div>
 
   <div id="container"></div>

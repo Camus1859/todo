@@ -1,9 +1,11 @@
-export{loadEventListeners, overlay, modal, modal55, modalTwo, modalThree, modalFour, modalFive}
-import{getToDoFromUser, closeModal, detailsBtnClicked, displayModalToAddToDo, createPersonalToDo, createStoreToDo, createWorkToDo} from './ui.js'
+export{loadEventListeners, overlay, modal, modal55, modal100, modalTwo, modalThree, modalFour, modalFive}
+import{getToDoFromUser, closeModal, detailsBtnClicked, displayModalToAddToDo} from './ui.js'
 
 const overlay = document.querySelector('.overlay')
 const modal = document.querySelector('.modal');
 const modal55 = document.querySelector('.modal55');
+const modal100 = document.querySelector('.modal100');
+
 
 const btnCloseModal = document.querySelector('.close-modal');
 const submit = document.querySelector('#submit')
@@ -27,9 +29,6 @@ const loadEventListeners = ()=>{
   document.addEventListener('click', detailsBtnClicked)
   submit.addEventListener('click', getToDoFromUser)
   createTaskBtn.addEventListener('click', displayModalToAddToDo)
-  addToDoToPersonalModalBtn.addEventListener('click', createPersonalToDo)
-  addToDoToStoreModalBtn.addEventListener('click', createStoreToDo )
-  addToDoToWorkModalBtn.addEventListener('click', createWorkToDo)
   allListModals.forEach(listBtn=>listBtn.addEventListener('click', function(e){
     allListModals.forEach(list=>{
       if(e.target.id === 'details-btn'){
