@@ -5,16 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ToDo App</title>
   <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
 <body>
-  <button id="create-task-btn">Create Task</button>
+
+<div class="body">
+
+    <div class="menu">
+        <div class="containerForTodoLabel">
+          <i class="fa fa-bars fa-" aria-hidden="true"></i>
+          <div class="appTitle">ToDo List</div>
+        </div>
+
+      <div class="bottom-line"></div>
+
+      <div >
+        <button id="create-task-btn"> <span class="iconPlus"> +</span>Create Task</button>
+      </div>
+
+      <div class="short-Cuts-Container">
+        <div class="shortCuts">Shortcuts</div>
+        <div class="bottom-line"></div>
+        <div class="today side-item">Today</div>
+        <div class="next-7-days side-item">Next 7 days</div>
+        <div class="all-task side-item">All Tasks</div>
+      </div>
+
+     <div class="listContainer">
+      <div class="list2">List</div>
+      <div class="bottom-line"></div>
+
+      <div class="list-size">
+        <div class="personal-count side-item">Personal</div><span class="num">5</span>
+      </div>
+
+      <div class="list-size">
+        <div class="work-count side-item">Work</div><span class="num">8</span>
+      </div>
+
+      <div class="list-size">
+        <div class="grocery-store-count side-item" >Grocery Store</div><span class="num">3</span>
+      </div>
+    </div>
+  </div>
+
+
+
   <div class="modal hidden"></div>
   <div class="modal55  hidden"></div>
   <div class="modal100  hidden"></div>
 
-
-
-  
 <div class="modalTwo hidden">
   
   <form id="todo-form">
@@ -49,16 +90,19 @@
 </div>
 
   <div id="container"></div>
-  <!-- <div class="modal hidden"> -->
     <button class="close-modal">&times;</button>
+    <div class="overlay hidden"></div>
 
   </div>
 
 
 
 
+ 
 
-  <div class="overlay hidden"></div>
-  <script type="module" src="main.js"></script>
+
+
 </body>
+
+  <script type="module" src="main.js"></script>
 </html>

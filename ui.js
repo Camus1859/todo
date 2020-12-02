@@ -34,22 +34,21 @@ const generateToDoItem=(title, list, description, dueDate, priority, notes)=>{
 }
 
 const createNewListType=(listTypeModal)=>{
-  
+  //id="details-btn
 
   const titleAndMoreDetailsBtn = `
                         <div class="holdingList">
                           <div class="listTypeModal ${listTypeModal.list}"><button class="btn-for-list-type"">+${listTypeModal.list}</button></div>
-                          <div class="content-line" data-number=${listTypeModal.getCounter()}>
-                          <div name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</div>
-                          <div data-class="${listTypeModal.getCounter()}"></div>
-                          <button data-number=${listTypeModal.getCounter()} id="details-btn">More Details</button>
-                          </div>
-                      </div>`
+                          <div class="content-line details-btn" data-number=${listTypeModal.getCounter()}>
+                          <input class="checkbox" type="checkbox">
+                          <del class="strike"><p class="title-of-todo" name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del>
+                          <div class="days-until-due" data-class="${listTypeModal.getCounter()}"></div>
+                        </div>     `
                     //<li><input type="checkbox"><del>This is a list-item</del></li>
 
                       const titleAndMoreDetailsBtn2 =
                       `
-       <div class="content-line" data-number=${listTypeModal.getCounter()}>
+       <div class="content-line details-btn" data-number=${listTypeModal.getCounter()}>
          <input class="checkbox" type="checkbox">
          <del class="strike"><p class="title-of-todo" name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del>
          <div class="days-until-due" data-class="${listTypeModal.getCounter()}"></div>
@@ -149,7 +148,7 @@ const passToDoItemToContainer=(toDoItem)=>{
 
 //user clicks details button
 const detailsBtnClicked =(e)=>{ 
-  if (e.target.id === 'details-btn' ) getToDoItemThatsClicked(e)
+  if (e.target.classList.contains('details-btn')) getToDoItemThatsClicked(e)
 }
   
 //get todo associated with the details btn that was clicked

@@ -31,7 +31,7 @@ const loadEventListeners = ()=>{
   createTaskBtn.addEventListener('click', displayModalToAddToDo)
   allListModals.forEach(listBtn=>listBtn.addEventListener('click', function(e){
     allListModals.forEach(list=>{
-      if(e.target.id === 'details-btn'){
+      if(e.target.classList.contains('details-btn')){
         list.classList.add('hidden')
       }
       else if(e.target.classList.contains('listType')){
