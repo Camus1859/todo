@@ -1,6 +1,6 @@
 import{ToDoItem, count} from './toDoItem.js'
 import{ToDoList} from './toDoList.js'
-import{overlay, modal, modal55, modal100, modalTwo} from './selectors.js'
+import{overlay, modal, modal550, modalTwo} from './selectors.js'
 import { ListType } from './listType.js';
 export{getToDoFromUser, getToDoItemThatsClicked, closeModal, detailsBtnClicked, displayModalToAddToDo}
 let toDoItem;
@@ -156,10 +156,22 @@ const getToDoItemThatsClicked = (e)=>{//////////////////////////////////////////
   const toDoItemThatWasClicked = storingAllToDos.getToDoList().find(item=>item.counter === getDataNumberOfBtnClicked(e))
   checkIfToDoClickedIsAlreadyOnTheScreen(toDoItemThatWasClicked)
   overlay.classList.remove('hidden')
-  //modal.classList.add('hidden');
+  modal.classList.add('hidden');
+  const modal55 = document.querySelector('.modal55');
+
   modal55.classList.remove('hidden');
+  modal550.classList.remove('hidden');
+  console.log('hello')
 
 
+
+}
+
+const deletingTaskDetails=()=>{
+  const modal550 = document.querySelector('.modal550')
+  while(modal550.lastElementChild){
+    modal550.removeChild(modal550.lastElementChild)
+  }
 }
 
 
@@ -178,16 +190,19 @@ const getDataNumberOfBtnClicked=(e)=>{
 const getValuesFromToDoPlaceInInputElement = (toDoItem)=>{///////////////////////////////////////////////////////////////////
   console.log(toDoItem)
   let toDoItemValueInElement;
+  deletingTaskDetails()
+
   for(let [key, value] of Object.entries(toDoItem)){
 
     if(key === 'counter' || key === 'list'){
       continue
     }
     else if (key === 'title'){
-       toDoItemValueInElement = `<input value-number=${toDoItem.getCounter()} value="${toDoItem.title}" class="user-content" data-number=${toDoItem.counter} ></input>`
+       toDoItemValueInElement = `<div class="task-details">Task Details</div><br>
+       <input value-number=${toDoItem.getCounter()} value="${toDoItem.title}" class="user-content the-form" data-number=${toDoItem.counter} ></input><br>`
      } 
      else if (key === 'description'){
-      toDoItemValueInElement = `<input value-number=${toDoItem.getCounter()} value="${toDoItem.description}" class="user-content" data-number=${toDoItem.counter} ></input>`
+      toDoItemValueInElement = `<input value-number=${toDoItem.getCounter()} value="${toDoItem.description}" class="user-content the-form" data-number=${toDoItem.counter} ></input><br>`
      }
 
 
@@ -197,38 +212,38 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem)=>{//////////////////////
      else if(key === 'priority'  && value.toLowerCase() === 'high' ){
         toDoItemValueInElement =
         `
-       <select value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter}>
+       <select value-number=${toDoItem.getCounter()} class="user-content the-form" data-number=${toDoItem.counter}>
          <option value="High" selected>High</option>
          <option value="Medium">Medium</option>
          <option value="Low" >Low</option>
-       </select>
+       </select><br>
        `
      } 
        else if (key === 'priority' && value.toLowerCase() === 'medium'){
         toDoItemValueInElement =
         `
-       <select value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter}>
+       <select value-number=${toDoItem.getCounter()} class="user-content the-form" data-number=${toDoItem.counter}>
          <option value="High">High</option>
          <option value="Medium" selected>Medium</option>
          <option value="Low" >Low</option>
-       </select>
+       </select><br>
        `
        }else if (key === 'priority' && value.toLowerCase() === 'low'){
         toDoItemValueInElement =
-        ` <select value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter}>
+        ` <select value-number=${toDoItem.getCounter()} class="user-content the-form" data-number=${toDoItem.counter}>
         <option value="High">High</option>
         <option value="Medium">Medium</option>
         <option value="Low" selected >Low</option>
-      </select>`
+      </select><br>`
        }
 
 
 
       else if(key === 'notes') {
-        toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.getCounter()} class="user-content" data-number=${toDoItem.counter} >${toDoItem.notes}</textarea>`
+        toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.getCounter()} class="user-content the-form" data-number=${toDoItem.counter} >${toDoItem.notes}</textarea><br>`
       }
       else if(key === 'dueDate'){
-        toDoItemValueInElement = `<input type="date" min="${todaysDate}" value-number=${toDoItem.getCounter()} value="${toDoItem.dueDate}" class="user-content" data-number=${toDoItem.counter} ></input>`
+        toDoItemValueInElement = `<input type="date" min="${todaysDate}" value-number=${toDoItem.getCounter()} value="${toDoItem.dueDate}" class="user-content the-form" data-number=${toDoItem.counter} ></input><br>`
       }
       appendsInputElementToModal(toDoItemValueInElement)
   }
@@ -247,19 +262,19 @@ const checkIfToDoClickedIsAlreadyOnTheScreen=(toDoItemThatWasClicked)=>{////////
 
 //appends value of todo to modal on screen//////////////////////////////////////////////////////////////////////
 const appendsInputElementToModal=(toDoItemValueInElement)=>{
-  modal55.insertAdjacentHTML('beforeend', toDoItemValueInElement)
+  modal550.insertAdjacentHTML('beforeend', toDoItemValueInElement)
 }
 
 // create delete and save buttons
 const createDeleteAndSaveBtns =(toDoItem)=>{
-  const deleteAndSaveBtns = `<button class="user-content save" data-number=${toDoItem.counter}>Save</button>
-  <button class="user-content del" data-number=${toDoItem.counter} >Delete</button>`
+  const deleteAndSaveBtns = `<div class="save-del-container"><button class="user-content save" data-number=${toDoItem.counter}>Save</button>
+  <button class="user-content del" data-number=${toDoItem.counter} >Delete</button></div>`
   placeBtnsOnModal(deleteAndSaveBtns)
 } 
 
 // place delete and save button on unseenmodal
 const placeBtnsOnModal =(btns)=>{
-  modal55.insertAdjacentHTML('beforeend', btns)
+  modal550.insertAdjacentHTML('beforeend', btns)
   displayModalSoToDoInfoWillDisplayOnPage()
 }
 
@@ -280,6 +295,8 @@ const loadDeleteAndSaveBtns=()=>{
 const closeModal=()=>{
   const userContent = document.querySelectorAll('.user-content')
   userContent.forEach(content=>content.remove())
+  const modal55 = document.querySelector('.modal55');
+  modal550.classList.add('hidden');
   modal55.classList.add('hidden');
   overlay.classList.add('hidden');
   modalTwo.classList.add('hidden');
@@ -316,7 +333,7 @@ const getAllElementsAssociatedWithCurrentToDo =(e)=>{
     deleteElementsAssocatedWithCurrentToDo(arrayOfElements)
     updateArrayOfToDos(e)
     overlay.classList.add('hidden');
-    modal55.classList.add('hidden')
+    modal550.classList.add('hidden')
 }
 
 //deleting elements associated with delete button clicked 
@@ -348,7 +365,7 @@ const updateTodoInSideOfArray=(e, toDo, userInputElement)=>{
 const updateDisplayedTitleToUserInputTitle=(e, userInputElement)=>{
   const displayedTitle = document.querySelector(`[name-num="${getDataNumberOfBtnClicked(e)}"]`)
  displayedTitle.textContent =  userInputElement[0].value
- modal55.classList.add('hidden');
+ //modal550.classList.add('hidden');
 }
 
 // update array of todo object after delete

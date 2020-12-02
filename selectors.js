@@ -1,10 +1,9 @@
-export{loadEventListeners, overlay, modal, modal55, modal100, modalTwo, modalThree, modalFour, modalFive}
+export{loadEventListeners, overlay, modal, modal550, modalTwo, modalThree, modalFour, modalFive}
 import{getToDoFromUser, closeModal, detailsBtnClicked, displayModalToAddToDo} from './ui.js'
 
 const overlay = document.querySelector('.overlay')
 const modal = document.querySelector('.modal');
-const modal55 = document.querySelector('.modal55');
-const modal100 = document.querySelector('.modal100');
+const modal550 = document.querySelector('.modal550');
 
 
 const btnCloseModal = document.querySelector('.close-modal');
