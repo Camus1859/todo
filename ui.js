@@ -2,7 +2,7 @@ import{ToDoItem, count} from './toDoItem.js'
 import{ToDoList} from './toDoList.js'
 import{overlay, modal, modal550, modalTwo} from './selectors.js'
 import { ListType } from './listType.js';
-export{getToDoFromUser, getToDoItemThatsClicked, closeModal, detailsBtnClicked, displayModalToAddToDo, deleteTask}
+export{getToDoFromUser, getToDoItemThatsClicked, closeModal, detailsBtnClicked, displayModalToAddToDo, deleteTask, showCertainToDos}
 let toDoItem;
 let listTypeModal;
 let storingAllToDos = new ToDoList()
@@ -440,11 +440,7 @@ const deleteTask=(e)=>{
   if( e.target.checked === true ){
     const checkBoxNumber = e.target.getAttribute('data-index')
     let daysUntilElement = Array.from(document.querySelectorAll(`[data-class="${checkBoxNumber}"]`))
-     console.log(daysUntilElement)
-
     daysUntilElement = daysUntilElement[0]
-    console.log(daysUntilElement)
-
     let  xElement = document.createElement('div')
      xElement.innerHTML = "X"
     daysUntilElement.replaceWith(xElement)
@@ -454,18 +450,25 @@ const deleteTask=(e)=>{
        storingAllToDos.deleteToDo(checkBoxNumber)
     })
   }
-
   else if( e.target.checked === false){
     console.log('b')
     const uncheckedToDoIndex = +e.target.getAttribute('data-index')  
     const toDoItem = storingAllToDos.getToDoList().find(todo=>todo.counter === uncheckedToDoIndex)
     e.target.nextElementSibling.nextElementSibling.textContent = toDoItem.daysUntil 
     e.target.nextElementSibling.nextElementSibling.setAttribute('data-class', uncheckedToDoIndex)
-
-
   }
-
- 
-
 }
 
+const showCertainToDos=(e)=>{
+  if(e.target.classList.contains('today')){
+    const allEvents = Array.from(document.querySelectorAll('.days-until-due'))
+    allEvents.forEach(eventItem=>{
+      if(eventItem.textContent != 'Today' && (!eventItem.closest('.content-line').classList.contains('hidden'))){
+       eventItem.closest('.content-line').classList.add('hidden')
+      }
+      else {
+          eventItem.closest('.content-line').classList.remove('hidden')
+        }
+      })
+    }
+}

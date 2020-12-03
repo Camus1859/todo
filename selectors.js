@@ -1,5 +1,5 @@
 export{loadEventListeners, overlay, modal, modal550, modalTwo}
-import{getToDoFromUser, closeModal, detailsBtnClicked, displayModalToAddToDo, deleteTask} from './ui.js'
+import{getToDoFromUser, closeModal, detailsBtnClicked, displayModalToAddToDo, deleteTask, showCertainToDos} from './ui.js'
 
 const overlay = document.querySelector('.overlay')
 const modal = document.querySelector('.modal');
@@ -10,9 +10,10 @@ const btnCloseModal = document.querySelector('.close-modal');
 const submit = document.querySelector('#submit')
 const createTaskBtn = document.querySelector('#create-task-btn')
 const modalTwo = document.querySelector('.modalTwo')
+const shortsContainer = document.querySelector('.short-Cuts-Container')
+
+
 const allListModals = Array.from(document.querySelectorAll('.listModal'))
-
-
 
 
 const loadEventListeners = ()=>{
@@ -22,6 +23,7 @@ const loadEventListeners = ()=>{
   document.addEventListener('click', detailsBtnClicked)
   submit.addEventListener('click', getToDoFromUser)
   createTaskBtn.addEventListener('click', displayModalToAddToDo)
+  shortsContainer.addEventListener('click', showCertainToDos)
   allListModals.forEach(listBtn=>listBtn.addEventListener('click', function(e){
     allListModals.forEach(list=>{
       if(e.target.classList.contains('details-btn')){
