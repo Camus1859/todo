@@ -2,7 +2,7 @@ import{ToDoItem, count} from './toDoItem.js'
 import{ToDoList} from './toDoList.js'
 import{overlay, modal, modal550, modalTwo} from './selectors.js'
 import { ListType } from './listType.js';
-export{getToDoFromUser, getToDoItemThatsClicked, closeModal, detailsBtnClicked, displayModalToAddToDo}
+export{getToDoFromUser, getToDoItemThatsClicked, closeModal, detailsBtnClicked, displayModalToAddToDo, deleteTask}
 let toDoItem;
 let listTypeModal;
 let storingAllToDos = new ToDoList()
@@ -38,9 +38,16 @@ const createNewListType=(listTypeModal)=>{
 
   const titleAndMoreDetailsBtn = `
                         <div class="holdingList">
-                          <div class="listTypeModal ${listTypeModal.list}"><button class="btn-for-list-type"">+${listTypeModal.list}</button></div>
+                           <div class="listTypeModal ${listTypeModal.list}">
+
+                          <div class="containerForMoreLists">
+                           <div class="list-name">${listTypeModal.list}</div>
+                           <div class="btn-for-list-type">+</div>
+                          </div>
+                          <div class="bottom-line2"></div>
+                          </div>
                           <div class="content-line details-btn" data-number=${listTypeModal.getCounter()}>
-                          <input class="checkbox" type="checkbox">
+                          <input data-index=${listTypeModal.getCounter()} class="checkbox" type="checkbox">
                           <del class="strike"><p class="title-of-todo" name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del>
                           <div class="days-until-due" data-class="${listTypeModal.getCounter()}"></div>
                         </div>     `
@@ -49,7 +56,7 @@ const createNewListType=(listTypeModal)=>{
                       const titleAndMoreDetailsBtn2 =
                       `
        <div class="content-line details-btn" data-number=${listTypeModal.getCounter()}>
-         <input class="checkbox" type="checkbox">
+         <input data-index=${listTypeModal.getCounter()} class="checkbox" type="checkbox">
          <del class="strike"><p class="title-of-todo" name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del>
          <div class="days-until-due" data-class="${listTypeModal.getCounter()}"></div>
        </div>             `
@@ -344,7 +351,11 @@ const deleteElementsAssocatedWithCurrentToDo=(elements)=>elements.forEach(elemen
 const getToDoItemToUpdateAfterSavedClicked=(e)=>{
  const toDoFromArray = storingAllToDos.getToDoList().find(toDo=>toDo.counter === getDataNumberOfBtnClicked(e))
  let arrayOfNewElementsUserEntered = Array.from(document.querySelectorAll(`[value-number="${getDataNumberOfBtnClicked(e)}"]`))
+ const modal55 = document.querySelector('.modal55');
+
  overlay.classList.add('hidden');
+ modal55.classList.add('hidden')
+
  updateTodoInSideOfArray(e, toDoFromArray, arrayOfNewElementsUserEntered)
 }
 
@@ -398,6 +409,7 @@ const createTimeUntilTodo=(toDo)=>{
 
   if(diffDays === 1){
     daysUntilTodo.textContent = 'Tomorrow'
+    
   }
   else if(diffDays === 0){
     daysUntilTodo.textContent = 'Today'
@@ -408,6 +420,9 @@ const createTimeUntilTodo=(toDo)=>{
   else if(diffDays > 0 ){
     daysUntilTodo.textContent = 'Over Due'
   }
+  toDo.daysUntil = daysUntilTodo.textContent
+
+
 }
 
 const todaysDate =()=>{
@@ -420,4 +435,37 @@ const todaysDate =()=>{
 }
 todaysDate()
 
+
+const deleteTask=(e)=>{
+  if( e.target.checked === true ){
+    const checkBoxNumber = e.target.getAttribute('data-index')
+    let daysUntilElement = Array.from(document.querySelectorAll(`[data-class="${checkBoxNumber}"]`))
+     console.log(daysUntilElement)
+
+    daysUntilElement = daysUntilElement[0]
+    console.log(daysUntilElement)
+
+    let  xElement = document.createElement('div')
+     xElement.innerHTML = "X"
+    daysUntilElement.replaceWith(xElement)
+    xElement.addEventListener('click', (e)=>{
+      let toDoDiv = document.querySelector(`[data-number="${checkBoxNumber}"]`)
+      toDoDiv.remove()
+       storingAllToDos.deleteToDo(checkBoxNumber)
+    })
+  }
+
+  else if( e.target.checked === false){
+    console.log('b')
+    const uncheckedToDoIndex = +e.target.getAttribute('data-index')  
+    const toDoItem = storingAllToDos.getToDoList().find(todo=>todo.counter === uncheckedToDoIndex)
+    e.target.nextElementSibling.nextElementSibling.textContent = toDoItem.daysUntil 
+    e.target.nextElementSibling.nextElementSibling.setAttribute('data-class', uncheckedToDoIndex)
+
+
+  }
+
+ 
+
+}
 

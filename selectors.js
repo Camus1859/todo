@@ -1,5 +1,5 @@
-export{loadEventListeners, overlay, modal, modal550, modalTwo, modalThree, modalFour, modalFive}
-import{getToDoFromUser, closeModal, detailsBtnClicked, displayModalToAddToDo} from './ui.js'
+export{loadEventListeners, overlay, modal, modal550, modalTwo}
+import{getToDoFromUser, closeModal, detailsBtnClicked, displayModalToAddToDo, deleteTask} from './ui.js'
 
 const overlay = document.querySelector('.overlay')
 const modal = document.querySelector('.modal');
@@ -10,15 +10,13 @@ const btnCloseModal = document.querySelector('.close-modal');
 const submit = document.querySelector('#submit')
 const createTaskBtn = document.querySelector('#create-task-btn')
 const modalTwo = document.querySelector('.modalTwo')
-const modalThree = document.querySelector('.modalThree')
-const modalFour = document.querySelector('.modalFour')
-const modalFive = document.querySelector('.modalFive')
 const allListModals = Array.from(document.querySelectorAll('.listModal'))
 
 
 
 
 const loadEventListeners = ()=>{
+  modal.addEventListener('click',deleteTask)
   btnCloseModal.addEventListener('click', closeModal);
   overlay.addEventListener('click', closeModal);
   document.addEventListener('click', detailsBtnClicked)
