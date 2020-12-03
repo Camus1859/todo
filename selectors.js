@@ -15,6 +15,7 @@ const shortsContainer = document.querySelector('.short-Cuts-Container')
 
 const allListModals = Array.from(document.querySelectorAll('.listModal'))
 
+shortsContainer.addEventListener('click', showCertainToDos)
 
 const loadEventListeners = ()=>{
   modal.addEventListener('click',deleteTask)
@@ -23,7 +24,6 @@ const loadEventListeners = ()=>{
   document.addEventListener('click', detailsBtnClicked)
   submit.addEventListener('click', getToDoFromUser)
   createTaskBtn.addEventListener('click', displayModalToAddToDo)
-  shortsContainer.addEventListener('click', showCertainToDos)
   allListModals.forEach(listBtn=>listBtn.addEventListener('click', function(e){
     allListModals.forEach(list=>{
       if(e.target.classList.contains('details-btn')){

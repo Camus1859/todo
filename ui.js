@@ -21,6 +21,7 @@ const getToDoFromUser= (e)=>{
   listTypeDiv.classList.contains('hidden') ? list = toDoItem.list : list = document.querySelector('.list').value
   generateToDoItem(title, list, description, dueDate, priority, notes)
   removeDisplayedModuleAndOverlay()
+
 }
 
 //generate a todo
@@ -460,6 +461,7 @@ const deleteTask=(e)=>{
 }
 
 const showCertainToDos=(e)=>{
+
   if(e.target.classList.contains('today')){
     const allEvents = Array.from(document.querySelectorAll('.days-until-due'))
     allEvents.forEach(eventItem=>{
@@ -471,4 +473,27 @@ const showCertainToDos=(e)=>{
         }
       })
     }
+  
+    else if(e.target.classList.contains('next-7-days')){
+      const allEvents = Array.from(document.querySelectorAll('.days-until-due'))
+    allEvents.forEach(eventItem=>{
+      
+      if(+eventItem.textContent.split(' ')[1] >= 8  && (!eventItem.closest('.content-line').classList.contains('hidden'))){
+        eventItem.closest('.content-line').classList.add('hidden')
+      }else{
+        eventItem.closest('.content-line').classList.remove('hidden')
+      }
+    })
+  }
+
+  else if(e.target.classList.contains('all-task')){
+    Array.from(document.querySelectorAll('.content-line').forEach(item=>item.classList.remove('hidden')))
+  }
 }
+          
+     
+
+      
+  
+
+
