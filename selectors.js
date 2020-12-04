@@ -1,5 +1,5 @@
 export{loadEventListeners, overlay, modal, modal550, modalTwo}
-import{getToDoFromUser, closeModal, detailsBtnClicked, displayModalToAddToDo, deleteTask, showCertainToDos} from './ui.js'
+import{getToDoFromUser, closeModal, displayModalToAddToDo, detailsBtnClicked, deleteTask, showCertainToDos} from './ui.js'
 
 const overlay = document.querySelector('.overlay')
 const modal = document.querySelector('.modal');
@@ -19,9 +19,10 @@ shortsContainer.addEventListener('click', showCertainToDos)
 
 const loadEventListeners = ()=>{
   modal.addEventListener('click',deleteTask)
+ modal.addEventListener('click', detailsBtnClicked)
   btnCloseModal.addEventListener('click', closeModal);
   overlay.addEventListener('click', closeModal);
-  document.addEventListener('click', detailsBtnClicked)
+  //document.addEventListener('click', detailsBtnClicked)
   submit.addEventListener('click', getToDoFromUser)
   createTaskBtn.addEventListener('click', displayModalToAddToDo)
   allListModals.forEach(listBtn=>listBtn.addEventListener('click', function(e){

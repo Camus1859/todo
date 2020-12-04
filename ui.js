@@ -51,7 +51,7 @@ const createNewListType=(listTypeModal)=>{
                           </div>
                           <div class="content-line details-btn" data-number=${listTypeModal.getCounter()}>
                           <input data-index=${listTypeModal.getCounter()} class="checkbox" type="checkbox">
-                          <del class="strike"><p class="title-of-todo" name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del>
+                          <del class="strike"><p class="title-of-todo details-btn" name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del>
                           <div class="days-until-due" data-class="${listTypeModal.getCounter()}"></div>
                         </div>     `
                     //<li><input type="checkbox"><del>This is a list-item</del></li>
@@ -60,7 +60,7 @@ const createNewListType=(listTypeModal)=>{
                       `
        <div class="content-line details-btn" data-number=${listTypeModal.getCounter()}>
          <input data-index=${listTypeModal.getCounter()} class="checkbox" type="checkbox">
-         <del class="strike"><p class="title-of-todo" name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del>
+         <del class="strike"><p class="title-of-todo details-btn" name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del>
          <div class="days-until-due" data-class="${listTypeModal.getCounter()}"></div>
        </div>             `
                                             
@@ -152,13 +152,18 @@ const passToDoItemToContainer=(toDoItem)=>{
 // }
 
 
-
+// const loadListener=()=>{
+//   const contentDivs = document.querySelectorAll('.content-line')
+//   contentDivs.forEach(content=>content.addEventListener('click', detailsBtnClicked))
+// }
 
 
 
 //user clicks details button
 const detailsBtnClicked =(e)=>{ 
-  if (e.target.classList.contains('details-btn')) getToDoItemThatsClicked(e)
+  if (e.target.classList.contains('details-btn')){
+    getToDoItemThatsClicked(e)
+  }
 }
   
 //get todo associated with the details btn that was clicked
