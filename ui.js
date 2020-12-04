@@ -19,14 +19,19 @@ const getToDoFromUser= (e)=>{
   let listTypeDiv = document.querySelector('.listTypeDiv')
   let list;
   listTypeDiv.classList.contains('hidden') ? list = toDoItem.list : list = document.querySelector('.list').value
-  generateToDoItem(title, list, description, dueDate, priority, notes)
-  removeDisplayedModuleAndOverlay()
-  console.log(storingAllToDos.getToDoList())
-  displayListNumber()
-
-
+  if (title === "" ||  list === "" || description === "" || dueDate === "" || priority === " " || notes === " "){
+    alert("Please fill in all fields")
+    return
+  }else{
+    generateToDoItem(title, list, description, dueDate, priority, notes)
+    removeDisplayedModuleAndOverlay()
+    console.log(storingAllToDos.getToDoList())
+    displayListNumber()
+  }
 }
 
+
+ 
 //generate a todo
 const generateToDoItem=(title, list, description, dueDate, priority, notes)=>{
   toDoItem = new ToDoItem(title, list, description, dueDate, priority, notes, count() )
@@ -521,6 +526,6 @@ const displayListNumber=()=>{
 }
 
       
-  
+
 
 
