@@ -1,12 +1,8 @@
-
 export{ToDoList}
 
 
 class ToDoList{
-
-
   constructor(){
-
     this._toDoList = []
   }
   getToDoList(){
@@ -22,7 +18,6 @@ class ToDoList{
   setDoList(newToDoList){
     this._toDoList = newToDoList
   }
-
 }
 
 

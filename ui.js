@@ -16,128 +16,80 @@ const getToDoFromUser= (e)=>{
   const dueDate = document.querySelector('#due-date').value
   const priority = document.querySelector('#priority').value
   const notes = document.querySelector('#notes').value
-  let listTypeDiv = document.querySelector('.listTypeDiv')
   let list;
-  listTypeDiv.classList.contains('hidden') ? list = toDoItem.list : list = document.querySelector('.list').value
+  userInputs().classList.contains('hidden') ? list = toDoItem.list : list = document.querySelector('.list').value
   if (title === "" ||  list === "" || description === "" || dueDate === "" || priority === " " || notes === " "){
     alert("Please fill in all fields")
     return
   }else{
     generateToDoItem(title, list, description, dueDate, priority, notes)
     removeDisplayedModuleAndOverlay()
-    console.log(storingAllToDos.getToDoList())
     displayListNumber()
   }
 }
 
 
- 
 //generate a todo
 const generateToDoItem=(title, list, description, dueDate, priority, notes)=>{
   toDoItem = new ToDoItem(title, list, description, dueDate, priority, notes, count() )
   listTypeModal = new ListType(title, list, description, dueDate, priority, notes, toDoItem.counter)
-  createNewListType(listTypeModal)
+  createListTitle(listTypeModal)
   passToDoItemToContainer(toDoItem)
   createTimeUntilTodo(toDoItem) 
 }
 
-const createNewListType=(listTypeModal)=>{
-  //id="details-btn
-
-  const titleAndMoreDetailsBtn = `
-                        <div class="holdingList">
-                           <div class="listTypeModal ${listTypeModal.list}">
-
-                          <div class="containerForMoreLists">
-                           <div class="list-name">${listTypeModal.list}</div>
-                           <div class="btn-for-list-type">+</div>
-                          </div>
-                          <div class="bottom-line2"></div>
-                          </div>
-                          <div class="content-line details-btn" data-number=${listTypeModal.getCounter()}>
-                          <input data-index=${listTypeModal.getCounter()} class="checkbox" type="checkbox">
-                          <del class="strike"><p class="title-of-todo details-btn" name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del>
-                          <div class="days-until-due" data-class="${listTypeModal.getCounter()}"></div>
-                        </div>     `
-                    //<li><input type="checkbox"><del>This is a list-item</del></li>
-
-                      const titleAndMoreDetailsBtn2 =
-                      `
-       <div class="content-line details-btn" data-number=${listTypeModal.getCounter()}>
-         <input data-index=${listTypeModal.getCounter()} class="checkbox" type="checkbox">
-         <del class="strike"><p class="title-of-todo details-btn" name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del>
-         <div class="days-until-due" data-class="${listTypeModal.getCounter()}"></div>
-       </div>             `
-                                            
-    const listName = document.querySelector(`.${listTypeModal.list}`)
-    if (listName){
-    listName.parentElement.insertAdjacentHTML('beforeend', titleAndMoreDetailsBtn2)
-    }else{
-    modal.insertAdjacentHTML('beforeend', titleAndMoreDetailsBtn)
-    }
-    modal.classList.remove('hidden');
-    turnOnListenForBtnList()
-
+const createListTitle=(listTypeModal)=>{
+  const nameOfTheListDiv = 
+ `<div class="holdingList">
+    <div class="listTypeModal ${listTypeModal.list}">
+    <div class="containerForMoreLists">
+    <div class="list-name">${listTypeModal.list}</div>
+    <div class="btn-for-list-type">+</div></div>
+    <div class="bottom-line2"></div>
+  </div>`
+  createToDoTitle(nameOfTheListDiv, listTypeModal)
 }
 
-// appends todo title on respective list type
-// const appendTitleToModal=(modal, titleAndMoreDetailsBtn)=>{
-//   modal.insertAdjacentHTML('beforeend', titleAndMoreDetailsBtn)
-//   showModal(modal)
-// }
+const createToDoTitle=(nameOfTheListDiv, listTypeModal)=>{
+  const nameOfToDoTitleDiv = `
+  <div class="content-line details-btn" data-number=${listTypeModal.getCounter()}>
+    <input data-index=${listTypeModal.getCounter()} class="checkbox" type="checkbox">
+    <del class="strike"><p class="title-of-todo details-btn" name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del><div class="days-until-due" data-class="${listTypeModal.getCounter()}"></div>
+  </div> `
+  addingListNameAndTitleToModal(nameOfTheListDiv, nameOfToDoTitleDiv, listTypeModal)
+}
+         
+//if theres a class by this list name, append to that modal, if not, append to modal with a new list name.
+const addingListNameAndTitleToModal=(nameOfTheListDiv, nameOfToDoTitleDiv, listTypeModal)=>{
+    const listName = document.querySelector(`.${listTypeModal.list}`)
+    if (listName){
+      listName.parentElement.insertAdjacentHTML('beforeend', nameOfToDoTitleDiv)
+    }else{
+      modal.insertAdjacentHTML('beforeend', (nameOfTheListDiv + nameOfToDoTitleDiv))
+    }
+    modal.classList.remove('hidden');
+    listenerForSameListNewTodo()
+}
 
-//display modal for current list type with respective todo title on it
-// const showModal =(modal)=>{
-//   modal.classList.remove('hidden');
-// }
 
-const turnOnListenForBtnList=()=>{
-  const listBtn = document.querySelector('.modal')
-listBtn.addEventListener('click', updateForm)
+
+const listenerForSameListNewTodo=()=>{
+  const btn = document.querySelector('.modal')
+  btn.addEventListener('click', updateForm)
 }
 
 const updateForm=(e)=>{
   if (e.target.classList.contains('btn-for-list-type')){
-    const listTypeDiv = document.querySelector('.listTypeDiv')
     modalTwo.classList.remove('hidden');
     overlay.classList.remove('hidden');
-    listTypeDiv.classList.add('hidden')
+    userInputs().classList.add('hidden')
     document.querySelector('#todo-form').reset()
-    //addingListWithUniqueBtn(e)
-
   }
-
-
-
-
-
 }
 
-
-// const addingListWithUniqueBtn=(e)=>{
-//     let titleAndMoreDetailsBtn
-//     console.log('oh no')
-//    const listTypeName = e.target.textContent.substring(1)
-//    const listElement = document.querySelector(`.${listTypeName}`)
-//    titleAndMoreDetailsBtn =
-//    `
-//    <div class="content-line" data-number=${listTypeModal.getCounter()}>
-//    <div name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</div>
-//    <div data-class="${listTypeModal.getCounter()}"></div>
-//    <button data-number=${listTypeModal.getCounter()} id="details-btn">More Details</button>
-//    </div>
-//    `
-//   listElement.insertAdjacentHTML('beforeend', titleAndMoreDetailsBtn)
-// }
-
- 
-
-
-
-
-
-
-
+const userInputs=()=>{
+  return document.querySelector('.inputsForUserModal')
+}
 
 //remove displayed modal and overlay
 const removeDisplayedModuleAndOverlay= ()=>{
@@ -148,20 +100,7 @@ const removeDisplayedModuleAndOverlay= ()=>{
 //place todo inside of array
 const passToDoItemToContainer=(toDoItem)=>{
   storingAllToDos.placeToDoItemInMyArray(toDoItem)
-  //passToDoToAppendTitleToPage(toDoItem)
 }
-
-//get title of current todo 
-// const passToDoToAppendTitleToPage = (toDoItem)=>{
-//  displayingTitleOfToDoAndMoreDetailsBtn(toDoItem.title)
-// }
-
-
-// const loadListener=()=>{
-//   const contentDivs = document.querySelectorAll('.content-line')
-//   contentDivs.forEach(content=>content.addEventListener('click', detailsBtnClicked))
-// }
-
 
 
 //user clicks details button
@@ -172,20 +111,16 @@ const detailsBtnClicked =(e)=>{
 }
   
 //get todo associated with the details btn that was clicked
-const getToDoItemThatsClicked = (e)=>{/////////////////////////////////////////////////////////////////////////////////////////
+const getToDoItemThatsClicked = (e)=>{
   const toDoItemThatWasClicked = storingAllToDos.getToDoList().find(item=>item.counter === getDataNumberOfBtnClicked(e))
   checkIfToDoClickedIsAlreadyOnTheScreen(toDoItemThatWasClicked)
   overlay.classList.remove('hidden')
   modal.classList.add('hidden');
   const modal55 = document.querySelector('.modal55');
-
   modal55.classList.remove('hidden');
   modal550.classList.remove('hidden');
-  console.log('hello')
-
-
-
 }
+
 
 const deletingTaskDetails=()=>{
   const modal550 = document.querySelector('.modal550')
@@ -195,23 +130,15 @@ const deletingTaskDetails=()=>{
 }
 
 
-
 //returns data-number attribute associated with clicked element
 const getDataNumberOfBtnClicked=(e)=>{
   const dataNumberOfCurrentToDo = Number(e.target.getAttribute('data-number'))
   return dataNumberOfCurrentToDo
 }
 
-
-//after the user inputs certain values and creates a todo object. 
-// 'show details' button is clicked
-//below i pass it this toDoItem object, iterate over it to retrieve certain values, then i create an element that displays those values.
-
-const getValuesFromToDoPlaceInInputElement = (toDoItem)=>{///////////////////////////////////////////////////////////////////
-  console.log(toDoItem)
+const getValuesFromToDoPlaceInInputElement = (toDoItem)=>{
   let toDoItemValueInElement;
   deletingTaskDetails()
-
   for(let [key, value] of Object.entries(toDoItem)){
 
     if(key === 'counter' || key === 'list' || key === "daysUntil"){
@@ -224,11 +151,6 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem)=>{//////////////////////
      else if (key === 'description'){
       toDoItemValueInElement = `<input value-number=${toDoItem.getCounter()} value="${toDoItem.description}" class="user-content the-form" data-number=${toDoItem.counter} ></input><br>`
      }
-
-
-
-
-
      else if(key === 'priority'  && value.toLowerCase() === 'high' ){
         toDoItemValueInElement =
         `
@@ -256,9 +178,6 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem)=>{//////////////////////
         <option value="Low" selected >Low</option>
       </select><br>`
        }
-
-
-
       else if(key === 'notes') {
         toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.getCounter()} class="user-content the-form" data-number=${toDoItem.counter} >${toDoItem.notes}</textarea><br>`
       }
@@ -271,16 +190,14 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem)=>{//////////////////////
 }
 
 
-const checkIfToDoClickedIsAlreadyOnTheScreen=(toDoItemThatWasClicked)=>{///////////////////////////////////////////////////////
+const checkIfToDoClickedIsAlreadyOnTheScreen=(toDoItemThatWasClicked)=>{
   if(document.querySelector('.user-content') === null){
     getValuesFromToDoPlaceInInputElement(toDoItemThatWasClicked)
   }
 }
 
 
-
-
-//appends value of todo to modal on screen//////////////////////////////////////////////////////////////////////
+//appends value of todo to modal on screen
 const appendsInputElementToModal=(toDoItemValueInElement)=>{
   modal550.insertAdjacentHTML('beforeend', toDoItemValueInElement)
 }
@@ -320,19 +237,7 @@ const closeModal=()=>{
   modal55.classList.add('hidden');
   overlay.classList.add('hidden');
   modalTwo.classList.add('hidden');
-  //displayCertainListModals()
 }
-
-// const displayCertainListModals=()=>{
-//   if(modalThree.firstElementChild.nextElementSibling){
-//     modalThree.classList.remove('hidden')
-//   }
-//   if(modalFour.firstElementChild.nextElementSibling){
-//     modalFour.classList.remove('hidden')
-//   }if(modalFive.firstElementChild.nextElementSibling){
-//     modalFive.classList.remove('hidden')
-//   }
-// }
 
  
 //loading handler listener for delete
@@ -352,14 +257,11 @@ const getAllElementsAssociatedWithCurrentToDo =(e)=>{
   let arrayOfElements = Array.from(document.querySelectorAll(`[data-number="${getDataNumberOfBtnClicked(e)}"]`))
     deleteElementsAssocatedWithCurrentToDo(arrayOfElements)
     const modal55 = document.querySelector('.modal55');
-
     updateArrayOfToDos(e)
     overlay.classList.add('hidden');
     modal550.classList.add('hidden')
     modal55.classList.add('hidden')
-
     displayListNumber()
-
 }
 
 //deleting elements associated with delete button clicked 
@@ -371,16 +273,13 @@ const getToDoItemToUpdateAfterSavedClicked=(e)=>{
  const toDoFromArray = storingAllToDos.getToDoList().find(toDo=>toDo.counter === getDataNumberOfBtnClicked(e))
  let arrayOfNewElementsUserEntered = Array.from(document.querySelectorAll(`[value-number="${getDataNumberOfBtnClicked(e)}"]`))
  const modal55 = document.querySelector('.modal55');
-
  overlay.classList.add('hidden');
  modal55.classList.add('hidden')
-
  updateTodoInSideOfArray(e, toDoFromArray, arrayOfNewElementsUserEntered)
 }
 
 
 //update todo object in array
-//find more efficent way to do this....
 const updateTodoInSideOfArray=(e, toDo, userInputElement)=>{
   toDo.title = userInputElement[0].value
   toDo.description = userInputElement[1].value
@@ -395,7 +294,6 @@ const updateTodoInSideOfArray=(e, toDo, userInputElement)=>{
 const updateDisplayedTitleToUserInputTitle=(e, userInputElement)=>{
   const displayedTitle = document.querySelector(`[name-num="${getDataNumberOfBtnClicked(e)}"]`)
  displayedTitle.textContent =  userInputElement[0].value
- //modal550.classList.add('hidden');
 }
 
 // update array of todo object after delete
@@ -404,15 +302,12 @@ const updateArrayOfToDos =(e)=>{
 }
 
 const displayModalToAddToDo =()=>{
-  const listTypeDiv = document.querySelector('.listTypeDiv')
   modalTwo.classList.remove('hidden');
   modal.classList.add('hidden');
   overlay.classList.remove('hidden')
-  listTypeDiv.classList.remove('hidden')
+  userInputs().classList.remove('hidden')
   document.querySelector('#todo-form').reset()
 }
-
-
 
 
 const createTimeUntilTodo=(toDo)=>{
@@ -425,10 +320,8 @@ const createTimeUntilTodo=(toDo)=>{
   today = new Date(`${mm}-${dd}-${yyyy}`)
   const diffTime = Math.abs(toDoDueDate - today)
   let diffDays = Number(Math.ceil(diffTime / (1000 * 60 * 60 * 24)))
-
   if(diffDays === 1){
     daysUntilTodo.textContent = 'Tomorrow'
-    
   }
   else if(diffDays === 0){
     daysUntilTodo.textContent = 'Today'
@@ -440,8 +333,6 @@ const createTimeUntilTodo=(toDo)=>{
     daysUntilTodo.textContent = 'Over Due'
   }
   toDo.daysUntil = daysUntilTodo.textContent
-
-
 }
 
 const todaysDate =()=>{
@@ -490,36 +381,30 @@ const showCertainToDos=(e)=>{
        eventItem.closest('.content-line').classList.add('hidden')
       }
       else {
-         // eventItem.closest('.content-line').classList.remove('hidden')
         }
       })
     }
   
     else if(e.target.classList.contains('next-7-days')){
-      console.log('b')
-
       const allEvents = Array.from(document.querySelectorAll('.days-until-due'))
-    allEvents.forEach(eventItem=>{
+      allEvents.forEach(eventItem=>{
       
       if(+eventItem.textContent.split(' ')[1] >= 8  && (!eventItem.closest('.content-line').classList.contains('hidden'))){
         eventItem.closest('.content-line').classList.add('hidden')
-      //}else{
-        //eventItem.closest('.content-line').classList.remove('hidden')
       }
     })
   }
 
   else if(e.target.classList.contains('all-task')){
-    console.log('c')
-
     Array.from(document.querySelectorAll('.content-line').forEach(item=>item.classList.remove('hidden')))
   }
 }
-          
+     
+//determines how many list items in each list type
 const displayListNumber=()=>{
   const totalPersonal = storingAllToDos.getToDoList().filter(item=>item.list === 'Personal')
   const totalWork = storingAllToDos.getToDoList().filter(item=>item.list === 'Work')
-  const totalGS = storingAllToDos.getToDoList().filter(item=>item.list === 'Grocery Store')
+  const totalGS = storingAllToDos.getToDoList().filter(item=>item.list === 'Groceries')
   document.querySelector('.psn').textContent = totalPersonal.length
   document.querySelector('.wor').textContent = totalWork.length
   document.querySelector('.gst').textContent = totalGS.length
