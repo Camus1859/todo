@@ -88,6 +88,8 @@ body {
   height: 48%;
   padding: 1rem 4rem 1rem 4rem;
 
+
+
 }
 
 .containerModal55{
@@ -115,12 +117,14 @@ body {
   transform: translate(-50%, -50%);
   width: 25%;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
   z-index: 10;
   background-color: rgb(227, 227, 255);
   height: 62.8%;
   padding: 1rem 4rem 1rem 4rem;
+
+
 }
 
 
@@ -146,6 +150,7 @@ body {
   cursor: pointer;
   border: none;
   background: none;
+
 }
 
 .holdingList{
@@ -187,7 +192,7 @@ body {
   outline: none;
 }
 
-.side-item:hover{
+.pwg:hover{
   background-color: rgb(205, 205, 241)
 }
 
@@ -196,6 +201,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+
+
 }
 
 .listTypeModal{
@@ -271,7 +278,13 @@ body {
   font-weight: bolder;
   font-size: 1rem;
   margin-bottom: 2rem;
+  outline: none;
+  border: none;
+  box-shadow: 0 4px #999;
+}
 
+#create-task-btn:active {
+  box-shadow: 0 1px rgb(122, 122, 122);
 }
 
 .iconPlus{
@@ -302,7 +315,15 @@ body {
   flex-direction: column;
   padding-top: 1.2rem;
   font-size: 20px;
+}
+
+.pwg{
+  display: flex;
+  flex-direction: column;
+  padding-top: 1.2rem;
+  font-size: 20px;
   cursor: pointer;
+
 }
 
 .list-size{
@@ -363,6 +384,8 @@ body {
 .modal550{
   display: flex;
   flex-direction: column;
+
+
 }
 
 .save-del-container{

@@ -2,7 +2,7 @@ import{ToDoItem, count} from './toDoItem.js'
 import{ToDoList} from './toDoList.js'
 import{overlay, modal, modal550, modalTwo} from './selectors.js'
 import { ListType } from './listType.js';
-export{getToDoFromUser, getToDoItemThatsClicked, closeModal, detailsBtnClicked, displayModalToAddToDo, deleteTask, showCertainToDos}
+export{getToDoFromUser, getToDoItemThatsClicked, closeModal, detailsBtnClicked, displayModalToAddToDo, deleteTask, showCertainToDos, displayListNumber}
 let toDoItem;
 let listTypeModal;
 let storingAllToDos = new ToDoList()
@@ -21,12 +21,14 @@ const getToDoFromUser= (e)=>{
   listTypeDiv.classList.contains('hidden') ? list = toDoItem.list : list = document.querySelector('.list').value
   generateToDoItem(title, list, description, dueDate, priority, notes)
   removeDisplayedModuleAndOverlay()
+  console.log(storingAllToDos.getToDoList())
+  displayListNumber()
+
 
 }
 
 //generate a todo
 const generateToDoItem=(title, list, description, dueDate, priority, notes)=>{
-
   toDoItem = new ToDoItem(title, list, description, dueDate, priority, notes, count() )
   listTypeModal = new ListType(title, list, description, dueDate, priority, notes, toDoItem.counter)
   createNewListType(listTypeModal)
@@ -202,7 +204,7 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem)=>{//////////////////////
 
   for(let [key, value] of Object.entries(toDoItem)){
 
-    if(key === 'counter' || key === 'list'){
+    if(key === 'counter' || key === 'list' || key === "daysUntil"){
       continue
     }
     else if (key === 'title'){
@@ -339,9 +341,15 @@ const loadListenerForSavingToDoAfterEdit= ()=>{
 const getAllElementsAssociatedWithCurrentToDo =(e)=>{
   let arrayOfElements = Array.from(document.querySelectorAll(`[data-number="${getDataNumberOfBtnClicked(e)}"]`))
     deleteElementsAssocatedWithCurrentToDo(arrayOfElements)
+    const modal55 = document.querySelector('.modal55');
+
     updateArrayOfToDos(e)
     overlay.classList.add('hidden');
     modal550.classList.add('hidden')
+    modal55.classList.add('hidden')
+
+    displayListNumber()
+
 }
 
 //deleting elements associated with delete button clicked 
@@ -458,40 +466,54 @@ const deleteTask=(e)=>{
     e.target.nextElementSibling.nextElementSibling.textContent = toDoItem.daysUntil 
     e.target.nextElementSibling.nextElementSibling.setAttribute('data-class', uncheckedToDoIndex)
   }
+  displayListNumber()
+
 }
 
 const showCertainToDos=(e)=>{
 
   if(e.target.classList.contains('today')){
+    console.log('a')
     const allEvents = Array.from(document.querySelectorAll('.days-until-due'))
     allEvents.forEach(eventItem=>{
       if(eventItem.textContent != 'Today' && (!eventItem.closest('.content-line').classList.contains('hidden'))){
        eventItem.closest('.content-line').classList.add('hidden')
       }
       else {
-          eventItem.closest('.content-line').classList.remove('hidden')
+         // eventItem.closest('.content-line').classList.remove('hidden')
         }
       })
     }
   
     else if(e.target.classList.contains('next-7-days')){
+      console.log('b')
+
       const allEvents = Array.from(document.querySelectorAll('.days-until-due'))
     allEvents.forEach(eventItem=>{
       
       if(+eventItem.textContent.split(' ')[1] >= 8  && (!eventItem.closest('.content-line').classList.contains('hidden'))){
         eventItem.closest('.content-line').classList.add('hidden')
-      }else{
-        eventItem.closest('.content-line').classList.remove('hidden')
+      //}else{
+        //eventItem.closest('.content-line').classList.remove('hidden')
       }
     })
   }
 
   else if(e.target.classList.contains('all-task')){
+    console.log('c')
+
     Array.from(document.querySelectorAll('.content-line').forEach(item=>item.classList.remove('hidden')))
   }
 }
           
-     
+const displayListNumber=()=>{
+  const totalPersonal = storingAllToDos.getToDoList().filter(item=>item.list === 'Personal')
+  const totalWork = storingAllToDos.getToDoList().filter(item=>item.list === 'Work')
+  const totalGS = storingAllToDos.getToDoList().filter(item=>item.list === 'Grocery Store')
+  document.querySelector('.psn').textContent = totalPersonal.length
+  document.querySelector('.wor').textContent = totalWork.length
+  document.querySelector('.gst').textContent = totalGS.length
+}
 
       
   
