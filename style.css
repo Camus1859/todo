@@ -43,7 +43,9 @@ del * {
   width: 10px;
   text-overflow: ellipsis;
   display: block;
-  overflow: hidden
+  overflow: hidden;
+  white-space: nowrap;
+
 }
 
 
@@ -188,8 +190,9 @@ del * {
 
 .modal{
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center
+  width: 100%;
 }
 
 
