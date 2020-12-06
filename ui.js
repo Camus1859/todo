@@ -34,7 +34,7 @@ const usersInfo = (e) => {
 
 
 const getToDoFromUser = (title, list, description, dueDate, priority, notes) => {
-  if (title === "" || list === "" || description === "" || dueDate === "" || priority === " " || notes === " ") {
+  if (title === "" || list === "" || description === "" || dueDate === "" || priority === "" || notes === "") {
       alert("Please fill in all fields")
       return
   } else {
@@ -71,7 +71,7 @@ const createToDoTitle = (nameOfTheListDiv, listTypeModal) => {
   const nameOfToDoTitleDiv = `
 <div class="content-line details-btn" data-number=${listTypeModal.getCounter()}>
 <input data-index=${listTypeModal.getCounter()} class="checkbox" type="checkbox">
-<del class="strike"><p class="title-of-todo details-btn" name-num=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del>
+<del class="strike"><p class="title-of-todo details-btn" data-number=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del>
 <div class="days-until-due" data-class="${listTypeModal.getCounter()}"></div>
 </div>   `
   addingListNameAndTitleToModal(nameOfTheListDiv, nameOfToDoTitleDiv, listTypeModal)
@@ -145,6 +145,7 @@ const detailsBtnClicked = (e) => {
 
 
 const getToDoItemThatsClicked = (e) => {
+  console.log(e.target)
   checkIfToDoClickedIsAlreadyOnTheScreen(findSpecificTodo(e))
   updateModals()
 }
@@ -162,12 +163,14 @@ const updateModals = () => {
 const deletingTaskDetails = () => {
   const modalThree = document.querySelector('.modalThree')
   while (modalThree.lastElementChild) {
+    console.log('removing children on modalThree')
       modalThree.removeChild(modalThree.lastElementChild)
   }
 }
 
 
 const getDataNumberOfBtnClicked = (e) => {
+  console.log(Number(e.target.getAttribute('data-number')))
   const dataNumberOfCurrentToDo = Number(e.target.getAttribute('data-number'))
   return dataNumberOfCurrentToDo
 }
@@ -175,6 +178,7 @@ const getDataNumberOfBtnClicked = (e) => {
 const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
   let toDoItemValueInElement;
   deletingTaskDetails()
+
   for (let [key, value] of Object.entries(toDoItem)) {
       if (key === 'counter' || key === 'list' || key === "daysUntil") {
           continue
@@ -214,8 +218,10 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
           toDoItemValueInElement = `<input type="date" id="due-date" min="${todaysDate}"  value-number=${toDoItem.getCounter()} value="${toDoItem.dueDate}" class="user-content the-form" data-number=${toDoItem.counter} ></input><br>`
       }
       appendsInputElementToModalThree(toDoItemValueInElement)
+
   }
   createDeleteAndSaveBtns(toDoItem)
+
 }
 
 
@@ -292,7 +298,9 @@ const updateModals2 = () => {
 const deleteElementsAssocatedWithCurrentToDo = (elements) => elements.forEach(element => element.remove())
 
 const findSpecificTodo = (e) => {
+  console.log(e.target)
   const toDoItem = storingAllToDos.getToDoList().find(toDo => toDo.counter === getDataNumberOfBtnClicked(e))
+  console.log(toDoItem)
   return toDoItem
 }
 
@@ -300,6 +308,8 @@ const getToDoItemToUpdateAfterSavedClicked = (e) => {
   let arrayOfNewValuesEnteredByUser = Array.from(document.querySelectorAll(`[value-number="${getDataNumberOfBtnClicked(e)}"]`))
   updateModals3()
   updateTodoInsideOfArray(e, findSpecificTodo(e), arrayOfNewValuesEnteredByUser)
+  deletingTaskDetails()
+
 }
 
 const updateModals3 = () => {
@@ -321,11 +331,12 @@ const updateTodoInsideOfArray = (e, toDo, userInputElement) => {
 
 
 const updateDisplayedTitleToUserInputTitle = (e, userInputElement) => {
-  const displayedTitle = document.querySelector(`[name-num="${getDataNumberOfBtnClicked(e)}"]`)
-  displayedTitle.textContent = userInputElement[0].value
+  const displayedTitle = document.querySelector(`[data-number="${getDataNumberOfBtnClicked(e)}"]`)
+  console.log(displayedTitle)
+  displayedTitle.querySelector('.title-of-todo').textContent = userInputElement[0].value
 }
 
-// update array of todo object after delete
+
 const updateArrayOfToDos = (e) => {
   storingAllToDos.deleteToDo(getDataNumberOfBtnClicked(e))
 }
