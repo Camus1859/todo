@@ -7,3 +7,6 @@
 
 ## <a href="https://camus1859.github.io/todo/">ToDo App</a> Live.
  
+x-special/nautilus-clipboard
+copy
+recent:///ac58a4bf46d2c724a7a172735fcdf74a
