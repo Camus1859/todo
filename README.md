@@ -1,3 +1,10 @@
+## This application allowed me to further practice OOP. It soldified the how and the when to use this programming paradigm 
 
-# This Project is from The Open Source Online Curriculum called  <a href="https://www.theodinproject.com/">The Odin Project</a>
-# <a href="https://www.theodinproject.com/courses/javascript/lessons/todo-list">ToDo App Directions</a>
+## This app was built from scratch (no tutorial, only google). I was created with the guidenance of an open source online curriculum called  <a href="https://www.theodinproject.com/">The Odin Project</a>
+
+
+## <a href="https://www.theodinproject.com/courses/javascript/lessons/todo-list">ToDo App Directions</a>
+
+## <a href="https://camus1859.github.io/todo/
+">Live!</a>
+ 
