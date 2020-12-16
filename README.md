@@ -5,6 +5,5 @@
 
 ## <a href="https://www.theodinproject.com/courses/javascript/lessons/todo-list">ToDo App Directions</a>
 
-## <a href="https://camus1859.github.io/todo/
-">Live!</a>
+## <a href="https://camus1859.github.io/todo/">Live!</a>
  
