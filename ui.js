@@ -468,6 +468,11 @@ const displayListNumber = () => {
   document.querySelector('.gst').textContent = totalGS.length
 }
 
+ const shutSidePanel = () => {
+   const menu = document.querySelector('.menu')
+   menu.classList.add('hidden')
+ }
+
 
 
 
@@ -479,5 +484,6 @@ export {
   displayModalToAddToDo,
   deleteTask,
   showCertainToDos,
-  displayListNumber
+  displayListNumber,
+  shutSidePanel
 }
