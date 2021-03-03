@@ -24,17 +24,18 @@ body {
 }
 
 
+
 .content-line{
   display: flex;
   justify-content: space-around;
   border-radius: 4%;
   border: 2px solid #020a42;
-  padding: 6% 2%;
+  padding: 6% 4%;
   margin-top: 3%;
   align-items: center;
   max-height: 24px;
   background-color: rgb(193, 248, 244);
-  width: 80%;
+  width: 90%;
   
 }
 
@@ -66,7 +67,7 @@ del * {
 
 
 .title-of-todo{
-  font-size: 12px;
+  font-size: 19px;
   font-weight:bold;
   text-align: center;
 
@@ -99,11 +100,10 @@ del * {
 
 .days-until-due{
   display: flex;
-  border-bottom: 1px solid rgb(0, 0, 0);
-  color: rgb(110, 110, 110);
   flex-direction: column;
   align-items: center;
-  font-size: 8px;
+  font-size: 16px;
+  text-decoration: none;
 }
 
 .details-btn{
@@ -165,14 +165,13 @@ del * {
 .holdingList{
   display: flex;
   flex-direction: column;
-  width: 15rem;
-  height:40rem;
+  width: 90%;
+  height:600px;
   background-color: rgb(255, 207, 207);
   border-radius: 3%;
   align-items: center;
   margin: 10px;
   box-shadow: 0 4px #999;
-  min-width: 195px;
 }
 
 .holdingList:active {
@@ -211,16 +210,12 @@ del * {
 
 .modal{
   display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow-x: auto;
-  overflow-y: visible;
-  margin-left: 176px;
-  height: 100vh;
-  padding-left: 300px;
-
-
-
+  flex-direction: column;
+  align-items: right;
+  justify-content: right;
+  width: 100%;
+  background-color: wheat;
+  margin-left: 10.3rem;
 
 }
 
@@ -257,9 +252,12 @@ del * {
 .bottom-line {
   border: 2px solid rgb(0, 68, 255);
   display: flex;
-  align-self: flex-start;
   width: 70%;
   margin-bottom: 1rem;
+}
+
+.listTypeModal {
+  width: 90%;
 }
 
 .bottom-line2 {
@@ -275,6 +273,8 @@ del * {
   padding-right: 20px;
   cursor: pointer;
 }
+
+
 
 
 .menu{
@@ -366,7 +366,7 @@ del * {
 }
 
 #submit{
-  margin-top: 2rem;
+  margin-top: 1rem;
   padding-top: 10px;
   padding-bottom: 10px;
   color: white;
@@ -390,7 +390,8 @@ del * {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  height: 400px;
+  height: 100%;
+  margin: -25px;
 
 }
 
@@ -446,6 +447,7 @@ display: flex;
 margin-left: 1rem;
 padding-top: 20px;
 padding-bottom: 20px;
+justify-content: center;
 }
 
 .list-name{
@@ -453,6 +455,7 @@ padding-bottom: 20px;
   font-size: 2rem;
   color: rgb(0, 0, 0);
   font-weight: bolder;
+  font-size: 25px;
 }
 
 .times{
@@ -471,19 +474,64 @@ padding-bottom: 20px;
   cursor: pointer;
 }
 
-@media screen and (min-width: 920px) {
+
+
+@media screen and (min-width: 700px){
+  .title-of-todo{
+ 
+    font-size: 30px;
+    font-weight:bold;
+    text-align: center;
+  
+  }
+
+  .list-name{
+    font-size: 40px;
+  }
+
+  .title-of-todo{
+ 
+    font-size: 30px;
+    font-weight:bold;
+    text-align: center;
+    width: 200px;
+  
+  }
+
+  
+
+ 
+  
+}
+
+
+
+@media screen and (min-width: 800px) {
+  .holdingList{
+    max-width: 570px;
+  
+  }
+
+ 
   
 
 }
 
-@media screen and (min-width: 700px){
-  .menu{
-    width: 14rem;
-
+@media screen and (min-width: 900px) {
+  .modal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+  
   }
+
+  
+
 }
 
-@media screen and (min-width: 1100px) {
+@media screen and (min-width: 1250px) {
   .modalTwo{
     width: 400px;
   }
@@ -499,6 +547,12 @@ padding-bottom: 20px;
     box-shadow: 0 4px #999;
   }
 
+  .days-until-due{
+
+    font-size: 16px;
+  }
+
+ 
   
 
   .title-of-todo{
@@ -516,5 +570,47 @@ padding-bottom: 20px;
     overflow-x: hidden;
     height: 100vh;
   }
+
+  .modal{
+ 
+    overflow-x: hidden;
+  }
+
+  .modal{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-left: 11.5rem;
+    width: 100%;
+  
+  }
+
+  .title-of-todo{
+ 
+    font-size: 18px;
+    font-weight:bold;
+    text-align: center;
+    width: 200px;
+  
+  }
+
+
+.content-line{
+  display: flex;
+  justify-content: space-around;
+  border-radius: 4%;
+  border: 2px solid #020a42;
+  padding: 6% 2%;
+  margin-top: 3%;
+  align-items: center;
+  max-height: 24px;
+  background-color: rgb(193, 248, 244);
+  width: 95%;
+  
+}
+
+  
+
 
 }

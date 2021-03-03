@@ -72,7 +72,7 @@ const createToDoTitle = (nameOfTheListDiv, listTypeModal) => {
 <div class="content-line details-btn" data-number=${listTypeModal.getCounter()}>
 <input data-index=${listTypeModal.getCounter()} class="checkbox" type="checkbox">
 <del class="strike"><p class="title-of-todo details-btn" data-number=${listTypeModal.getCounter()} >${listTypeModal.title}</p></del>
-<div class="days-until-due" data-class="${listTypeModal.getCounter()}"></div>
+<div class="days-until-due" id="until-due" data-class="${listTypeModal.getCounter()}"></div>
 </div>   `
   addingListNameAndTitleToModal(nameOfTheListDiv, nameOfToDoTitleDiv, listTypeModal)
 }
