@@ -5,7 +5,8 @@
 }
 
 html{
-
+  overflow-x: auto;
+  overflow-y: visible;
 }
 
 
@@ -13,8 +14,9 @@ body {
   background-image: url(https://images.unsplash.com/photo-1505676541908-b66c0410ec87?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80);
   background-repeat: no-repeat, repeat;
   background-size: cover;
-
-
+  overflow-x: auto;
+  overflow-y: visible;
+  height: 100vh;
 }
 
 .body{
@@ -32,7 +34,7 @@ body {
   align-items: center;
   max-height: 24px;
   background-color: rgb(193, 248, 244);
-  width: 75%;
+  width: 80%;
   
 }
 
@@ -64,8 +66,7 @@ del * {
 
 
 .title-of-todo{
- 
-  font-size: 18px;
+  font-size: 12px;
   font-weight:bold;
   text-align: center;
 
@@ -91,6 +92,10 @@ del * {
   text-decoration: line-through;
 }
 
+.checkbox{
+  margin-right: 5px;
+}
+
 
 .days-until-due{
   display: flex;
@@ -98,6 +103,7 @@ del * {
   color: rgb(110, 110, 110);
   flex-direction: column;
   align-items: center;
+  font-size: 8px;
 }
 
 .details-btn{
@@ -142,6 +148,7 @@ del * {
   padding: 1rem 4rem 1rem 4rem;
   background-color: rgb(109, 231, 221);
   min-width: 170px;
+  height: 500px;
 }
 
 .close-modal {
@@ -165,6 +172,7 @@ del * {
   align-items: center;
   margin: 10px;
   box-shadow: 0 4px #999;
+  min-width: 195px;
 }
 
 .holdingList:active {
@@ -205,6 +213,13 @@ del * {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-x: auto;
+  overflow-y: visible;
+  margin-left: 176px;
+  height: 100vh;
+  padding-left: 300px;
+
+
 
 
 }
@@ -216,7 +231,8 @@ del * {
   flex-direction: column;
   background-color: rgb(109, 231, 221);
   height: 100vh;
-  width: 14rem;
+  width: 10rem;
+  position: fixed;
 
 }
 
@@ -248,11 +264,10 @@ del * {
 
 .bottom-line2 {
   border: 2px solid rgb(0, 68, 255);
-  display: flex;
-  align-self: flex-start;
-  width: 100%;
   margin-bottom: 1rem;
+  text-align: center;
 }
+
 
 
 .fa{
@@ -375,6 +390,8 @@ del * {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  height: 400px;
+
 }
 
 
@@ -454,25 +471,50 @@ padding-bottom: 20px;
   cursor: pointer;
 }
 
+@media screen and (min-width: 920px) {
+  
+
+}
+
+@media screen and (min-width: 700px){
+  .menu{
+    width: 14rem;
+
+  }
+}
 
 @media screen and (min-width: 1100px) {
   .modalTwo{
     width: 400px;
   }
   .holdingList{
+    display: flex;
+    flex-direction: column;
     width: 25rem;
+    height:40rem;
+    background-color: rgb(255, 207, 207);
+    border-radius: 3%;
+    align-items: center;
+    margin: 10px;
+    box-shadow: 0 4px #999;
   }
 
-  .menu{
-    width: 14rem;
-
-  }
+  
 
   .title-of-todo{
-    width: 200px;
+ 
+    font-size: 18px;
+    font-weight:bold;
     text-align: center;
- 
- 
+  
+  }
+
+  .modal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    height: 100vh;
   }
 
 }

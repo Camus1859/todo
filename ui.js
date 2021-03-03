@@ -469,8 +469,8 @@ const displayListNumber = () => {
 }
 
  const shutSidePanel = () => {
-   const menu = document.querySelector('.menu')
-   menu.classList.add('hidden')
+   //add code to open and close panel on click
+  
  }
 
 
