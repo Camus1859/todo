@@ -166,7 +166,7 @@ del * {
   display: flex;
   flex-direction: column;
   width: 90%;
-  height:600px;
+  min-height:500px;
   background-color: rgb(255, 207, 207);
   border-radius: 3%;
   align-items: center;
@@ -211,12 +211,9 @@ del * {
 .modal{
   display: flex;
   flex-direction: column;
-  align-items: right;
-  justify-content: right;
   width: 100%;
-  background-color: wheat;
   margin-left: 10.3rem;
-
+  height: 100%;
 }
 
 
@@ -228,7 +225,6 @@ del * {
   height: 100vh;
   width: 10rem;
   position: fixed;
-
 }
 
 
