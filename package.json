@@ -1,0 +1,19 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "## This app was built from scratch (no tutorial, only google). It was built with the guidance of an open source online curriculum called  <a href=\"https://www.theodinproject.com/\">The Odin Project</a> a Project Based Learning curriculum.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Camus1859/todo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Camus1859/todo/issues"
+  },
+  "homepage": "https://github.com/Camus1859/todo#readme"
+}
