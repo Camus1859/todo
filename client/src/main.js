@@ -1,6 +1,6 @@
 import {
   loadEventListeners
-} from './selectors.js'
+} from '../../selectors.js'
 import {
   displayListNumber
 } from "./ui.js"
