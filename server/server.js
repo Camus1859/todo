@@ -6,6 +6,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 app.use(helmet());
+
+app.use(express.static('client/src'));
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
