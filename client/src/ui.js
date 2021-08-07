@@ -20,7 +20,7 @@ let listTypeModal;
 let storingAllToDos = new ToDoList()
 
 
-const usersInfo = (e) => {
+const usersInfo = async (e) => {
   e.preventDefault()
   const title = document.querySelector('#title').value
   const description = document.querySelector('#description').value
@@ -30,6 +30,21 @@ const usersInfo = (e) => {
   const notes = document.querySelector('#notes').value
   listOptionsDiv().classList.contains('hidden') ? list = toDoItem.list : list = document.querySelector('.list').value
   getToDoFromUser(title, list, description, dueDate, priority, notes)
+
+
+  await fetch('/todo', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json;charset=UTF-8',
+      Accept: 'application/json',
+    },
+    body:JSON.stringify({title, list, description, dueDate, priority, notes}),
+
+  })
+
+
+
+
 }
 
 
