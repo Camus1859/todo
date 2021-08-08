@@ -15,7 +15,7 @@ class ToDoItem {
       this.daysUntil = daysUntil
   }
   static counting() {
-      let counter = 0
+      let counter = 1
       return function() {
           return counter++
       }
