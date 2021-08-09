@@ -16,26 +16,37 @@ router.post('/todo', (req, res) => {
         res.status(400);
       }
       res.status(201).send(JSON.stringify(results.rows[0].todo_id));
-      console.log(results.rows[0].todo_id)
+      console.log(results.rows[0].todo_id);
     }
   );
-
-
-
-
-
-
-
-
-
 });
 
-router.delete('/todo/:id', async (req, res)=> {
 
 
 
-  console.log(req.params.id)
+router.get('/allTodos', async(req, res)=> {
+
+  pool.query('SELECT * FROM todo_items', (error, results)=> {
+    if (error){
+      console.log(error)
+      res.status(400)
+    }
+    console.log(results.rows)
+    res.status(201).send(results.rows)
+  })
+
+
 })
 
+
+
+
+
+
+
+
+router.delete('/todo/:id', async (req, res) => {
+  console.log(req.params.id);
+});
 
 module.exports = router;

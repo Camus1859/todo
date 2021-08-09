@@ -43,6 +43,33 @@ getToDoFromUser(title, list, description, dueDate, priority, notes, uniqueId);
 
 };
 
+const getAllToDosFromDB = async () => {
+
+  let allToDos = await fetch('/allTodos', {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json;charset=UTF-8',
+      Accept: 'application/json',
+    },
+  })
+
+  allToDos = await allToDos.json()
+  console.log(allToDos)
+
+
+}
+
+getAllToDosFromDB()
+
+
+
+
+
+
+
+
+
+
 const getToDoFromUser = (
   title,
   list,
@@ -102,7 +129,7 @@ const generateToDoItem = (
   console.log(toDoItem)
   console.log(listTypeModal)
 
-  
+
   createListTitle(listTypeModal);
  // passToDoItemToContainer(toDoItem);
   createTimeUntilTodo(toDoItem);
