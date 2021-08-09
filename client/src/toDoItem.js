@@ -4,14 +4,15 @@ export {
 }
 
 class ToDoItem {
-  constructor(title, list, description, dueDate, priority, notes, counter, daysUntil) {
+  constructor(title, list, description, dueDate, priority, notes, id, daysUntil) {
       this.title = title,
           this.list = list
       this.description = description,
           this.dueDate = dueDate,
           this.priority = priority,
-          this.notes = notes
-      this.counter = counter
+          this.notes = notes,
+          this.id = id
+     // this.counter = counter
       this.daysUntil = daysUntil
   }
   static counting() {

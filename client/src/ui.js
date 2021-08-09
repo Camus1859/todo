@@ -18,7 +18,7 @@ const usersInfo = async (e) => {
   listOptionsDiv().classList.contains('hidden')
     ? (list = toDoItem.list)
     : (list = document.querySelector('.list').value);
-  getToDoFromUser(title, list, description, dueDate, priority, notes);
+  //getToDoFromUser(title, list, description, dueDate, priority, notes);
 
  let response =  await fetch('/todo', {
     method: 'POST',
@@ -39,7 +39,8 @@ const usersInfo = async (e) => {
   let uniqueId = await response.json();
 
 //  use this Id as attribute for element
-  console.log(uniqueId)
+getToDoFromUser(title, list, description, dueDate, priority, notes, uniqueId);
+
 };
 
 const getToDoFromUser = (
@@ -48,7 +49,8 @@ const getToDoFromUser = (
   description,
   dueDate,
   priority,
-  notes
+  notes,
+  id
 ) => {
   if (
     title === '' ||
@@ -61,7 +63,7 @@ const getToDoFromUser = (
     alert('Please fill in all fields');
     return;
   } else {
-    generateToDoItem(title, list, description, dueDate, priority, notes);
+    generateToDoItem(title, list, description, dueDate, priority, notes, id);
     removeModalAndOverlay();
     displayListNumber();
   }
@@ -73,7 +75,8 @@ const generateToDoItem = (
   description,
   dueDate,
   priority,
-  notes
+  notes,
+  id
 ) => {
   toDoItem = new ToDoItem(
     title,
@@ -82,7 +85,8 @@ const generateToDoItem = (
     dueDate,
     priority,
     notes,
-    count()
+    id
+   // count()
   );
   listTypeModal = new ListType(
     title,
@@ -91,10 +95,16 @@ const generateToDoItem = (
     dueDate,
     priority,
     notes,
-    toDoItem.counter
+    toDoItem.id
+   // toDoItem.id
   );
+
+  console.log(toDoItem)
+  console.log(listTypeModal)
+
+  
   createListTitle(listTypeModal);
-  passToDoItemToContainer(toDoItem);
+ // passToDoItemToContainer(toDoItem);
   createTimeUntilTodo(toDoItem);
 };
 
@@ -111,12 +121,12 @@ const createListTitle = (listTypeModal) => {
 
 const createToDoTitle = (nameOfTheListDiv, listTypeModal) => {
   const nameOfToDoTitleDiv = `
-<div class="content-line details-btn" data-number=${listTypeModal.getCounter()}>
-<input data-index=${listTypeModal.getCounter()} class="checkbox" type="checkbox">
-<del class="strike"><p class="title-of-todo details-btn" data-number=${listTypeModal.getCounter()} >${
+<div class="content-line details-btn" data-number=${listTypeModal.id}>
+<input data-index=${listTypeModal.id} class="checkbox" type="checkbox">
+<del class="strike"><p class="title-of-todo details-btn" data-number=${listTypeModal.id} >${
     listTypeModal.title
   }</p></del>
-<div class="days-until-due" id="until-due" data-class="${listTypeModal.getCounter()}"></div>
+<div class="days-until-due" id="until-due" data-class="${listTypeModal.id}"></div>
 </div>   `;
   addingListNameAndTitleToModal(
     nameOfTheListDiv,
@@ -179,9 +189,9 @@ const removeModalAndOverlay = () => {
   overlay.classList.add('hidden');
 };
 
-const passToDoItemToContainer = (toDoItem) => {
-  storingAllToDos.placeToDoItemInMyArray(toDoItem);
-};
+// const passToDoItemToContainer = (toDoItem) => {
+//   storingAllToDos.placeToDoItemInMyArray(toDoItem);
+// };
 
 const detailsBtnClicked = (e) => {
   if (e.target.classList.contains('details-btn')) {
@@ -222,25 +232,25 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
   deletingTaskDetails();
 
   for (let [key, value] of Object.entries(toDoItem)) {
-    if (key === 'counter' || key === 'list' || key === 'daysUntil') {
+    if (key === 'id' || key === 'list' || key === 'daysUntil') {
       continue;
     } else if (key === 'title') {
       toDoItemValueInElement = `<div class="task-details">Task Details</div><br>
-     <input value-number=${toDoItem.getCounter()} value="${
+     <input value-number=${toDoItem.id} value="${
         toDoItem.title
       }" class="user-content the-form" data-number=${
-        toDoItem.counter
+        toDoItem.id
       } ></input><br>`;
     } else if (key === 'description') {
-      toDoItemValueInElement = `<input value-number=${toDoItem.getCounter()} value="${
+      toDoItemValueInElement = `<input value-number=${toDoItem.id} value="${
         toDoItem.description
       }" class="user-content the-form" data-number=${
-        toDoItem.counter
+        toDoItem.id
       } ></input><br>`;
     } else if (key === 'priority' && value.toLowerCase() === 'high') {
       toDoItemValueInElement = `
-     <select value-number=${toDoItem.getCounter()} class="user-content the-form" data-number=${
-        toDoItem.counter
+     <select value-number=${toDoItem.id} class="user-content the-form" data-number=${
+        toDoItem.id
       }>
        <option value="High" selected>High</option>
        <option value="Medium">Medium</option>
@@ -249,8 +259,8 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
      `;
     } else if (key === 'priority' && value.toLowerCase() === 'medium') {
       toDoItemValueInElement = `
-     <select value-number=${toDoItem.getCounter()} class="user-content the-form" data-number=${
-        toDoItem.counter
+     <select value-number=${toDoItem.id} class="user-content the-form" data-number=${
+        toDoItem.id
       }>
        <option value="High">High</option>
        <option value="Medium" selected>Medium</option>
@@ -258,22 +268,22 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
      </select><br>
      `;
     } else if (key === 'priority' && value.toLowerCase() === 'low') {
-      toDoItemValueInElement = ` <select value-number=${toDoItem.getCounter()} class="user-content the-form" data-number=${
-        toDoItem.counter
+      toDoItemValueInElement = ` <select value-number=${toDoItem.id} class="user-content the-form" data-number=${
+        toDoItem.id
       }>
       <option value="High">High</option>
       <option value="Medium">Medium</option>
       <option value="Low" selected >Low</option>
       </select><br>`;
     } else if (key === 'notes') {
-      toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.getCounter()} class="user-content the-form" data-number=${
-        toDoItem.counter
+      toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.id} class="user-content the-form" data-number=${
+        toDoItem.id
       } >${toDoItem.notes}</textarea><br>`;
     } else if (key === 'dueDate') {
-      toDoItemValueInElement = `<input type="date" id="due-date" min="${todaysDate}"  value-number=${toDoItem.getCounter()} value="${
+      toDoItemValueInElement = `<input type="date" id="due-date" min="${todaysDate}"  value-number=${toDoItem.id} value="${
         toDoItem.dueDate
       }" class="user-content the-form" data-number=${
-        toDoItem.counter
+        toDoItem.id
       } ></input><br>`;
     }
     appendsInputElementToModalThree(toDoItemValueInElement);
@@ -292,8 +302,8 @@ const appendsInputElementToModalThree = (toDoItemValueInElement) => {
 };
 
 const createDeleteAndSaveBtns = (toDoItem) => {
-  const deleteAndSaveBtns = `<div class="save-del-container"><button class="user-content save" data-number=${toDoItem.counter}>Save</button>
-<button class="user-content del" data-number=${toDoItem.counter} >Delete</button></div>`;
+  const deleteAndSaveBtns = `<div class="save-del-container"><button class="user-content save" data-number=${toDoItem.id}>Save</button>
+<button class="user-content del" data-number=${toDoItem.id} >Delete</button></div>`;
   placeBtnsOnModal(deleteAndSaveBtns);
 };
 
@@ -345,16 +355,28 @@ const updateModals2 = () => {
 };
 
 const deleteElementsAssocatedWithCurrentToDo = (elements) =>
+
   elements.forEach((element) => element.remove());
+
+
+
+
+
+
 
 const findSpecificTodo = (e) => {
   console.log(e.target);
   const toDoItem = storingAllToDos
     .getToDoList()
-    .find((toDo) => toDo.counter === getDataNumberOfBtnClicked(e));
+    .find((toDo) => toDo.id === getDataNumberOfBtnClicked(e));
   console.log(toDoItem);
   return toDoItem;
 };
+
+
+
+
+
 
 const getToDoItemToUpdateAfterSavedClicked = (e) => {
   let arrayOfNewValuesEnteredByUser = Array.from(
@@ -396,14 +418,14 @@ const updateDisplayedTitleToUserInputTitle = (e, userInputElement) => {
     userInputElement[0].value;
 };
 
+
+
+
+
 const updateArrayOfToDos = async (e) => {
   storingAllToDos.deleteToDo(getDataNumberOfBtnClicked(e));
 
   const id = getDataNumberOfBtnClicked(e) + 1
-
-
-
-
 
   await fetch(`/todo/${id}`, {
     method: 'DELETE',
@@ -428,7 +450,7 @@ const displayModalToAddToDo = () => {
 
 const createTimeUntilTodo = (toDo) => {
   const daysUntilTodoElement = document.querySelector(
-    `[data-class="${toDo.counter}"]`
+    `[data-class="${toDo.id}"]`
   );
   const toDoDueDate = new Date(`${toDo.dueDate}`.replace(/-/g, '/'));
   let today = new Date();
@@ -473,7 +495,7 @@ const deleteTask = (e) => {
     const uncheckedToDoIndex = +e.target.getAttribute('data-index');
     const toDoItem = storingAllToDos
       .getToDoList()
-      .find((todo) => todo.counter === uncheckedToDoIndex);
+      .find((todo) => todo.id === uncheckedToDoIndex);
     e.target.nextElementSibling.nextElementSibling.textContent =
       toDoItem.daysUntil;
     e.target.nextElementSibling.nextElementSibling.setAttribute(
