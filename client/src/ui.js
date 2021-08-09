@@ -55,7 +55,7 @@ const getAllToDosFromDB = async () => {
 
   allToDos = await allToDos.json()
   console.log(allToDos)
-
+  return allToDos
 
 }
 
@@ -147,6 +147,8 @@ const createListTitle = (listTypeModal) => {
 };
 
 const createToDoTitle = (nameOfTheListDiv, listTypeModal) => {
+  console.log(listTypeModal)
+
   const nameOfToDoTitleDiv = `
 <div class="content-line details-btn" data-number=${listTypeModal.id}>
 <input data-index=${listTypeModal.id} class="checkbox" type="checkbox">
@@ -226,9 +228,12 @@ const detailsBtnClicked = (e) => {
   }
 };
 
-const getToDoItemThatsClicked = (e) => {
+const getToDoItemThatsClicked = async (e) => {
   console.log(e.target);
-  checkIfToDoClickedIsAlreadyOnTheScreen(findSpecificTodo(e));
+  const todoClicked = await findSpecificTodo(e)
+  console.log(todoClicked)
+  
+  checkIfToDoClickedIsAlreadyOnTheScreen(todoClicked);
   updateModals();
 };
 
@@ -249,12 +254,12 @@ const deletingTaskDetails = () => {
 };
 
 const getDataNumberOfBtnClicked = (e) => {
-  console.log(Number(e.target.getAttribute('data-number')));
   const dataNumberOfCurrentToDo = Number(e.target.getAttribute('data-number'));
   return dataNumberOfCurrentToDo;
 };
 
 const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
+  console.log(toDoItem)
   let toDoItemValueInElement;
   deletingTaskDetails();
 
@@ -329,6 +334,8 @@ const appendsInputElementToModalThree = (toDoItemValueInElement) => {
 };
 
 const createDeleteAndSaveBtns = (toDoItem) => {
+  console.log('heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
+  console.log(toDoItem)
   const deleteAndSaveBtns = `<div class="save-del-container"><button class="user-content save" data-number=${toDoItem.id}>Save</button>
 <button class="user-content del" data-number=${toDoItem.id} >Delete</button></div>`;
   placeBtnsOnModal(deleteAndSaveBtns);
@@ -391,11 +398,12 @@ const deleteElementsAssocatedWithCurrentToDo = (elements) =>
 
 
 
-const findSpecificTodo = (e) => {
+const findSpecificTodo = async (e) => {
   console.log(e.target);
-  const toDoItem = storingAllToDos
-    .getToDoList()
-    .find((toDo) => toDo.id === getDataNumberOfBtnClicked(e));
+  const arrayOfToDos = await getAllToDosFromDB()
+  console.log(arrayOfToDos)
+  console.log(getDataNumberOfBtnClicked(e))
+  const toDoItem =  arrayOfToDos.find((toDo) => toDo.todo_id === getDataNumberOfBtnClicked(e));
   console.log(toDoItem);
   return toDoItem;
 };
@@ -450,9 +458,9 @@ const updateDisplayedTitleToUserInputTitle = (e, userInputElement) => {
 
 
 const updateArrayOfToDos = async (e) => {
-  storingAllToDos.deleteToDo(getDataNumberOfBtnClicked(e));
+  //storingAllToDos.deleteToDo(getDataNumberOfBtnClicked(e));
 
-  const id = getDataNumberOfBtnClicked(e) + 1
+  const id = getDataNumberOfBtnClicked(e) 
 
   await fetch(`/todo/${id}`, {
     method: 'DELETE',

@@ -32,6 +32,8 @@ router.get('/allTodos', async(req, res)=> {
       res.status(400)
     }
     console.log(results.rows)
+    console.log('rannnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn')
+
     res.status(201).send(results.rows)
   })
 
@@ -46,7 +48,18 @@ router.get('/allTodos', async(req, res)=> {
 
 
 router.delete('/todo/:id', async (req, res) => {
-  console.log(req.params.id);
+  const id = req.params.id
+
+  console.log(id)
+
+  pool.query('DELETE FROM todo_items WHERE todo_id = $1', [id], (req, res)=> {
+    if (error){
+      console.log(error)
+      res.status(400)
+    }
+    res.status(201)
+
+  })
 });
 
 module.exports = router;
