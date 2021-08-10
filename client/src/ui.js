@@ -57,7 +57,15 @@ const getAllToDosFromDB = async () => {
 
   allToDos = await allToDos.json()
   console.log(allToDos)
-  return allToDos
+  allToDos.forEach((todo)=>{
+    createListTitle(todo)
+    createTimeUntilTodo(todo)
+  })
+
+
+
+  // createListTitle()
+  // createTimeUntilTodo()
 
 }
 
@@ -117,61 +125,71 @@ const generateToDoItem = (
     id
    // count()
   );
-  listTypeModal = new ListType(
-    title,
-    list,
-    description,
-    dueDate,
-    priority,
-    notes,
-    toDoItem.id
-   // toDoItem.id
-  );
-
-  console.log(toDoItem)
-  console.log(listTypeModal)
 
 
-  createListTitle(listTypeModal);
+
+
+  // listTypeModal = new ListType(
+  //   title,
+  //   list,
+  //   description,
+  //   dueDate,
+  //   priority,
+  //   notes,
+  //   toDoItem.id
+  //  // toDoItem.id
+  // );
+
+
+
+  // createListTitle(listTypeModal);
  // passToDoItemToContainer(toDoItem);
+ createListTitle(toDoItem);
+  //started here, trying to replace listTypeModal with toDoItem
+
+
+
+
+
   createTimeUntilTodo(toDoItem);
+  //started here, trying to replace listTypeModal with toDoItem
 };
 
-const createListTitle = (listTypeModal) => {
+const createListTitle = (toDoItem) => {
   const nameOfTheListDiv = `<div class="holdingList">
-  <div class="listTypeModal ${listTypeModal.list}">
+  <div class="listTypeModal ${toDoItem.list_type}">
   <div class="containerForMoreLists">
-  <div class="list-name">${listTypeModal.list}</div>
+  <div class="list-name">${toDoItem.list_type}</div>
   <div class="btn-for-list-type">+</div></div>
   <div class="bottom-line2"></div>
 </div>`;
-  createToDoTitle(nameOfTheListDiv, listTypeModal);
+  createToDoTitle(nameOfTheListDiv, toDoItem);
 };
 
-const createToDoTitle = (nameOfTheListDiv, listTypeModal) => {
-  console.log(listTypeModal)
+const createToDoTitle = (nameOfTheListDiv, toDoItem) => {
+  console.log(toDoItem)
 
   const nameOfToDoTitleDiv = `
-<div class="content-line details-btn" data-number=${listTypeModal.id}>
-<input data-index=${listTypeModal.id} class="checkbox" type="checkbox">
-<del class="strike"><p class="title-of-todo details-btn" data-number=${listTypeModal.id} >${
-    listTypeModal.title
+<div class="content-line details-btn" data-number=${toDoItem.todo_id}>
+<input data-index=${toDoItem.todo_id} class="checkbox" type="checkbox">
+<del class="strike"><p class="title-of-todo details-btn" data-number=${toDoItem.todo_id} >${
+    toDoItem.task_name
   }</p></del>
-<div class="days-until-due" id="until-due" data-class="${listTypeModal.id}"></div>
+<div class="days-until-due" id="until-due" data-class="${toDoItem.todo_id}"></div>
 </div>   `;
   addingListNameAndTitleToModal(
     nameOfTheListDiv,
     nameOfToDoTitleDiv,
-    listTypeModal
+    toDoItem
   );
 };
 
 const addingListNameAndTitleToModal = (
   nameOfTheListDiv,
   nameOfToDoTitleDiv,
-  listTypeModal
+  toDoItem
 ) => {
-  const listName = document.querySelector(`.${listTypeModal.list}`);
+  const listName = document.querySelector(`.${toDoItem.list_type}`);
   console.log(listName);
 
   if (listName) {
@@ -198,7 +216,7 @@ const listenerForSameListNewTodo = () => {
 //Is it ok to read data from the broswer to change my object??
 const switchToDoList = (e) => {
   if (e.target.classList.contains('btn-for-list-type')) {
-    toDoItem.list = e.target.previousElementSibling.textContent;
+    toDoItem.list_type = e.target.previousElementSibling.textContent;
   }
 };
 
@@ -502,7 +520,7 @@ const displayModalToAddToDo = () => {
 const createTimeUntilTodo = (toDo) => {
   console.log(toDo)
   const daysUntilTodoElement = document.querySelector(
-    `[data-class="${toDo.id}"]`
+    `[data-class="${toDo.todo_id}"]`
   );
   const toDoDueDate = new Date(`${toDo.dueDate}`.replace(/-/g, '/'));
   let today = new Date();

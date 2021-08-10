@@ -52,12 +52,12 @@ router.delete('/todo/:id', async (req, res) => {
 
   console.log(id)
 
-  pool.query('DELETE FROM todo_items WHERE todo_id = $1', [id], (req, res)=> {
+  pool.query('DELETE FROM todo_items WHERE todo_id = $1', [id], (error, results)=> {
     if (error){
       console.log(error)
-      res.status(400)
+      results.status(400)
     }
-    res.status(201)
+    results.status(201)
 
   })
 });
