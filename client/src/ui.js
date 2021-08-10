@@ -20,6 +20,8 @@ const usersInfo = async (e) => {
     : (list = document.querySelector('.list').value);
   //getToDoFromUser(title, list, description, dueDate, priority, notes);
 
+  console.log(dueDate)
+
  let response =  await fetch('/todo', {
     method: 'POST',
     headers: {
@@ -258,6 +260,15 @@ const getDataNumberOfBtnClicked = (e) => {
   return dataNumberOfCurrentToDo;
 };
 
+const yearMonthDayFormat = (toDoItem)=> {
+const dateObj = new Date (toDoItem.date)
+const month = dateObj.getUTCMonth() + 1; 
+const day = dateObj.getUTCDate();
+const year = dateObj.getUTCFullYear();
+const newdate = year + "-" + month.toString().padStart(2, "0") + "-" + day.toString().padStart(2, "0");
+return newdate
+}
+
 const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
   console.log(toDoItem)
   let toDoItemValueInElement;
@@ -312,8 +323,8 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
         toDoItem.todo_id
       } >${toDoItem.notes}</textarea><br>`;
     } else if (key === 'date') {
-      toDoItemValueInElement = `<input type="date" id="due-date" min="${todaysDate}"  value-number=${toDoItem.todo_id} value="${
-        toDoItem.date
+      toDoItemValueInElement = `<input type="date" id="due-date" min="${todaysDate2()}"value-number=${toDoItem.todo_id} value="${
+        yearMonthDayFormat(toDoItem)
       }" class="user-content the-form" data-number=${
         toDoItem.todo_id
       } ></input><br>`;
@@ -336,8 +347,8 @@ const appendsInputElementToModalThree = (toDoItemValueInElement) => {
 const createDeleteAndSaveBtns = (toDoItem) => {
   console.log('heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
   console.log(toDoItem)
-  const deleteAndSaveBtns = `<div class="save-del-container"><button class="user-content save" data-number=${toDoItem.id}>Save</button>
-<button class="user-content del" data-number=${toDoItem.id} >Delete</button></div>`;
+  const deleteAndSaveBtns = `<div class="save-del-container"><button class="user-content save" data-number=${toDoItem.todo_id}>Save</button>
+<button class="user-content del" data-number=${toDoItem.todo_id} >Delete</button></div>`;
   placeBtnsOnModal(deleteAndSaveBtns);
 };
 
@@ -483,7 +494,13 @@ const displayModalToAddToDo = () => {
   document.querySelector('#todo-form').reset();
 };
 
+
+
+
+
+
 const createTimeUntilTodo = (toDo) => {
+  console.log(toDo)
   const daysUntilTodoElement = document.querySelector(
     `[data-class="${toDo.id}"]`
   );
@@ -521,6 +538,16 @@ const todaysDate = () => {
   return document.querySelector('#due-date').setAttribute('min', today);
 };
 todaysDate();
+
+
+const todaysDate2 = () => {
+  let today = new Date();
+  const dd = String(today.getDate());
+  const mm = String(today.getMonth() + 1);
+  const yyyy = today.getFullYear();
+  today = `${yyyy}-${mm}-${dd}`;
+  return today
+}
 
 //maybe use the bind method here to shorten code.
 const deleteTask = (e) => {
