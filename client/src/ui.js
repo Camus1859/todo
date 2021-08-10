@@ -264,25 +264,25 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
   deletingTaskDetails();
 
   for (let [key, value] of Object.entries(toDoItem)) {
-    if (key === 'id' || key === 'list' || key === 'daysUntil') {
+    if (key === 'todo_id' || key === 'list_type' || key === 'daysUntil') {
       continue;
-    } else if (key === 'title') {
+    } else if (key === 'task_name') {
       toDoItemValueInElement = `<div class="task-details">Task Details</div><br>
-     <input value-number=${toDoItem.id} value="${
-        toDoItem.title
+     <input value-number=${toDoItem.todo_id} value="${
+        toDoItem.task_name
       }" class="user-content the-form" data-number=${
-        toDoItem.id
+        toDoItem.todo_id
       } ></input><br>`;
     } else if (key === 'description') {
-      toDoItemValueInElement = `<input value-number=${toDoItem.id} value="${
+      toDoItemValueInElement = `<input value-number=${toDoItem.todo_id} value="${
         toDoItem.description
       }" class="user-content the-form" data-number=${
-        toDoItem.id
+        toDoItem.todo_id
       } ></input><br>`;
     } else if (key === 'priority' && value.toLowerCase() === 'high') {
       toDoItemValueInElement = `
-     <select value-number=${toDoItem.id} class="user-content the-form" data-number=${
-        toDoItem.id
+     <select value-number=${toDoItem.todo_id} class="user-content the-form" data-number=${
+        toDoItem.todo_id
       }>
        <option value="High" selected>High</option>
        <option value="Medium">Medium</option>
@@ -291,8 +291,8 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
      `;
     } else if (key === 'priority' && value.toLowerCase() === 'medium') {
       toDoItemValueInElement = `
-     <select value-number=${toDoItem.id} class="user-content the-form" data-number=${
-        toDoItem.id
+     <select value-number=${toDoItem.todo_id} class="user-content the-form" data-number=${
+        toDoItem.todo_id
       }>
        <option value="High">High</option>
        <option value="Medium" selected>Medium</option>
@@ -300,22 +300,22 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
      </select><br>
      `;
     } else if (key === 'priority' && value.toLowerCase() === 'low') {
-      toDoItemValueInElement = ` <select value-number=${toDoItem.id} class="user-content the-form" data-number=${
-        toDoItem.id
+      toDoItemValueInElement = ` <select value-number=${toDoItem.todo_id} class="user-content the-form" data-number=${
+        toDoItem.todo_id
       }>
       <option value="High">High</option>
       <option value="Medium">Medium</option>
       <option value="Low" selected >Low</option>
       </select><br>`;
     } else if (key === 'notes') {
-      toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.id} class="user-content the-form" data-number=${
-        toDoItem.id
+      toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.todo_id} class="user-content the-form" data-number=${
+        toDoItem.todo_id
       } >${toDoItem.notes}</textarea><br>`;
-    } else if (key === 'dueDate') {
-      toDoItemValueInElement = `<input type="date" id="due-date" min="${todaysDate}"  value-number=${toDoItem.id} value="${
-        toDoItem.dueDate
+    } else if (key === 'date') {
+      toDoItemValueInElement = `<input type="date" id="due-date" min="${todaysDate}"  value-number=${toDoItem.todo_id} value="${
+        toDoItem.date
       }" class="user-content the-form" data-number=${
-        toDoItem.id
+        toDoItem.todo_id
       } ></input><br>`;
     }
     appendsInputElementToModalThree(toDoItemValueInElement);
