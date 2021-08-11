@@ -61,6 +61,7 @@ const getAllToDosFromDB = async () => {
     createListTitle(todo)
     createTimeUntilTodo(todo)
   })
+  return allToDos
 
 
 
@@ -71,7 +72,30 @@ const getAllToDosFromDB = async () => {
 
 getAllToDosFromDB()
 
+const getAllToDosFromDB2 = async () => {
 
+  let allToDos = await fetch('/allTodos', {
+    method: 'GET',
+    headers: {
+      'Content-type': 'application/json;charset=UTF-8',
+      Accept: 'application/json',
+    },
+  })
+
+  allToDos = await allToDos.json()
+  // console.log(allToDos)
+  // allToDos.forEach((todo)=>{
+  //   createListTitle(todo)
+  //   createTimeUntilTodo(todo)
+  // })
+  return allToDos
+
+
+
+  // createListTitle()
+  // createTimeUntilTodo()
+
+}
 
 
 
@@ -167,7 +191,6 @@ const createListTitle = (toDoItem) => {
 };
 
 const createToDoTitle = (nameOfTheListDiv, toDoItem) => {
-  console.log(toDoItem)
 
   const nameOfToDoTitleDiv = `
 <div class="content-line details-btn" data-number=${toDoItem.todo_id}>
@@ -190,13 +213,10 @@ const addingListNameAndTitleToModal = (
   toDoItem
 ) => {
   const listName = document.querySelector(`.${toDoItem.list_type}`);
-  console.log(listName);
 
   if (listName) {
-    console.log('a ran');
     listName.parentElement.insertAdjacentHTML('beforeend', nameOfToDoTitleDiv);
   } else {
-    console.log('b ran');
 
     modal.insertAdjacentHTML(
       'beforeend',
@@ -429,7 +449,7 @@ const deleteElementsAssocatedWithCurrentToDo = (elements) =>
 
 const findSpecificTodo = async (e) => {
   console.log(e.target);
-  const arrayOfToDos = await getAllToDosFromDB()
+  const arrayOfToDos = await getAllToDosFromDB2()
   console.log(arrayOfToDos)
   console.log(getDataNumberOfBtnClicked(e))
   const toDoItem =  arrayOfToDos.find((toDo) => toDo.todo_id === getDataNumberOfBtnClicked(e));
@@ -518,7 +538,6 @@ const displayModalToAddToDo = () => {
 
 
 const createTimeUntilTodo = (toDo) => {
-  console.log(toDo)
   const daysUntilTodoElement = document.querySelector(
     `[data-class="${toDo.todo_id}"]`
   );
