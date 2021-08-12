@@ -7,24 +7,35 @@ let toDoItem;
 let listTypeModal;
 let storingAllToDos = new ToDoList();
 
-const usersInfo = async (e) => {
+
+const toDoListType = ()=> {
   let list;
-  if(document.querySelector(".selected")){
-     list = document.querySelector(".selected").textContent
+  if (document.querySelector('.selected')) {
+    list = document.querySelector('.selected').textContent;
+  } else {
+    list = document.querySelector('.list').value;
   }
+  return list
+}
+
+const usersInfo = async (e) => {
+
+  const list = toDoListType()
+
+
   e.preventDefault();
   const title = document.querySelector('#title').value;
   const description = document.querySelector('#description').value;
   const date = document.querySelector('#due-date').value;
   const priority = document.querySelector('#priority').value;
   const notes = document.querySelector('#notes').value;
+
   // listOptionsDiv().classList.contains('hidden')
   //   ? list
   //   : (list = document.querySelector('.list').value);
   //getToDoFromUser(title, list, description, dueDate, priority, notes);
 
-
- let response =  await fetch('/todo', {
+  let response = await fetch('/todo', {
     method: 'POST',
     headers: {
       'Content-type': 'application/json;charset=UTF-8',
@@ -39,78 +50,60 @@ const usersInfo = async (e) => {
       notes,
     }),
   });
-  
+
   let uniqueId = await response.json();
 
-//  use this Id as attribute for element
-getToDoFromUser(title, list, description, date, priority, notes, uniqueId);
-console.log(list)
+  //  use this Id as attribute for element
+  getToDoFromUser(title, list, description, date, priority, notes, uniqueId);
+  console.log(list);
 
-// document.querySelector(".selected").classList.remove('selected')
-
-
+  // document.querySelector(".selected").classList.remove('selected')
 };
 
 const getAllToDosFromDB = async () => {
-
   let allToDos = await fetch('/allTodos', {
     method: 'GET',
     headers: {
       'Content-type': 'application/json;charset=UTF-8',
       Accept: 'application/json',
     },
-  })
+  });
 
-  allToDos = await allToDos.json()
-  allToDos.forEach((todo)=>{
-    createListTitle(todo)
-    createTimeUntilTodo(todo)
-  })
+  allToDos = await allToDos.json();
+  allToDos.forEach((todo) => {
+    createListTitle(todo);
+    createTimeUntilTodo(todo);
+  });
   listenerForSameListNewTodo();
 
-  return allToDos
-
-
+  return allToDos;
 
   // createListTitle()
   // createTimeUntilTodo()
+};
 
-
-}
-
-getAllToDosFromDB()
+getAllToDosFromDB();
 
 const getAllToDosFromDB2 = async () => {
-
   let allToDos = await fetch('/allTodos', {
     method: 'GET',
     headers: {
       'Content-type': 'application/json;charset=UTF-8',
       Accept: 'application/json',
     },
-  })
+  });
 
-  allToDos = await allToDos.json()
+  allToDos = await allToDos.json();
   // console.log(allToDos)
   // allToDos.forEach((todo)=>{
   //   createListTitle(todo)
   //   createTimeUntilTodo(todo)
   // })
-  return allToDos
-
-
+  return allToDos;
 
   // createListTitle()
   // createTimeUntilTodo()
-
-}
-
-
-
-
-
-
-
+};
 
 const getToDoFromUser = (
   title,
@@ -155,11 +148,8 @@ const generateToDoItem = (
     priority,
     notes,
     id
-   // count()
+    // count()
   );
-
-
-
 
   // listTypeModal = new ListType(
   //   title,
@@ -172,23 +162,17 @@ const generateToDoItem = (
   //  // toDoItem.id
   // );
 
-
-
   // createListTitle(listTypeModal);
- // passToDoItemToContainer(toDoItem);
- createListTitle(toDoItem);
+  // passToDoItemToContainer(toDoItem);
+  createListTitle(toDoItem);
   //started here, trying to replace listTypeModal with toDoItem
-
-
-
-
 
   createTimeUntilTodo(toDoItem);
   //started here, trying to replace listTypeModal with toDoItem
 };
 
 const createListTitle = (toDoItem) => {
-  console.log(toDoItem)
+  console.log(toDoItem);
   const nameOfTheListDiv = `<div class="holdingList">
   <div class="listTypeModal ${toDoItem.list}">
   <div class="containerForMoreLists">
@@ -200,20 +184,13 @@ const createListTitle = (toDoItem) => {
 };
 
 const createToDoTitle = (nameOfTheListDiv, toDoItem) => {
-
   const nameOfToDoTitleDiv = `
 <div class="content-line details-btn" data-number=${toDoItem.id}>
 <input data-index=${toDoItem.id} class="checkbox" type="checkbox">
-<del class="strike"><p class="title-of-todo details-btn" data-number=${toDoItem.id} >${
-    toDoItem.title
-  }</p></del>
+<del class="strike"><p class="title-of-todo details-btn" data-number=${toDoItem.id} >${toDoItem.title}</p></del>
 <div class="days-until-due" id="until-due" data-class="${toDoItem.id}"></div>
 </div>   `;
-  addingListNameAndTitleToModal(
-    nameOfTheListDiv,
-    nameOfToDoTitleDiv,
-    toDoItem
-  );
+  addingListNameAndTitleToModal(nameOfTheListDiv, nameOfToDoTitleDiv, toDoItem);
 };
 
 const addingListNameAndTitleToModal = (
@@ -226,7 +203,6 @@ const addingListNameAndTitleToModal = (
   if (listName) {
     listName.parentElement.insertAdjacentHTML('beforeend', nameOfToDoTitleDiv);
   } else {
-
     modal.insertAdjacentHTML(
       'beforeend',
       nameOfTheListDiv + nameOfToDoTitleDiv
@@ -240,8 +216,7 @@ const listenerForSameListNewTodo = () => {
   const btn = document.querySelector('.modal');
   btn.addEventListener('click', displayModalTwo);
 
-
- // btn.addEventListener('click', switchToDoList);
+  // btn.addEventListener('click', switchToDoList);
 };
 
 //Is it ok to read data from the broswer to change my object??
@@ -253,13 +228,9 @@ const listenerForSameListNewTodo = () => {
 //   }
 // };
 
-
-
-
 const displayModalTwo = (e) => {
-
   if (e.target.classList.contains('btn-for-list-type')) {
-    e.target.previousElementSibling.classList.add('selected')
+    e.target.previousElementSibling.classList.add('selected');
 
     modalTwo.classList.remove('hidden');
     overlay.classList.remove('hidden');
@@ -288,8 +259,8 @@ const detailsBtnClicked = (e) => {
 };
 
 const getToDoItemThatsClicked = async (e) => {
-  const todoClicked = await findSpecificTodo(e)
-  
+  const todoClicked = await findSpecificTodo(e);
+
   checkIfToDoClickedIsAlreadyOnTheScreen(todoClicked);
   updateModals();
 };
@@ -314,14 +285,19 @@ const getDataNumberOfBtnClicked = (e) => {
   return dataNumberOfCurrentToDo;
 };
 
-const yearMonthDayFormat = (toDoItem)=> {
-const dateObj = new Date (toDoItem.date)
-const month = dateObj.getUTCMonth() + 1; 
-const day = dateObj.getUTCDate();
-const year = dateObj.getUTCFullYear();
-const newdate = year + "-" + month.toString().padStart(2, "0") + "-" + day.toString().padStart(2, "0");
-return newdate
-}
+const yearMonthDayFormat = (toDoItem) => {
+  const dateObj = new Date(toDoItem.date);
+  const month = dateObj.getUTCMonth() + 1;
+  const day = dateObj.getUTCDate();
+  const year = dateObj.getUTCFullYear();
+  const newdate =
+    year +
+    '-' +
+    month.toString().padStart(2, '0') +
+    '-' +
+    day.toString().padStart(2, '0');
+  return newdate;
+};
 
 const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
   let toDoItemValueInElement;
@@ -332,22 +308,12 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
       continue;
     } else if (key === 'title') {
       toDoItemValueInElement = `<div class="task-details">Task Details</div><br>
-     <input value-number=${toDoItem.id} value="${
-        toDoItem.title
-      }" class="user-content the-form" data-number=${
-        toDoItem.id
-      } ></input><br>`;
+     <input value-number=${toDoItem.id} value="${toDoItem.title}" class="user-content the-form" data-number=${toDoItem.id} ></input><br>`;
     } else if (key === 'description') {
-      toDoItemValueInElement = `<input value-number=${toDoItem.id} value="${
-        toDoItem.description
-      }" class="user-content the-form" data-number=${
-        toDoItem.id
-      } ></input><br>`;
+      toDoItemValueInElement = `<input value-number=${toDoItem.id} value="${toDoItem.description}" class="user-content the-form" data-number=${toDoItem.id} ></input><br>`;
     } else if (key === 'priority' && value.toLowerCase() === 'high') {
       toDoItemValueInElement = `
-     <select value-number=${toDoItem.id} class="user-content the-form" data-number=${
-        toDoItem.id
-      }>
+     <select value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id}>
        <option value="High" selected>High</option>
        <option value="Medium">Medium</option>
        <option value="Low" >Low</option>
@@ -355,30 +321,26 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
      `;
     } else if (key === 'priority' && value.toLowerCase() === 'medium') {
       toDoItemValueInElement = `
-     <select value-number=${toDoItem.id} class="user-content the-form" data-number=${
-        toDoItem.id
-      }>
+     <select value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id}>
        <option value="High">High</option>
        <option value="Medium" selected>Medium</option>
        <option value="Low" >Low</option>
      </select><br>
      `;
     } else if (key === 'priority' && value.toLowerCase() === 'low') {
-      toDoItemValueInElement = ` <select value-number=${toDoItem.id} class="user-content the-form" data-number=${
-        toDoItem.id
-      }>
+      toDoItemValueInElement = ` <select value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id}>
       <option value="High">High</option>
       <option value="Medium">Medium</option>
       <option value="Low" selected >Low</option>
       </select><br>`;
     } else if (key === 'notes') {
-      toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.id} class="user-content the-form" data-number=${
-        toDoItem.id
-      } >${toDoItem.notes}</textarea><br>`;
+      toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id} >${toDoItem.notes}</textarea><br>`;
     } else if (key === 'date') {
-      toDoItemValueInElement = `<input type="date" id="due-date" min="${todaysDate2()}"value-number=${toDoItem.id} value="${
-        yearMonthDayFormat(toDoItem)
-      }" class="user-content the-form" data-number=${
+      toDoItemValueInElement = `<input type="date" id="due-date" min="${todaysDate2()}"value-number=${
+        toDoItem.id
+      } value="${yearMonthDayFormat(
+        toDoItem
+      )}" class="user-content the-form" data-number=${
         toDoItem.id
       } ></input><br>`;
     }
@@ -430,8 +392,7 @@ const closeModal = () => {
   modalFour.classList.add('hidden');
   overlay.classList.add('hidden');
   modalTwo.classList.add('hidden');
-  document.querySelector(".selected").classList.remove('selected')
-
+  document.querySelector('.selected').classList.remove('selected');
 };
 
 //get elements associated with the delete button clicked
@@ -453,25 +414,15 @@ const updateModals2 = () => {
 };
 
 const deleteElementsAssocatedWithCurrentToDo = (elements) =>
-
   elements.forEach((element) => element.remove());
 
-
-
-
-
-
-
 const findSpecificTodo = async (e) => {
-  const arrayOfToDos = await getAllToDosFromDB2()
-  const toDoItem =  arrayOfToDos.find((toDo) => toDo.id === getDataNumberOfBtnClicked(e));
+  const arrayOfToDos = await getAllToDosFromDB2();
+  const toDoItem = arrayOfToDos.find(
+    (toDo) => toDo.id === getDataNumberOfBtnClicked(e)
+  );
   return toDoItem;
 };
-
-
-
-
-
 
 const getToDoItemToUpdateAfterSavedClicked = (e) => {
   let arrayOfNewValuesEnteredByUser = Array.from(
@@ -512,14 +463,14 @@ const updateDisplayedTitleToUserInputTitle = (e, userInputElement) => {
     userInputElement[0].value;
 };
 
-
-
-
-
 const updateArrayOfToDos = async (e) => {
-  //storingAllToDos.deleteToDo(getDataNumberOfBtnClicked(e));
 
-  const id = getDataNumberOfBtnClicked(e) 
+  console.log(e.target)
+
+
+  const id = getDataNumberOfBtnClicked(e);
+
+  console.log(id)
 
   await fetch(`/todo/${id}`, {
     method: 'DELETE',
@@ -528,10 +479,6 @@ const updateArrayOfToDos = async (e) => {
       Accept: 'application/json',
     },
   });
-
-
-
-
 };
 
 const displayModalToAddToDo = () => {
@@ -541,11 +488,6 @@ const displayModalToAddToDo = () => {
   listOptionsDiv().classList.remove('hidden');
   document.querySelector('#todo-form').reset();
 };
-
-
-
-
-
 
 const createTimeUntilTodo = (toDo) => {
   const daysUntilTodoElement = document.querySelector(
@@ -586,15 +528,14 @@ const todaysDate = () => {
 };
 todaysDate();
 
-
 const todaysDate2 = () => {
   let today = new Date();
   const dd = String(today.getDate());
   const mm = String(today.getMonth() + 1);
   const yyyy = today.getFullYear();
   today = `${yyyy}-${mm}-${dd}`;
-  return today
-}
+  return today;
+};
 
 //maybe use the bind method here to shorten code.
 const deleteTask = (e) => {
@@ -617,23 +558,29 @@ const deleteTask = (e) => {
 
 const crossOutTitle = (e) => {
   const checkBoxNumber = e.target.getAttribute('data-index');
+  console.log(checkBoxNumber)
   let daysUntilElement = Array.from(
     document.querySelectorAll(`[data-class="${checkBoxNumber}"]`)
   );
   daysUntilElement = daysUntilElement[0];
   let xElement = document.createElement('div');
   xElement.innerHTML = 'X';
+  xElement.setAttribute('data-number', checkBoxNumber)
+
+
   daysUntilElement.replaceWith(xElement);
   xElement.addEventListener('click', deleteTitle);
 };
 
 const deleteTitle = (e) => {
+
   const checkBoxNumber = e.target.previousElementSibling.previousElementSibling.getAttribute(
     'data-index'
   );
   let toDoDiv = document.querySelector(`[data-number="${checkBoxNumber}"]`);
   toDoDiv.remove();
-  storingAllToDos.deleteToDo(checkBoxNumber);
+  updateArrayOfToDos(e)
+  // storingAllToDos.deleteToDo(checkBoxNumber);
 };
 
 const showCertainToDos = (e) => {
