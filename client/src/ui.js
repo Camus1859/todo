@@ -188,6 +188,7 @@ const createListTitle = (toDoItem) => {
 };
 
 const createToDoTitle = (nameOfTheListDiv, toDoItem) => {
+  console.log('yoooooo')
   const nameOfToDoTitleDiv = `
 <div class="content-line details-btn" data-number=${toDoItem.id}>
 <input data-index=${toDoItem.id} class="checkbox" type="checkbox">
@@ -540,6 +541,7 @@ const createTimeUntilTodo = (toDo) => {
 };
 
 const generatesDueDateMsg = (toDo, diffDays, element) => {
+  console.log('rannnnnnnnnnnnnnnnn')
   if (diffDays === 0) {
     element.textContent = 'Today';
   }
@@ -573,20 +575,27 @@ const todaysDate2 = () => {
 };
 
 //maybe use the bind method here to shorten code.
-const deleteTask = (e) => {
+const deleteTask = async (e) => {
   if (e.target.checked === true) {
     crossOutTitle(e);
   } else if (e.target.checked === false) {
+
+
+
+
+    const arrayOfTodos = await getAllToDosFromDB2()
     const uncheckedToDoIndex = +e.target.getAttribute('data-index');
-    const toDoItem = storingAllToDos
-      .getToDoList()
-      .find((todo) => todo.id === uncheckedToDoIndex);
+    const toDoItem = arrayOfTodos.find((todo) => todo.id === uncheckedToDoIndex);
+    console.log(toDoItem)
+    createTimeUntilTodo(toDoItem)
+
     e.target.nextElementSibling.nextElementSibling.textContent =
       toDoItem.daysUntil;
     e.target.nextElementSibling.nextElementSibling.setAttribute(
       'data-class',
       uncheckedToDoIndex
     );
+    e.target.nextElementSibling.nextElementSibling.classList.add('days-until-due')
   }
   displayListNumber();
 };
@@ -599,7 +608,7 @@ const crossOutTitle = (e) => {
   daysUntilElement = daysUntilElement[0];
   let xElement = document.createElement('div');
   xElement.innerHTML = 'X';
-  xElement.setAttribute('data-number', checkBoxNumber)
+  xElement.setAttribute('data-class', checkBoxNumber)
 
 
   daysUntilElement.replaceWith(xElement);
