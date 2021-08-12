@@ -30,6 +30,8 @@ const usersInfo = async (e) => {
   const priority = document.querySelector('#priority').value;
   const notes = document.querySelector('#notes').value;
 
+  console.log(title, description, date, priority, notes)
+
   // listOptionsDiv().classList.contains('hidden')
   //   ? list
   //   : (list = document.querySelector('.list').value);
@@ -55,7 +57,8 @@ const usersInfo = async (e) => {
 
   //  use this Id as attribute for element
   getToDoFromUser(title, list, description, date, priority, notes, uniqueId);
-  console.log(list);
+  console.log(title, description, date, priority, notes)
+
 
   // document.querySelector(".selected").classList.remove('selected')
 };
@@ -70,6 +73,7 @@ const getAllToDosFromDB = async () => {
   });
 
   allToDos = await allToDos.json();
+  console.log(allToDos)
   allToDos.forEach((todo) => {
     createListTitle(todo);
     createTimeUntilTodo(todo);
@@ -168,11 +172,11 @@ const generateToDoItem = (
   //started here, trying to replace listTypeModal with toDoItem
 
   createTimeUntilTodo(toDoItem);
+  console.log(toDoItem)
   //started here, trying to replace listTypeModal with toDoItem
 };
 
 const createListTitle = (toDoItem) => {
-  console.log(toDoItem);
   const nameOfTheListDiv = `<div class="holdingList">
   <div class="listTypeModal ${toDoItem.list}">
   <div class="containerForMoreLists">
@@ -455,7 +459,6 @@ const updateTodoInsideOfArray = async (e, toDoResult, userInputElement) => {
 
 const toDo =  await toDoResult
 
-console.log(toDo)
 
   let response = await fetch(`/todo/${toDo.id}`, {
     method: 'PATCH',
@@ -473,10 +476,9 @@ console.log(toDo)
   });
 
   let updatedToDo = await response.json();
-  console.log(updatedToDo)
 
 
-
+console.log(updatedToDo)
 
 
   updateDisplayedTitleToUserInputTitle(e, updatedToDo);
@@ -493,12 +495,10 @@ const updateDisplayedTitleToUserInputTitle = (e, updatedToDo) => {
 
 const updateArrayOfToDos = async (e) => {
 
-  console.log(e.target)
 
 
   const id = getDataNumberOfBtnClicked(e);
 
-  console.log(id)
 
   await fetch(`/todo/${id}`, {
     method: 'DELETE',
@@ -518,6 +518,12 @@ const displayModalToAddToDo = () => {
 };
 
 const createTimeUntilTodo = (toDo) => {
+
+  toDo.date = yearMonthDayFormat(toDo)
+
+  console.log(toDo)
+
+
   const daysUntilTodoElement = document.querySelector(
     `[data-class="${toDo.id}"]`
   );
@@ -529,6 +535,7 @@ const createTimeUntilTodo = (toDo) => {
   today = new Date(`${mm}-${dd}-${yyyy}`);
   const diffTime = Math.abs(toDoDueDate - today);
   const diffDays = Number(Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+  console.log(toDo, diffDays, daysUntilTodoElement)
   generatesDueDateMsg(toDo, diffDays, daysUntilTodoElement);
 };
 
@@ -586,7 +593,6 @@ const deleteTask = (e) => {
 
 const crossOutTitle = (e) => {
   const checkBoxNumber = e.target.getAttribute('data-index');
-  console.log(checkBoxNumber)
   let daysUntilElement = Array.from(
     document.querySelectorAll(`[data-class="${checkBoxNumber}"]`)
   );

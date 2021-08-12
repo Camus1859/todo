@@ -4,11 +4,11 @@ export {
 }
 
 class ToDoItem {
-  constructor(title, list, description, dueDate, priority, notes, id, daysUntil) {
+  constructor(title, list, description, date, priority, notes, id, daysUntil) {
       this.title = title,
           this.list = list
       this.description = description,
-          this.dueDate = dueDate,
+          this.date = date,
           this.priority = priority,
           this.notes = notes,
           this.id = id
