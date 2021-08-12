@@ -16,50 +16,52 @@ router.post('/todo', (req, res) => {
         res.status(400);
       }
       res.status(201).send(JSON.stringify(results.rows[0].id));
-      console.log(results.rows[0].id);
+      console.log(results.rows);
     }
   );
 });
 
-
-
-
-router.get('/allTodos', async(req, res)=> {
-
-  pool.query('SELECT * FROM todo_items', (error, results)=> {
-    if (error){
-      console.log(error)
-      res.status(400)
+router.get('/allTodos', async (req, res) => {
+  pool.query('SELECT * FROM todo_items', (error, results) => {
+    if (error) {
+      console.log(error);
+      res.status(400);
     }
-    console.log(results.rows)
-    console.log('rannnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn')
 
-    res.status(201).send(results.rows)
-  })
-
-
-})
-
-
-
-
-
-
-
+    res.status(201).send(results.rows);
+  });
+});
 
 router.delete('/todo/:id', async (req, res) => {
-  const id = req.params.id
+  const id = req.params.id;
 
-  console.log(id)
-
-  pool.query('DELETE FROM todo_items WHERE id = $1', [id], (error, results)=> {
-    if (error){
-      console.log(error)
-      results.status(400)
+  pool.query('DELETE FROM todo_items WHERE id = $1', [id], (error, results) => {
+    if (error) {
+      console.log(error);
+      results.status(400);
     }
-    res.status(201)
+    res.status(201);
+  });
+});
 
-  })
+router.patch('/todo/:id', async (req, res) => {
+  console.log('rannnnnnnnnnnnnnnnnnnnn')
+  const id = req.params.id;
+  const { title, description, date, priority, notes } = req.body;
+
+  pool.query(
+    'UPDATE todo_items SET title = $1, description = $2, date = $3, priority = $4, notes = $5 WHERE id = $6 RETURNING id, title, description, date, priority, notes',
+    [title, description, date, priority, notes, id],
+    (error, results) => {
+      if (error) {
+        console.log(error);
+        results.status(400);
+      }
+      res.status(201).send(results.rows[0])
+      console.log(results)
+
+    }
+  );
 });
 
 module.exports = router;

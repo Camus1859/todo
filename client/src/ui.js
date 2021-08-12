@@ -437,6 +437,7 @@ const getToDoItemToUpdateAfterSavedClicked = (e) => {
     arrayOfNewValuesEnteredByUser
   );
   deletingTaskDetails();
+  // console.log(findSpecificTodo(e))
 };
 
 const updateModals3 = () => {
@@ -445,22 +446,49 @@ const updateModals3 = () => {
   modalFour.classList.add('hidden');
 };
 
-const updateTodoInsideOfArray = (e, toDo, userInputElement) => {
-  toDo.title = userInputElement[0].value;
-  toDo.description = userInputElement[1].value;
-  toDo.date = userInputElement[2].value;
-  toDo.priority = userInputElement[3].value;
-  toDo.notes = userInputElement[4].value;
-  updateDisplayedTitleToUserInputTitle(e, userInputElement);
-  createTimeUntilTodo(toDo);
+const updateTodoInsideOfArray = async (e, toDoResult, userInputElement) => {
+  const title = userInputElement[0].value;
+  const description = userInputElement[1].value;
+  const date = userInputElement[2].value;
+  const priority = userInputElement[3].value;
+  const notes = userInputElement[4].value;
+
+const toDo =  await toDoResult
+
+console.log(toDo)
+
+  let response = await fetch(`/todo/${toDo.id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-type': 'application/json;charset=UTF-8',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({
+      title,
+      description,
+      date,
+      priority,
+      notes,
+    }),
+  });
+
+  let updatedToDo = await response.json();
+  console.log(updatedToDo)
+
+
+
+
+
+  updateDisplayedTitleToUserInputTitle(e, updatedToDo);
+  createTimeUntilTodo(updatedToDo);
 };
 
-const updateDisplayedTitleToUserInputTitle = (e, userInputElement) => {
+const updateDisplayedTitleToUserInputTitle = (e, updatedToDo) => {
   const displayedTitle = document.querySelector(
     `[data-number="${getDataNumberOfBtnClicked(e)}"]`
   );
   displayedTitle.querySelector('.title-of-todo').textContent =
-    userInputElement[0].value;
+  updatedToDo.title;
 };
 
 const updateArrayOfToDos = async (e) => {
