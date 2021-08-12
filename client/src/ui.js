@@ -29,8 +29,10 @@ const usersInfo = async (e) => {
   const date = document.querySelector('#due-date').value;
   const priority = document.querySelector('#priority').value;
   const notes = document.querySelector('#notes').value;
+  const daysuntil = createTimeUntilTodo(date)
 
-  console.log(title, description, date, priority, notes)
+  console.log(daysuntil)
+
 
   // listOptionsDiv().classList.contains('hidden')
   //   ? list
@@ -50,13 +52,14 @@ const usersInfo = async (e) => {
       date,
       priority,
       notes,
+      daysuntil
     }),
   });
 
   let uniqueId = await response.json();
 
   //  use this Id as attribute for element
-  getToDoFromUser(title, list, description, date, priority, notes, uniqueId);
+  getToDoFromUser(title, list, description, date, priority, notes, uniqueId, daysuntil);
   console.log(title, description, date, priority, notes)
 
 
@@ -76,7 +79,7 @@ const getAllToDosFromDB = async () => {
   console.log(allToDos)
   allToDos.forEach((todo) => {
     createListTitle(todo);
-    createTimeUntilTodo(todo);
+    // createTimeUntilTodo(todo);
   });
   listenerForSameListNewTodo();
 
@@ -116,7 +119,8 @@ const getToDoFromUser = (
   date,
   priority,
   notes,
-  id
+  id,
+  daysuntil
 ) => {
   if (
     title === '' ||
@@ -129,7 +133,7 @@ const getToDoFromUser = (
     alert('Please fill in all fields');
     return;
   } else {
-    generateToDoItem(title, list, description, date, priority, notes, id);
+    generateToDoItem(title, list, description, date, priority, notes, id, daysuntil);
     removeModalAndOverlay();
     displayListNumber();
   }
@@ -142,7 +146,8 @@ const generateToDoItem = (
   date,
   priority,
   notes,
-  id
+  id,
+  daysuntil
 ) => {
   toDoItem = new ToDoItem(
     title,
@@ -151,7 +156,8 @@ const generateToDoItem = (
     date,
     priority,
     notes,
-    id
+    id,
+    daysuntil
     // count()
   );
 
@@ -193,7 +199,7 @@ const createToDoTitle = (nameOfTheListDiv, toDoItem) => {
 <div class="content-line details-btn" data-number=${toDoItem.id}>
 <input data-index=${toDoItem.id} class="checkbox" type="checkbox">
 <del class="strike"><p class="title-of-todo details-btn" data-number=${toDoItem.id} >${toDoItem.title}</p></del>
-<div class="days-until-due" id="until-due" data-class="${toDoItem.id}"></div>
+<div class="days-until-due" id="until-due" data-class="${toDoItem.id}">${toDoItem.daysuntil}</div>
 </div>   `;
   addingListNameAndTitleToModal(nameOfTheListDiv, nameOfToDoTitleDiv, toDoItem);
 };
@@ -457,6 +463,8 @@ const updateTodoInsideOfArray = async (e, toDoResult, userInputElement) => {
   const date = userInputElement[2].value;
   const priority = userInputElement[3].value;
   const notes = userInputElement[4].value;
+  const daysuntil = createTimeUntilTodo(date)
+
 
 const toDo =  await toDoResult
 
@@ -473,6 +481,7 @@ const toDo =  await toDoResult
       date,
       priority,
       notes,
+      daysuntil
     }),
   });
 
@@ -483,7 +492,15 @@ console.log(updatedToDo)
 
 
   updateDisplayedTitleToUserInputTitle(e, updatedToDo);
-  createTimeUntilTodo(updatedToDo);
+
+  const elementUntilDays = document.querySelector(`[data-class="${updatedToDo.id}"]`)
+  elementUntilDays.textContent = updatedToDo.daysuntil
+
+
+
+
+  // createListTitle(updatedToDo)
+  // createTimeUntilTodo(updatedToDo.date);
 };
 
 const updateDisplayedTitleToUserInputTitle = (e, updatedToDo) => {
@@ -518,17 +535,15 @@ const displayModalToAddToDo = () => {
   document.querySelector('#todo-form').reset();
 };
 
-const createTimeUntilTodo = (toDo) => {
-
-  toDo.date = yearMonthDayFormat(toDo)
-
-  console.log(toDo)
+const createTimeUntilTodo = (date) => {
 
 
-  const daysUntilTodoElement = document.querySelector(
-    `[data-class="${toDo.id}"]`
-  );
-  const toDoDueDate = new Date(`${toDo.date}`.replace(/-/g, '/'));
+
+
+  // const daysUntilTodoElement = document.querySelector(
+  //   `[data-class="${toDo.id}"]`
+  // );
+  const toDoDueDate = new Date(`${date}`.replace(/-/g, '/'));
   let today = new Date();
   const dd = String(today.getDate());
   const mm = String(today.getMonth() + 1);
@@ -536,22 +551,24 @@ const createTimeUntilTodo = (toDo) => {
   today = new Date(`${mm}-${dd}-${yyyy}`);
   const diffTime = Math.abs(toDoDueDate - today);
   const diffDays = Number(Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
-  console.log(toDo, diffDays, daysUntilTodoElement)
-  generatesDueDateMsg(toDo, diffDays, daysUntilTodoElement);
+  return generatesDueDateMsg(diffDays);
 };
 
-const generatesDueDateMsg = (toDo, diffDays, element) => {
-  console.log('rannnnnnnnnnnnnnnnn')
+
+
+
+
+const generatesDueDateMsg = (diffDays) => {
   if (diffDays === 0) {
-    element.textContent = 'Today';
+    return 'Today';
   }
   if (diffDays === 1) {
-    element.textContent = 'Tomorrow';
+    return 'Tomorrow';
   }
   if (diffDays >= 2) {
-    element.textContent = `in ${diffDays} days`;
+    return `in ${diffDays} days`;
   }
-  toDo.daysUntil = element.textContent;
+  return
 };
 
 //DOM shows attribute on element, however, no affect occurs on actual calendar.??
@@ -586,11 +603,11 @@ const deleteTask = async (e) => {
     const arrayOfTodos = await getAllToDosFromDB2()
     const uncheckedToDoIndex = +e.target.getAttribute('data-index');
     const toDoItem = arrayOfTodos.find((todo) => todo.id === uncheckedToDoIndex);
-    console.log(toDoItem)
-    createTimeUntilTodo(toDoItem)
+
+    // createListTitle
 
     e.target.nextElementSibling.nextElementSibling.textContent =
-      toDoItem.daysUntil;
+      toDoItem.daysuntil;
     e.target.nextElementSibling.nextElementSibling.setAttribute(
       'data-class',
       uncheckedToDoIndex

@@ -5,11 +5,19 @@ require('dotenv').config();
 const fetch = require('node-fetch');
 
 router.post('/todo', (req, res) => {
-  const { title, list, description, date, priority, notes } = req.body;
+  const {
+    title,
+    list,
+    description,
+    date,
+    priority,
+    notes,
+    daysuntil,
+  } = req.body;
 
   pool.query(
-    'INSERT INTO todo_items (title, list, description, date, priority, notes) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
-    [title, list, description, date, priority, notes],
+    'INSERT INTO todo_items (title, list, description, date, priority, notes, daysuntil) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
+    [title, list, description, date, priority, notes, daysuntil],
     (error, results) => {
       if (error) {
         console.log(error);
@@ -45,21 +53,20 @@ router.delete('/todo/:id', async (req, res) => {
 });
 
 router.patch('/todo/:id', async (req, res) => {
-  console.log('rannnnnnnnnnnnnnnnnnnnn')
   const id = req.params.id;
-  const { title, description, date, priority, notes } = req.body;
+  const { title, description, date, priority, notes, daysuntil } = req.body;
 
   pool.query(
-    'UPDATE todo_items SET title = $1, description = $2, date = $3, priority = $4, notes = $5 WHERE id = $6 RETURNING id, title, description, date, priority, notes',
-    [title, description, date, priority, notes, id],
+    'UPDATE todo_items SET title = $1, description = $2, date = $3, priority = $4, notes = $5, daysuntil = $6 WHERE id = $7 RETURNING title, description, date, priority, notes, daysuntil, id',
+    [title, description, date, priority, notes, daysuntil, id],
     (error, results) => {
       if (error) {
         console.log(error);
-        results.status(400);
+        res.status(400);
       }
-      res.status(201).send(results.rows[0])
-      console.log(results)
+      console.log(results);
 
+      res.status(201).send(results.rows[0]);
     }
   );
 });
