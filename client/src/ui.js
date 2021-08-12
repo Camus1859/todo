@@ -8,19 +8,21 @@ let listTypeModal;
 let storingAllToDos = new ToDoList();
 
 const usersInfo = async (e) => {
+  let list;
+  if(document.querySelector(".selected")){
+     list = document.querySelector(".selected").textContent
+  }
   e.preventDefault();
   const title = document.querySelector('#title').value;
   const description = document.querySelector('#description').value;
-  let list;
-  const dueDate = document.querySelector('#due-date').value;
+  const date = document.querySelector('#due-date').value;
   const priority = document.querySelector('#priority').value;
   const notes = document.querySelector('#notes').value;
-  listOptionsDiv().classList.contains('hidden')
-    ? (list = toDoItem.list)
-    : (list = document.querySelector('.list').value);
+  // listOptionsDiv().classList.contains('hidden')
+  //   ? list
+  //   : (list = document.querySelector('.list').value);
   //getToDoFromUser(title, list, description, dueDate, priority, notes);
 
-  console.log(dueDate)
 
  let response =  await fetch('/todo', {
     method: 'POST',
@@ -32,7 +34,7 @@ const usersInfo = async (e) => {
       title,
       list,
       description,
-      dueDate,
+      date,
       priority,
       notes,
     }),
@@ -41,7 +43,11 @@ const usersInfo = async (e) => {
   let uniqueId = await response.json();
 
 //  use this Id as attribute for element
-getToDoFromUser(title, list, description, dueDate, priority, notes, uniqueId);
+getToDoFromUser(title, list, description, date, priority, notes, uniqueId);
+console.log(list)
+
+// document.querySelector(".selected").classList.remove('selected')
+
 
 };
 
@@ -56,17 +62,19 @@ const getAllToDosFromDB = async () => {
   })
 
   allToDos = await allToDos.json()
-  console.log(allToDos)
   allToDos.forEach((todo)=>{
     createListTitle(todo)
     createTimeUntilTodo(todo)
   })
+  listenerForSameListNewTodo();
+
   return allToDos
 
 
 
   // createListTitle()
   // createTimeUntilTodo()
+
 
 }
 
@@ -108,7 +116,7 @@ const getToDoFromUser = (
   title,
   list,
   description,
-  dueDate,
+  date,
   priority,
   notes,
   id
@@ -117,14 +125,14 @@ const getToDoFromUser = (
     title === '' ||
     list === '' ||
     description === '' ||
-    dueDate === '' ||
+    date === '' ||
     priority === '' ||
     notes === ''
   ) {
     alert('Please fill in all fields');
     return;
   } else {
-    generateToDoItem(title, list, description, dueDate, priority, notes, id);
+    generateToDoItem(title, list, description, date, priority, notes, id);
     removeModalAndOverlay();
     displayListNumber();
   }
@@ -134,7 +142,7 @@ const generateToDoItem = (
   title,
   list,
   description,
-  dueDate,
+  date,
   priority,
   notes,
   id
@@ -143,7 +151,7 @@ const generateToDoItem = (
     title,
     list,
     description,
-    dueDate,
+    date,
     priority,
     notes,
     id
@@ -180,10 +188,11 @@ const generateToDoItem = (
 };
 
 const createListTitle = (toDoItem) => {
+  console.log(toDoItem)
   const nameOfTheListDiv = `<div class="holdingList">
-  <div class="listTypeModal ${toDoItem.list_type}">
+  <div class="listTypeModal ${toDoItem.list}">
   <div class="containerForMoreLists">
-  <div class="list-name">${toDoItem.list_type}</div>
+  <div class="list-name">${toDoItem.list}</div>
   <div class="btn-for-list-type">+</div></div>
   <div class="bottom-line2"></div>
 </div>`;
@@ -193,12 +202,12 @@ const createListTitle = (toDoItem) => {
 const createToDoTitle = (nameOfTheListDiv, toDoItem) => {
 
   const nameOfToDoTitleDiv = `
-<div class="content-line details-btn" data-number=${toDoItem.todo_id}>
-<input data-index=${toDoItem.todo_id} class="checkbox" type="checkbox">
-<del class="strike"><p class="title-of-todo details-btn" data-number=${toDoItem.todo_id} >${
-    toDoItem.task_name
+<div class="content-line details-btn" data-number=${toDoItem.id}>
+<input data-index=${toDoItem.id} class="checkbox" type="checkbox">
+<del class="strike"><p class="title-of-todo details-btn" data-number=${toDoItem.id} >${
+    toDoItem.title
   }</p></del>
-<div class="days-until-due" id="until-due" data-class="${toDoItem.todo_id}"></div>
+<div class="days-until-due" id="until-due" data-class="${toDoItem.id}"></div>
 </div>   `;
   addingListNameAndTitleToModal(
     nameOfTheListDiv,
@@ -212,7 +221,7 @@ const addingListNameAndTitleToModal = (
   nameOfToDoTitleDiv,
   toDoItem
 ) => {
-  const listName = document.querySelector(`.${toDoItem.list_type}`);
+  const listName = document.querySelector(`.${toDoItem.list}`);
 
   if (listName) {
     listName.parentElement.insertAdjacentHTML('beforeend', nameOfToDoTitleDiv);
@@ -224,24 +233,34 @@ const addingListNameAndTitleToModal = (
     );
   }
   modal.classList.remove('hidden');
-  listenerForSameListNewTodo();
+  // listenerForSameListNewTodo();
 };
 
 const listenerForSameListNewTodo = () => {
   const btn = document.querySelector('.modal');
   btn.addEventListener('click', displayModalTwo);
-  btn.addEventListener('click', switchToDoList);
+
+
+ // btn.addEventListener('click', switchToDoList);
 };
 
 //Is it ok to read data from the broswer to change my object??
-const switchToDoList = (e) => {
-  if (e.target.classList.contains('btn-for-list-type')) {
-    toDoItem.list_type = e.target.previousElementSibling.textContent;
-  }
-};
+
+// const switchToDoList = (e) => {
+//   console.log(e.target.previousElementSibling.textContent)
+//   if (e.target.classList.contains('btn-for-list-type')) {
+//     toDoItem.list = e.target.previousElementSibling.textContent;
+//   }
+// };
+
+
+
 
 const displayModalTwo = (e) => {
+
   if (e.target.classList.contains('btn-for-list-type')) {
+    e.target.previousElementSibling.classList.add('selected')
+
     modalTwo.classList.remove('hidden');
     overlay.classList.remove('hidden');
     listOptionsDiv().classList.add('hidden');
@@ -269,9 +288,7 @@ const detailsBtnClicked = (e) => {
 };
 
 const getToDoItemThatsClicked = async (e) => {
-  console.log(e.target);
   const todoClicked = await findSpecificTodo(e)
-  console.log(todoClicked)
   
   checkIfToDoClickedIsAlreadyOnTheScreen(todoClicked);
   updateModals();
@@ -288,7 +305,6 @@ const updateModals = () => {
 const deletingTaskDetails = () => {
   const modalThree = document.querySelector('.modalThree');
   while (modalThree.lastElementChild) {
-    console.log('removing children on modalThree');
     modalThree.removeChild(modalThree.lastElementChild);
   }
 };
@@ -308,30 +324,29 @@ return newdate
 }
 
 const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
-  console.log(toDoItem)
   let toDoItemValueInElement;
   deletingTaskDetails();
 
   for (let [key, value] of Object.entries(toDoItem)) {
-    if (key === 'todo_id' || key === 'list_type' || key === 'daysUntil') {
+    if (key === 'id' || key === 'list' || key === 'daysUntil') {
       continue;
-    } else if (key === 'task_name') {
+    } else if (key === 'title') {
       toDoItemValueInElement = `<div class="task-details">Task Details</div><br>
-     <input value-number=${toDoItem.todo_id} value="${
-        toDoItem.task_name
+     <input value-number=${toDoItem.id} value="${
+        toDoItem.title
       }" class="user-content the-form" data-number=${
-        toDoItem.todo_id
+        toDoItem.id
       } ></input><br>`;
     } else if (key === 'description') {
-      toDoItemValueInElement = `<input value-number=${toDoItem.todo_id} value="${
+      toDoItemValueInElement = `<input value-number=${toDoItem.id} value="${
         toDoItem.description
       }" class="user-content the-form" data-number=${
-        toDoItem.todo_id
+        toDoItem.id
       } ></input><br>`;
     } else if (key === 'priority' && value.toLowerCase() === 'high') {
       toDoItemValueInElement = `
-     <select value-number=${toDoItem.todo_id} class="user-content the-form" data-number=${
-        toDoItem.todo_id
+     <select value-number=${toDoItem.id} class="user-content the-form" data-number=${
+        toDoItem.id
       }>
        <option value="High" selected>High</option>
        <option value="Medium">Medium</option>
@@ -340,8 +355,8 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
      `;
     } else if (key === 'priority' && value.toLowerCase() === 'medium') {
       toDoItemValueInElement = `
-     <select value-number=${toDoItem.todo_id} class="user-content the-form" data-number=${
-        toDoItem.todo_id
+     <select value-number=${toDoItem.id} class="user-content the-form" data-number=${
+        toDoItem.id
       }>
        <option value="High">High</option>
        <option value="Medium" selected>Medium</option>
@@ -349,22 +364,22 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
      </select><br>
      `;
     } else if (key === 'priority' && value.toLowerCase() === 'low') {
-      toDoItemValueInElement = ` <select value-number=${toDoItem.todo_id} class="user-content the-form" data-number=${
-        toDoItem.todo_id
+      toDoItemValueInElement = ` <select value-number=${toDoItem.id} class="user-content the-form" data-number=${
+        toDoItem.id
       }>
       <option value="High">High</option>
       <option value="Medium">Medium</option>
       <option value="Low" selected >Low</option>
       </select><br>`;
     } else if (key === 'notes') {
-      toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.todo_id} class="user-content the-form" data-number=${
-        toDoItem.todo_id
+      toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.id} class="user-content the-form" data-number=${
+        toDoItem.id
       } >${toDoItem.notes}</textarea><br>`;
     } else if (key === 'date') {
-      toDoItemValueInElement = `<input type="date" id="due-date" min="${todaysDate2()}"value-number=${toDoItem.todo_id} value="${
+      toDoItemValueInElement = `<input type="date" id="due-date" min="${todaysDate2()}"value-number=${toDoItem.id} value="${
         yearMonthDayFormat(toDoItem)
       }" class="user-content the-form" data-number=${
-        toDoItem.todo_id
+        toDoItem.id
       } ></input><br>`;
     }
     appendsInputElementToModalThree(toDoItemValueInElement);
@@ -383,10 +398,8 @@ const appendsInputElementToModalThree = (toDoItemValueInElement) => {
 };
 
 const createDeleteAndSaveBtns = (toDoItem) => {
-  console.log('heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy')
-  console.log(toDoItem)
-  const deleteAndSaveBtns = `<div class="save-del-container"><button class="user-content save" data-number=${toDoItem.todo_id}>Save</button>
-<button class="user-content del" data-number=${toDoItem.todo_id} >Delete</button></div>`;
+  const deleteAndSaveBtns = `<div class="save-del-container"><button class="user-content save" data-number=${toDoItem.id}>Save</button>
+<button class="user-content del" data-number=${toDoItem.id} >Delete</button></div>`;
   placeBtnsOnModal(deleteAndSaveBtns);
 };
 
@@ -417,6 +430,8 @@ const closeModal = () => {
   modalFour.classList.add('hidden');
   overlay.classList.add('hidden');
   modalTwo.classList.add('hidden');
+  document.querySelector(".selected").classList.remove('selected')
+
 };
 
 //get elements associated with the delete button clicked
@@ -448,12 +463,8 @@ const deleteElementsAssocatedWithCurrentToDo = (elements) =>
 
 
 const findSpecificTodo = async (e) => {
-  console.log(e.target);
   const arrayOfToDos = await getAllToDosFromDB2()
-  console.log(arrayOfToDos)
-  console.log(getDataNumberOfBtnClicked(e))
-  const toDoItem =  arrayOfToDos.find((toDo) => toDo.todo_id === getDataNumberOfBtnClicked(e));
-  console.log(toDoItem);
+  const toDoItem =  arrayOfToDos.find((toDo) => toDo.id === getDataNumberOfBtnClicked(e));
   return toDoItem;
 };
 
@@ -486,7 +497,7 @@ const updateModals3 = () => {
 const updateTodoInsideOfArray = (e, toDo, userInputElement) => {
   toDo.title = userInputElement[0].value;
   toDo.description = userInputElement[1].value;
-  toDo.dueDate = userInputElement[2].value;
+  toDo.date = userInputElement[2].value;
   toDo.priority = userInputElement[3].value;
   toDo.notes = userInputElement[4].value;
   updateDisplayedTitleToUserInputTitle(e, userInputElement);
@@ -497,7 +508,6 @@ const updateDisplayedTitleToUserInputTitle = (e, userInputElement) => {
   const displayedTitle = document.querySelector(
     `[data-number="${getDataNumberOfBtnClicked(e)}"]`
   );
-  console.log(displayedTitle);
   displayedTitle.querySelector('.title-of-todo').textContent =
     userInputElement[0].value;
 };
@@ -539,9 +549,9 @@ const displayModalToAddToDo = () => {
 
 const createTimeUntilTodo = (toDo) => {
   const daysUntilTodoElement = document.querySelector(
-    `[data-class="${toDo.todo_id}"]`
+    `[data-class="${toDo.id}"]`
   );
-  const toDoDueDate = new Date(`${toDo.dueDate}`.replace(/-/g, '/'));
+  const toDoDueDate = new Date(`${toDo.date}`.replace(/-/g, '/'));
   let today = new Date();
   const dd = String(today.getDate());
   const mm = String(today.getMonth() + 1);

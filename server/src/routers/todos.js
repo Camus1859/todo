@@ -5,18 +5,18 @@ require('dotenv').config();
 const fetch = require('node-fetch');
 
 router.post('/todo', (req, res) => {
-  const { title, list, description, dueDate, priority, notes } = req.body;
+  const { title, list, description, date, priority, notes } = req.body;
 
   pool.query(
-    'INSERT INTO todo_items (task_name, list_type, description, date, priority, notes) VALUES ($1, $2, $3, $4, $5, $6) RETURNING todo_id',
-    [title, list, description, dueDate, priority, notes],
+    'INSERT INTO todo_items (title, list, description, date, priority, notes) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
+    [title, list, description, date, priority, notes],
     (error, results) => {
       if (error) {
         console.log(error);
         res.status(400);
       }
-      res.status(201).send(JSON.stringify(results.rows[0].todo_id));
-      console.log(results.rows[0].todo_id);
+      res.status(201).send(JSON.stringify(results.rows[0].id));
+      console.log(results.rows[0].id);
     }
   );
 });
@@ -52,12 +52,12 @@ router.delete('/todo/:id', async (req, res) => {
 
   console.log(id)
 
-  pool.query('DELETE FROM todo_items WHERE todo_id = $1', [id], (error, results)=> {
+  pool.query('DELETE FROM todo_items WHERE id = $1', [id], (error, results)=> {
     if (error){
       console.log(error)
       results.status(400)
     }
-    results.status(201)
+    res.status(201)
 
   })
 });
