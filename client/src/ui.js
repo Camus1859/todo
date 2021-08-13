@@ -657,11 +657,7 @@ const showCertainToDos = (e) => {
   } else if (e.target.classList.contains('next-7-days')) {
     return showToDosWithin7Days();
   } else if (e.target.classList.contains('all-task')) {
-    Array.from(
-      document
-        .querySelectorAll('.content-line')
-        .forEach((item) => item.classList.remove('hidden'))
-    );
+    displayAllToDos()
   }
 };
 
@@ -730,6 +726,19 @@ const showToDosWithin7Days = async () => {
   //   }
   // });
 };
+
+
+const displayAllToDos = async () => {
+  const allEvents = await getAllToDosFromDB2()
+
+  const allElements = Array.from(document.querySelectorAll('.content-line'));
+
+  allElements.forEach((element)=> element.remove())
+  allEvents.filter((todo)=> createListTitle(todo))
+
+
+
+}
 
 //determines how many list items in each list type
 const displayListNumber = async () => {
