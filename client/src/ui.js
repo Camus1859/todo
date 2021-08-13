@@ -61,6 +61,7 @@ const usersInfo = async (e) => {
   //  use this Id as attribute for element
   getToDoFromUser(title, list, description, date, priority, notes, uniqueId, daysuntil);
   console.log(title, description, date, priority, notes)
+  displayListNumber()
 
 
   // document.querySelector(".selected").classList.remove('selected')
@@ -626,6 +627,8 @@ const crossOutTitle = (e) => {
   let xElement = document.createElement('div');
   xElement.innerHTML = 'X';
   xElement.setAttribute('data-class', checkBoxNumber)
+  xElement.setAttribute('data-number', checkBoxNumber)
+
 
 
   daysUntilElement.replaceWith(xElement);
@@ -639,11 +642,16 @@ const deleteTitle = (e) => {
   );
   let toDoDiv = document.querySelector(`[data-number="${checkBoxNumber}"]`);
   toDoDiv.remove();
+  console.log(e.target)
   updateArrayOfToDos(e)
+  displayListNumber();
+
+
   // storingAllToDos.deleteToDo(checkBoxNumber);
 };
 
 const showCertainToDos = (e) => {
+  console.log(e.target)
   if (e.target.classList.contains('today')) {
     return showToDosForToday();
   } else if (e.target.classList.contains('next-7-days')) {
@@ -657,41 +665,78 @@ const showCertainToDos = (e) => {
   }
 };
 
-const showToDosForToday = () => {
-  const allEvents = Array.from(document.querySelectorAll('.days-until-due'));
-  allEvents.forEach((eventItem) => {
-    if (
-      eventItem.textContent != 'Today' &&
-      !eventItem.closest('.content-line').classList.contains('hidden')
-    ) {
-      eventItem.closest('.content-line').classList.add('hidden');
-    }
-  });
+const showToDosForToday = async () => {
+
+    const allEvents = await getAllToDosFromDB2()
+
+    const allElements = Array.from(document.querySelectorAll('.content-line'));
+
+    allElements.forEach((element)=> element.remove())
+
+
+   const todaysToDos = allEvents.filter((todo)=> todo.daysuntil === 'Today')
+   todaysToDos.forEach((todo)=>createListTitle(todo))
+  //  listenerForSameListNewTodo()
+
+
+
+  // const allEvents = Array.from(document.querySelectorAll('.days-until-due'));
+  // allEvents.forEach((eventItem) => {
+  //   if (
+  //     eventItem.textContent != 'Today' &&
+  //     !eventItem.closest('.content-line').classList.contains('hidden')
+  //   ) {
+  //     eventItem.closest('.content-line').classList.add('hidden');
+  //   }
+  // });
 };
 
-const showToDosWithin7Days = () => {
-  const allEvents = Array.from(document.querySelectorAll('.days-until-due'));
-  allEvents.forEach((eventItem) => {
-    if (
-      +eventItem.textContent.split(' ')[1] >= 8 &&
-      !eventItem.closest('.content-line').classList.contains('hidden')
-    ) {
-      eventItem.closest('.content-line').classList.add('hidden');
-    }
-  });
+const showToDosWithin7Days = async () => {
+  const allEvents = await getAllToDosFromDB2()
+
+  const allElements = Array.from(document.querySelectorAll('.content-line'));
+
+  allElements.forEach((element)=> element.remove())
+
+  allEvents.filter((todo)=>{
+    
+    
+   const daysUntil = +todo.daysuntil.split(' ')[1]
+
+   if(daysUntil <= 7 || isNaN(daysUntil)){
+    createListTitle(todo)
+   } 
+
+
+  
+  }
+    
+    
+    )
+
+
+
+
+
+
+
+  // const allEvents = Array.from(document.querySelectorAll('.days-until-due'));
+  // allEvents.forEach((eventItem) => {
+  //   if (
+  //     +eventItem.textContent.split(' ')[1] >= 8 &&
+  //     !eventItem.closest('.content-line').classList.contains('hidden')
+  //   ) {
+  //     eventItem.closest('.content-line').classList.add('hidden');
+  //   }
+  // });
 };
 
 //determines how many list items in each list type
-const displayListNumber = () => {
-  const totalPersonal = storingAllToDos
-    .getToDoList()
-    .filter((item) => item.list === 'Personal');
-  const totalWork = storingAllToDos
-    .getToDoList()
-    .filter((item) => item.list === 'Work');
-  const totalGS = storingAllToDos
-    .getToDoList()
-    .filter((item) => item.list === 'Groceries');
+const displayListNumber = async () => {
+  const allToDos = await getAllToDosFromDB2()
+  const totalPersonal = allToDos.filter((item) => item.list === 'Personal');
+  const totalWork = allToDos.filter((item) => item.list === 'Work');
+  const totalGS = allToDos.filter((item) => item.list === 'Groceries');
   document.querySelector('.psn').textContent = totalPersonal.length;
   document.querySelector('.wor').textContent = totalWork.length;
   document.querySelector('.gst').textContent = totalGS.length;
