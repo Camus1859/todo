@@ -12,8 +12,6 @@ const toDoListType = () => {
 };
 
 const usersInfo = async (e) => {
-  const list = toDoListType();
-
   e.preventDefault();
   const title = document.querySelector('#title').value;
   const description = document.querySelector('#description').value;
@@ -21,7 +19,21 @@ const usersInfo = async (e) => {
   const priority = document.querySelector('#priority').value;
   const notes = document.querySelector('#notes').value;
   const daysuntil = createTimeUntilTodo(date);
+  const list = toDoListType();
 
+  if (title === '' || list === '' || description === '' || date === '' || priority === '' || notes === '') {
+    alert('Please fill in all fields');
+    return;
+  }
+  const id = await postToDoFetch(title, list, description, date, priority, notes, daysuntil);
+
+  generateToDoItem(title, list, description, date, priority, notes, id, daysuntil);
+  removeModalAndOverlay();
+  displayListNumber();
+  document.querySelector('.selected').classList.remove('selected');
+};
+
+const postToDoFetch = async (title, list, description, date, priority, notes, daysuntil) => {
   let response = await fetch('/todo', {
     method: 'POST',
     headers: {
@@ -39,13 +51,12 @@ const usersInfo = async (e) => {
     }),
   });
 
-  let uniqueId = await response.json();
+  let id = await response.json();
 
-  getToDoFromUser(title, list, description, date, priority, notes, uniqueId, daysuntil);
-  displayListNumber()
+  return id;
 };
 
-const getAllToDosFromDB = async () => {
+const getAllToDosFromDBAndDisplayEach = async () => {
   let allToDos = await fetch('/allTodos', {
     method: 'GET',
     headers: {
@@ -54,18 +65,15 @@ const getAllToDosFromDB = async () => {
     },
   });
   allToDos = await allToDos.json();
-  console.log(allToDos);
   allToDos.forEach((todo) => {
-    createListTitle(todo);
+    createToDoCategegory(todo);
   });
-  listenerForSameListNewTodo();
+  trackingAnyNewCategoriesSelected();
   return allToDos;
 };
-getAllToDosFromDB();
+getAllToDosFromDBAndDisplayEach();
 
-const getAllToDosFromDB2 = async () => {
-
-  console.log('getAllToDosFromDB2 started')
+const returnArrayOfToDosFromDB = async () => {
   let allToDos = await fetch('/allTodos', {
     method: 'GET',
     headers: {
@@ -74,61 +82,49 @@ const getAllToDosFromDB2 = async () => {
     },
   });
   allToDos = await allToDos.json();
-  console.log('getAllToDosFromDB2 ended')
 
   return allToDos;
-};
-
-const getToDoFromUser = (title, list, description, date, priority, notes, id, daysuntil) => {
-  if (title === '' || list === '' || description === '' || date === '' || priority === '' || notes === '') {
-    alert('Please fill in all fields');
-    return;
-  } else {
-    generateToDoItem(title, list, description, date, priority, notes, id, daysuntil);
-    removeModalAndOverlay();
-  }
 };
 
 const generateToDoItem = (title, list, description, date, priority, notes, id, daysuntil) => {
   const toDoItem = new ToDoItem(title, list, description, date, priority, notes, id, daysuntil);
-  createListTitle(toDoItem);
+  createToDoCategegory(toDoItem);
   createTimeUntilTodo(toDoItem);
 };
 
-const createListTitle = (toDoItem) => {
-  const nameOfTheListDiv = `<div class="holdingList">
+const createToDoCategegory = (toDoItem) => {
+  const todoCategoryElement = `<div class="holdingList">
   <div class="listTypeModal ${toDoItem.list}">
   <div class="containerForMoreLists">
   <div class="list-name">${toDoItem.list}</div>
   <div class="btn-for-list-type">+</div></div>
   <div class="bottom-line2"></div>
 </div>`;
-  createToDoTitle(nameOfTheListDiv, toDoItem);
+  createToDoInfo(todoCategoryElement, toDoItem);
 };
 
-const createToDoTitle = (nameOfTheListDiv, toDoItem) => {
-  console.log('yoooooo');
-  const nameOfToDoTitleDiv = `
+const createToDoInfo = (todoCategoryElement, toDoItem) => {
+  const todoInfoElement = `
 <div class="content-line details-btn" data-number=${toDoItem.id}>
 <input data-index=${toDoItem.id} class="checkbox" type="checkbox">
 <del class="strike"><p class="title-of-todo details-btn" data-number=${toDoItem.id} >${toDoItem.title}</p></del>
 <div class="days-until-due" id="until-due" data-class="${toDoItem.id}">${toDoItem.daysuntil}</div>
 </div>   `;
-  addingListNameAndTitleToModal(nameOfTheListDiv, nameOfToDoTitleDiv, toDoItem);
+  addingCategoryNameAndTitleToModal(todoCategoryElement, todoInfoElement, toDoItem);
 };
 
-const addingListNameAndTitleToModal = (nameOfTheListDiv, nameOfToDoTitleDiv, toDoItem) => {
-  const listName = document.querySelector(`.${toDoItem.list}`);
+const addingCategoryNameAndTitleToModal = (todoCategoryElement, todoInfoElement, toDoItem) => {
+  const todoCategoryName = document.querySelector(`.${toDoItem.list}`);
 
-  if (listName) {
-    listName.parentElement.insertAdjacentHTML('beforeend', nameOfToDoTitleDiv);
+  if (todoCategoryName) {
+    todoCategoryName.parentElement.insertAdjacentHTML('beforeend', todoInfoElement);
   } else {
-    modal.insertAdjacentHTML('beforeend', nameOfTheListDiv + nameOfToDoTitleDiv);
+    modal.insertAdjacentHTML('beforeend', todoCategoryElement + todoInfoElement);
   }
   modal.classList.remove('hidden');
 };
 
-const listenerForSameListNewTodo = () => {
+const trackingAnyNewCategoriesSelected = () => {
   const btn = document.querySelector('.modal');
   btn.addEventListener('click', displayModalTwo);
 };
@@ -136,7 +132,6 @@ const listenerForSameListNewTodo = () => {
 const displayModalTwo = (e) => {
   if (e.target.classList.contains('btn-for-list-type')) {
     e.target.previousElementSibling.classList.add('selected');
-
     modalTwo.classList.remove('hidden');
     overlay.classList.remove('hidden');
     listOptionsDiv().classList.add('hidden');
@@ -194,13 +189,14 @@ const yearMonthDayFormat = (toDoItem) => {
   return newdate;
 };
 
+//refractor 
+
 const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
-  console.log(toDoItem)
   let toDoItemValueInElement;
   deletingTaskDetails();
 
   for (let [key, value] of Object.entries(toDoItem)) {
-    if (key === 'id' || key === 'list' || key === 'daysUntil') {
+    if (key === 'id' || key === 'list' || key === 'daysuntil') {
       continue;
     } else if (key === 'title') {
       toDoItemValueInElement = `<div class="task-details">Task Details</div><br>
@@ -230,7 +226,7 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
       <option value="Low" selected >Low</option>
       </select><br>`;
     } else if (key === 'notes') {
-      console.log('z')
+      console.log('z');
       toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id} >${toDoItem.notes}</textarea><br>`;
     } else if (key === 'date') {
       toDoItemValueInElement = `<input type="date" id="due-date" min="${todaysDate2()}"value-number=${toDoItem.id} value="${yearMonthDayFormat(
@@ -291,11 +287,7 @@ const getAllElementsAssociatedWithCurrentToDo = async (e) => {
   let arrayOfElements = Array.from(document.querySelectorAll(`[data-number="${getDataNumberOfBtnClicked(e)}"]`));
   deleteElementsAssocatedWithCurrentToDo(arrayOfElements);
   updateModals2();
-
   await deleteAtoDo(e);
-
-
-  
 };
 
 const updateModals2 = () => {
@@ -308,7 +300,7 @@ const updateModals2 = () => {
 const deleteElementsAssocatedWithCurrentToDo = (elements) => elements.forEach((element) => element.remove());
 
 const findSpecificTodo = async (e) => {
-  const arrayOfToDos = await getAllToDosFromDB2();
+  const arrayOfToDos = await returnArrayOfToDosFromDB();
   const toDoItem = arrayOfToDos.find((toDo) => toDo.id === getDataNumberOfBtnClicked(e));
   return toDoItem;
 };
@@ -335,6 +327,15 @@ const updateTodoInsideOfArray = async (e, toDoResult, userInputElement) => {
   const daysuntil = createTimeUntilTodo(date);
   const toDo = await toDoResult;
 
+  const updatedToDo = await patchToDoFetch(title, description, date, priority, notes, daysuntil, toDo);
+
+  updateDisplayedTitleToUserInputTitle(e, updatedToDo);
+
+  const elementUntilDays = document.querySelector(`[data-class="${updatedToDo.id}"]`);
+  elementUntilDays.textContent = updatedToDo.daysuntil;
+};
+
+const patchToDoFetch = async (title, description, date, priority, notes, daysuntil, toDo) => {
   let response = await fetch(`/todo/${toDo.id}`, {
     method: 'PATCH',
     headers: {
@@ -352,11 +353,7 @@ const updateTodoInsideOfArray = async (e, toDoResult, userInputElement) => {
   });
 
   let updatedToDo = await response.json();
-
-  updateDisplayedTitleToUserInputTitle(e, updatedToDo);
-
-  const elementUntilDays = document.querySelector(`[data-class="${updatedToDo.id}"]`);
-  elementUntilDays.textContent = updatedToDo.daysuntil;
+  return updatedToDo;
 };
 
 const updateDisplayedTitleToUserInputTitle = (e, updatedToDo) => {
@@ -364,10 +361,7 @@ const updateDisplayedTitleToUserInputTitle = (e, updatedToDo) => {
   displayedTitle.querySelector('.title-of-todo').textContent = updatedToDo.title;
 };
 
-
-
 const deleteAtoDo = async (e) => {
-
   const id = getDataNumberOfBtnClicked(e);
 
   await fetch(`/todo/${id}`, {
@@ -377,11 +371,7 @@ const deleteAtoDo = async (e) => {
       Accept: 'application/json',
     },
   });
-  displayListNumber()
-  console.log('zzzzzzzzzzzzzzzzzzzzzz')
-
-
-
+  displayListNumber();
 };
 
 const displayModalToAddToDo = () => {
@@ -417,6 +407,8 @@ const generatesDueDateMsg = (diffDays) => {
   return;
 };
 
+//fix min date issue in calendar
+
 const todaysDate = () => {
   let today = new Date();
   const dd = String(today.getDate());
@@ -437,24 +429,17 @@ const todaysDate2 = () => {
 };
 
 const deleteTask = async (e) => {
-  console.log('ran')
   if (e.target.checked === true) {
     crossOutTitle(e);
-    console.log()
   } else if (e.target.checked === false) {
-    const arrayOfTodos = await getAllToDosFromDB2();
+    const arrayOfTodos = await returnArrayOfToDosFromDB();
     const uncheckedToDoIndex = +e.target.getAttribute('data-index');
     const toDoItem = arrayOfTodos.find((todo) => todo.id === uncheckedToDoIndex);
     e.target.nextElementSibling.nextElementSibling.textContent = toDoItem.daysuntil;
     e.target.nextElementSibling.nextElementSibling.setAttribute('data-class', uncheckedToDoIndex);
     e.target.nextElementSibling.nextElementSibling.classList.add('days-until-due');
-    // e.target.removeEventListener('click', deleteTitle);
-
   }
-  // displayListNumber();
 };
-
-
 
 const crossOutTitle = (e) => {
   const checkBoxNumber = e.target.getAttribute('data-index');
@@ -464,23 +449,15 @@ const crossOutTitle = (e) => {
   xElement.innerHTML = 'X';
   xElement.setAttribute('data-class', checkBoxNumber);
   xElement.setAttribute('data-number', checkBoxNumber);
-
   daysUntilElement.replaceWith(xElement);
   xElement.addEventListener('click', deleteTitle);
-
-
 };
 
 const deleteTitle = (e) => {
-
-
-
   const checkBoxNumber = e.target.previousElementSibling.previousElementSibling.getAttribute('data-index');
   let toDoDiv = document.querySelector(`[data-number="${checkBoxNumber}"]`);
   toDoDiv.remove();
   deleteAtoDo(e);
-
-
 };
 
 const showCertainToDos = (e) => {
@@ -495,34 +472,34 @@ const showCertainToDos = (e) => {
 };
 
 const showToDosForToday = async () => {
-  const allEvents = await getAllToDosFromDB2();
+  const allEvents = await returnArrayOfToDosFromDB();
   const allElements = Array.from(document.querySelectorAll('.content-line'));
   allElements.forEach((element) => element.remove());
   const todaysToDos = allEvents.filter((todo) => todo.daysuntil === 'Today');
-  todaysToDos.forEach((todo) => createListTitle(todo));
+  todaysToDos.forEach((todo) => createToDoCategegory(todo));
 };
 
 const showToDosWithin7Days = async () => {
-  const allEvents = await getAllToDosFromDB2();
+  const allEvents = await returnArrayOfToDosFromDB();
   const allElements = Array.from(document.querySelectorAll('.content-line'));
   allElements.forEach((element) => element.remove());
   allEvents.filter((todo) => {
     const daysUntil = +todo.daysuntil.split(' ')[1];
     if (daysUntil <= 7 || isNaN(daysUntil)) {
-      createListTitle(todo);
+      createToDoCategegory(todo);
     }
   });
 };
 
 const displayAllToDos = async () => {
-  const allEvents = await getAllToDosFromDB2();
+  const allEvents = await returnArrayOfToDosFromDB();
   const allElements = Array.from(document.querySelectorAll('.content-line'));
   allElements.forEach((element) => element.remove());
-  allEvents.filter((todo) => createListTitle(todo));
+  allEvents.filter((todo) => createToDoCategegory(todo));
 };
 
 const displayListNumber = async () => {
-  const allToDos = await getAllToDosFromDB2();
+  const allToDos = await returnArrayOfToDosFromDB();
   const totalPersonal = allToDos.filter((item) => item.list === 'Personal');
   const totalWork = allToDos.filter((item) => item.list === 'Work');
   const totalGS = allToDos.filter((item) => item.list === 'Groceries');
