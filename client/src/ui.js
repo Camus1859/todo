@@ -1,4 +1,4 @@
-import { ToDoItem, count } from './toDoItem.js';
+import { ToDoItem } from './toDoItem.js';
 import { overlay, modal, modalThree, modalTwo } from './selectors.js';
 
 const toDoListType = () => {
@@ -189,53 +189,97 @@ const yearMonthDayFormat = (toDoItem) => {
   return newdate;
 };
 
-//refractor 
+//refractor
 
 const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
   let toDoItemValueInElement;
   deletingTaskDetails();
+  const selected = 'selected';
 
   for (let [key, value] of Object.entries(toDoItem)) {
     if (key === 'id' || key === 'list' || key === 'daysuntil') {
       continue;
-    } else if (key === 'title') {
-      toDoItemValueInElement = `<div class="task-details">Task Details</div><br>
-     <input value-number=${toDoItem.id} value="${toDoItem.title}" class="user-content the-form" data-number=${toDoItem.id} ></input><br>`;
-    } else if (key === 'description') {
-      toDoItemValueInElement = `<input value-number=${toDoItem.id} value="${toDoItem.description}" class="user-content the-form" data-number=${toDoItem.id} ></input><br>`;
-    } else if (key === 'priority' && value.toLowerCase() === 'high') {
-      toDoItemValueInElement = `
-     <select value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id}>
-       <option value="High" selected>High</option>
-       <option value="Medium">Medium</option>
-       <option value="Low" >Low</option>
-     </select><br>
-     `;
-    } else if (key === 'priority' && value.toLowerCase() === 'medium') {
-      toDoItemValueInElement = `
-     <select value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id}>
-       <option value="High">High</option>
-       <option value="Medium" selected>Medium</option>
-       <option value="Low" >Low</option>
-     </select><br>
-     `;
-    } else if (key === 'priority' && value.toLowerCase() === 'low') {
-      toDoItemValueInElement = ` <select value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id}>
-      <option value="High">High</option>
-      <option value="Medium">Medium</option>
-      <option value="Low" selected >Low</option>
-      </select><br>`;
-    } else if (key === 'notes') {
-      console.log('z');
-      toDoItemValueInElement = `<textarea rows="4" cols="50" value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id} >${toDoItem.notes}</textarea><br>`;
-    } else if (key === 'date') {
-      toDoItemValueInElement = `<input type="date" id="due-date" min="${todaysDate2()}"value-number=${toDoItem.id} value="${yearMonthDayFormat(
-        toDoItem
-      )}" class="user-content the-form" data-number=${toDoItem.id} ></input><br>`;
+    }
+
+    if (key === 'title') {
+      toDoItemValueInElement = getTitleOfToDoElement(toDoItem);
+    }
+
+    if (key === 'description') {
+      toDoItemValueInElement = getDescriptionOfToDoElement(toDoItem);
+    }
+
+    if (key === 'priority' && value.toLowerCase() === 'high') {
+      toDoItemValueInElement = getPriorityDropDownElementHigh(toDoItem, selected);
+    }
+
+    if (key === 'priority' && value.toLowerCase() === 'medium') {
+      toDoItemValueInElement = getPriorityDropDownElementMedium(toDoItem, selected);
+    }
+
+    if (key === 'priority' && value.toLowerCase() === 'low') {
+      toDoItemValueInElement = getPriorityDropDownElementLow(toDoItem, selected);
+    }
+
+    if (key === 'notes') {
+      toDoItemValueInElement = getNotesOfToDoElement(toDoItem);
+    }
+
+    if (key === 'date') {
+      toDoItemValueInElement = getDateOfToDoElement(toDoItem);
     }
     appendsInputElementToModalThree(toDoItemValueInElement);
   }
   createDeleteAndSaveBtns(toDoItem);
+};
+
+const getTitleOfToDoElement = (toDoItem) => {
+  return `<div class="task-details">Task Details</div><br>
+   <input value-number=${toDoItem.id} value="${toDoItem.title}" class="user-content the-form" data-number=${toDoItem.id} ></input><br>`;
+};
+
+const getDescriptionOfToDoElement = (toDoItem) => {
+  return `<input value-number=${toDoItem.id} value="${toDoItem.description}" class="user-content the-form" data-number=${toDoItem.id} ></input><br>`;
+};
+
+const getPriorityDropDownElementHigh = (toDoItem, selected) => {
+  return `
+    <select value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id}>
+      <option value="High" ${selected}>High</option>
+      <option value="Medium">Medium</option>
+      <option value="Low" >Low</option>
+    </select><br>
+    `;
+};
+
+const getPriorityDropDownElementMedium = (toDoItem, selected) => {
+  return `
+    <select value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id}>
+      <option value="High">High</option>
+      <option value="Medium"  ${selected}>Medium</option>
+      <option value="Low" >Low</option>
+    </select><br>
+    `;
+};
+
+const getPriorityDropDownElementLow = (toDoItem, selected) => {
+  return `
+    <select value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id}>
+      <option value="High">High</option>
+      <option value="Medium" >Medium</option>
+      <option value="Low"  ${selected}>Low</option>
+    </select><br>
+    `;
+};
+
+const getNotesOfToDoElement = (toDoItem) => {
+  return `<textarea rows="4" cols="50" value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id} >${toDoItem.notes}</textarea><br>`;
+};
+
+const getDateOfToDoElement = (toDoItem) => {
+  return `<input type="date" id="due-date" min="${todaysDate2()}"value-number=${toDoItem.id} value="${yearMonthDayFormat(
+    toDoItem
+  )}" class="user-content the-form" data-number=${toDoItem.id} ></input><br>`;
 };
 
 const checkIfToDoClickedIsAlreadyOnTheScreen = (toDoItemThatWasClicked) => {
@@ -326,7 +370,6 @@ const updateTodoInsideOfArray = async (e, toDoResult, userInputElement) => {
   const notes = userInputElement[4].value;
   const daysuntil = createTimeUntilTodo(date);
   const toDo = await toDoResult;
-
   const updatedToDo = await patchToDoFetch(title, description, date, priority, notes, daysuntil, toDo);
 
   updateDisplayedTitleToUserInputTitle(e, updatedToDo);
