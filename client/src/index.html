@@ -1,125 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ToDo App</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDo App</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+  </head>
 
-<body>
-
-
-<div class="body">
-
-
-
-    <div class="menu">
+  <body>
+    <div class="body">
+      <div class="menu">
         <div class="containerForTodoLabel">
           <i class="fa fa-bars fa-" aria-hidden="true"></i>
           <div class="appTitle">ToDo List</div>
         </div>
 
-      <div class="bottom-line"></div>
-
-      <div >
-        <button id="create-task-btn"> <span class="iconPlus"> +</span>Create Task</button>
-      </div>
-
-      <div class="short-Cuts-Container">
-        <div class="shortCuts">Shortcuts</div>
         <div class="bottom-line"></div>
-        <div class="today pwg side-item">Today</div>
-        <div class="next-7-days pwg side-item">Next 7 days</div>
-        <div class="all-task pwg side-item">All Tasks</div>
+
+        <div>
+          <button id="create-task-btn">
+            <span class="iconPlus"> +</span>Create Task
+          </button>
+        </div>
+
+        <div class="short-Cuts-Container">
+          <div class="shortCuts">Shortcuts</div>
+          <div class="bottom-line"></div>
+          <div class="today pwg side-item">Today</div>
+          <div class="next-7-days pwg side-item">Next 7 days</div>
+          <div class="all-task pwg side-item">All Tasks</div>
+        </div>
+
+        <div class="listContainer">
+          <div class="list2">List</div>
+          <div class="bottom-line"></div>
+
+          <div class="list-size">
+            <div class="personal-count side-item">Personal</div>
+            <span class="psn num"></span>
+          </div>
+
+          <div class="list-size">
+            <div class="work-count side-item">Work</div>
+            <span class="wor num"></span>
+          </div>
+
+          <div class="list-size">
+            <div class="grocery-store-count side-item">Groceries</div>
+            <span class="gst num"></span>
+          </div>
+        </div>
       </div>
 
-     <div class="listContainer">
-      <div class="list2">List</div>
-      <div class="bottom-line"></div>
-
-      <div class="list-size">
-        <div class="personal-count side-item ">Personal</div><span class="psn num"></span>
+      <div class="modal hidden"></div>
+      <div class="modalFour hidden">
+        <div class="modalThree"></div>
       </div>
 
-      <div class="list-size">
-        <div class="work-count side-item ">Work</div><span class="wor num"></span>
+      <div class="modalTwo hidden">
+        <form id="todo-form">
+          <label for="title"></label><br />
+          <input
+            class="createTask the-form"
+            type="text"
+            id="title"
+            name="title"
+            value=""
+            placeholder="TASK NAME"
+          /><br />
+
+          <div class="listOptionsDiv">
+            <label for="list"></label><br />
+            <select name="list" class="list the-form">
+              <option value="" disabled selected value>CHOOSE LIST:</option>
+              <option value="Personal">Personal</option>
+              <option value="Work">Work</option>
+              <option value="Groceries">Groceries</option></select
+            ><br />
+          </div>
+          <label for="description"></label><br />
+          <input
+            class="createTask the-form"
+            type="text"
+            id="description"
+            name="description"
+            value=""
+            placeholder="DESCRIPTION"
+          /><br />
+          <label for="due-date"></label><br />
+          <input
+            type="date"
+            id="due-date"
+            class="the-form"
+            name="due-date"
+            value=""
+            placeholder="Due Date:"
+          /><br />
+
+          <label for="priority"></label><br />
+          <select name="priority" id="priority" class="the-form">
+            <option value="" disabled selected value>PRIORITY:</option>
+            <option id="high" value="high">High</option>
+            <option id="medium" value="medium">Medium</option>
+            <option id="low" value="low">Low</option>
+          </select>
+          <br />
+
+          <label for="notes"></label> <br />
+          <textarea
+            class="createTask the-form"
+            id="notes"
+            name="notes"
+            rows="4"
+            cols="20"
+            value=""
+            placeholder="Notes..."
+          ></textarea>
+          <input id="submit" type="submit" class="the-form" value="Submit" />
+        </form>
       </div>
 
-      <div class="list-size">
-        <div class="grocery-store-count side-item " >Groceries</div><span class="gst num"></span>
-      </div>
+      <div id="container"></div>
+      <button class="close-modal"></button>
+      <div class="overlay hidden"></div>
     </div>
-  </div>
-
-
-
-  <div class="modal hidden"></div>
-    <div class="modalFour hidden ">
-      <div class="modalThree">
-
-      </div>
-    </div>
-
-<div class="modalTwo hidden">
-  
-  <form id="todo-form">
-    <label for="title"></label><br>
-    <input class="createTask the-form" type="text" id="title" name="title" value="" placeholder="TASK NAME"><br>
-
-    <div class="listOptionsDiv">
-      <label for="list"></label><br>
-      <select name="list" class="list the-form">
-        <option value="" disabled selected value>CHOOSE LIST:</option>
-        <option value ="Personal">Personal</option>
-        <option value ="Work">Work</option>
-        <option value ="Groceries">Groceries</option>
-      </select><br>
-
-
-    </div>
-    <label for="description"></label><br>
-    <input class="createTask the-form" type="text" id="description" name="description" value="" placeholder="DESCRIPTION"><br>
-    <label for="due-date"></label><br>
-    <input type="date" id="due-date" class="the-form" name="due-date" value="" placeholder="Due Date:"><br>
-
-
-    <label for="priority"></label><br>
-      <select name="priority" id="priority" class="the-form">
-        <option value="" disabled selected value>PRIORITY:</option>
-        <option id="high" value = "high">High</option>
-        <option id="medium"value = "medium">Medium</option>
-        <option id="low"value = "low">Low</option>
-      </select> <br>
-
-
-      <label for="notes"></label> <br>
-      <textarea class="createTask the-form" id="notes" name="notes" rows="4" cols="20" value="" placeholder="Notes..."></textarea>
-      <input id="submit" type="submit" class="the-form" value="Submit">
-
-  </form>
-
-
-  
-</div>
-
-
-  <div id="container"></div>
-    <button class="close-modal"></button>
-    <div class="overlay hidden"></div>
-
-  </div>
-
-
-
-
- 
-
-
-
-</body>
+  </body>
 
   <script type="module" src="main.js"></script>
 </html>

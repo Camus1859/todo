@@ -36,19 +36,21 @@ router.get('/allTodos', async (req, res) => {
       res.status(400);
     }
 
-    res.status(201).send(results.rows);
+    res.status(200).send(results.rows);
   });
 });
 
 router.delete('/todo/:id', async (req, res) => {
   const id = req.params.id;
 
+  console.log(id)
+
   pool.query('DELETE FROM todo_items WHERE id = $1', [id], (error, results) => {
     if (error) {
       console.log(error);
-      results.status(400);
+      res.status(400);
     }
-    res.status(201);
+    res.status(200).end()
   });
 });
 
