@@ -2,18 +2,9 @@ const express = require('express');
 const router = new express.Router();
 const pool = require('../db/queries');
 require('dotenv').config();
-const fetch = require('node-fetch');
 
 router.post('/todo', (req, res) => {
-  const {
-    title,
-    list,
-    description,
-    date,
-    priority,
-    notes,
-    daysuntil,
-  } = req.body;
+  const { title, list, description, date, priority, notes, daysuntil } = req.body;
 
   pool.query(
     'INSERT INTO todo_items (title, list, description, date, priority, notes, daysuntil) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
@@ -43,14 +34,13 @@ router.get('/allTodos', async (req, res) => {
 router.delete('/todo/:id', async (req, res) => {
   const id = req.params.id;
 
-  console.log(id)
 
   pool.query('DELETE FROM todo_items WHERE id = $1', [id], (error, results) => {
     if (error) {
       console.log(error);
       res.status(400);
     }
-    res.status(200).end()
+    res.status(200).end();
   });
 });
 
@@ -66,8 +56,6 @@ router.patch('/todo/:id', async (req, res) => {
         console.log(error);
         res.status(400);
       }
-      console.log(results);
-
       res.status(201).send(results.rows[0]);
     }
   );

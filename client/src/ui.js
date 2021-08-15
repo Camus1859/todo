@@ -230,7 +230,7 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
         toDoItemValueInElement = getDateOfToDoElement(toDoItem);
         break;
     }
-    console.log(toDoItemValueInElement)
+    console.log(toDoItemValueInElement);
     appendsInputElementToModalThree(toDoItemValueInElement);
   }
   createDeleteAndSaveBtns(toDoItem);
@@ -260,7 +260,6 @@ const getPriorityDropDownElement = (id, value) => {
     </select><br>
     `;
 };
-
 
 const getNotesOfToDoElement = (toDoItem) => {
   return `<textarea rows="4" cols="50" value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id} >${toDoItem.notes}</textarea><br>`;
@@ -450,14 +449,15 @@ const todaysDate = () => {
   today = `${yyyy}-${mm}-${dd}`;
   return document.querySelector('#due-date').setAttribute('min', today);
 };
-todaysDate();
+// todaysDate();
 
 const todaysDate2 = () => {
   let today = new Date();
-  const dd = String(today.getDate());
-  const mm = String(today.getMonth() + 1);
-  const yyyy = today.getFullYear();
-  today = `${yyyy}-${mm}-${dd}`;
+  const day = String(today.getDate());
+  const month = String(today.getMonth() + 1);
+  const year = today.getFullYear();
+   today = year + '-' + month.toString().padStart(2, '0') + '-' + day.toString().padStart(2, '0');
+
   return today;
 };
 
