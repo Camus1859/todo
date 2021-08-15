@@ -192,42 +192,45 @@ const yearMonthDayFormat = (toDoItem) => {
 //refractor
 
 const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
+  console.log(toDoItem);
   let toDoItemValueInElement;
   deletingTaskDetails();
-  const selected = 'selected';
 
   for (let [key, value] of Object.entries(toDoItem)) {
-    if (key === 'id' || key === 'list' || key === 'daysuntil') {
+    if (key === 'id' || key === 'list' || key === 'daysuntil' || key === 'priority') {
       continue;
     }
 
-    if (key === 'title') {
-      toDoItemValueInElement = getTitleOfToDoElement(toDoItem);
-    }
+    switch (key || value.toLowerCase()) {
+      case 'title':
+        toDoItemValueInElement = getTitleOfToDoElement(toDoItem);
+        break;
 
-    if (key === 'description') {
-      toDoItemValueInElement = getDescriptionOfToDoElement(toDoItem);
-    }
+      case 'description':
+        toDoItemValueInElement = getDescriptionOfToDoElement(toDoItem);
+        break;
 
-    if (key === 'priority' && value.toLowerCase() === 'high') {
-      toDoItemValueInElement = getPriorityDropDownElementHigh(toDoItem, selected);
-    }
+      case 'high':
+        toDoItemValueInElement = getPriorityDropDownElement(toDoItem.id, value);
+        break;
 
-    if (key === 'priority' && value.toLowerCase() === 'medium') {
-      toDoItemValueInElement = getPriorityDropDownElementMedium(toDoItem, selected);
-    }
+      case 'medium':
+        toDoItemValueInElement = getPriorityDropDownElement(toDoItem.id, value);
+        break;
 
-    if (key === 'priority' && value.toLowerCase() === 'low') {
-      toDoItemValueInElement = getPriorityDropDownElementLow(toDoItem, selected);
-    }
+      case 'low':
+        toDoItemValueInElement = getPriorityDropDownElement(toDoItem.id, value);
+        break;
 
-    if (key === 'notes') {
-      toDoItemValueInElement = getNotesOfToDoElement(toDoItem);
-    }
+      case 'notes':
+        toDoItemValueInElement = getNotesOfToDoElement(toDoItem);
+        break;
 
-    if (key === 'date') {
-      toDoItemValueInElement = getDateOfToDoElement(toDoItem);
+      case 'date':
+        toDoItemValueInElement = getDateOfToDoElement(toDoItem);
+        break;
     }
+    console.log(toDoItemValueInElement)
     appendsInputElementToModalThree(toDoItemValueInElement);
   }
   createDeleteAndSaveBtns(toDoItem);
@@ -242,35 +245,22 @@ const getDescriptionOfToDoElement = (toDoItem) => {
   return `<input value-number=${toDoItem.id} value="${toDoItem.description}" class="user-content the-form" data-number=${toDoItem.id} ></input><br>`;
 };
 
-const getPriorityDropDownElementHigh = (toDoItem, selected) => {
+const capitalize = (word) => {
+  return word[0].toUpperCase() + word.slice(1).toLowerCase();
+};
+
+const getPriorityDropDownElement = (id, value) => {
+  const valueCap = capitalize(value);
+
   return `
-    <select value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id}>
-      <option value="High" ${selected}>High</option>
-      <option value="Medium">Medium</option>
-      <option value="Low" >Low</option>
+    <select value-number=${id} class="user-content the-form" data-number=${id}>
+      <option value="High" ${valueCap === 'High' ? 'Selected' : ''}>High</option>
+      <option value="Medium"  ${valueCap === 'Medium' ? 'Selected' : ''} >Medium</option>
+      <option value="Low"  ${valueCap === 'Low' ? 'Selected' : ''} >Low</option>
     </select><br>
     `;
 };
 
-const getPriorityDropDownElementMedium = (toDoItem, selected) => {
-  return `
-    <select value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id}>
-      <option value="High">High</option>
-      <option value="Medium"  ${selected}>Medium</option>
-      <option value="Low" >Low</option>
-    </select><br>
-    `;
-};
-
-const getPriorityDropDownElementLow = (toDoItem, selected) => {
-  return `
-    <select value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id}>
-      <option value="High">High</option>
-      <option value="Medium" >Medium</option>
-      <option value="Low"  ${selected}>Low</option>
-    </select><br>
-    `;
-};
 
 const getNotesOfToDoElement = (toDoItem) => {
   return `<textarea rows="4" cols="50" value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id} >${toDoItem.notes}</textarea><br>`;
