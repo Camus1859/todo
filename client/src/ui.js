@@ -11,13 +11,17 @@ const toDoListType = () => {
   return list;
 };
 
+
+
+
+
+
 const showAlert = (msg, className) => {
   const div = document.createElement('div');
   div.className = `alert ${className}`;
   div.appendChild(document.createTextNode(msg));
 
   const container = document.querySelector('.modalTwo');
-  
 
   const form = document.querySelector('#todo-form');
   container.insertBefore(div, form);
@@ -35,6 +39,11 @@ const disableSaveBtn = () => {
     saveBtn.disabled = false;
   }, 3000);
 };
+
+
+
+
+
 
 const usersInfo = async (e) => {
   e.preventDefault();
@@ -383,7 +392,34 @@ const findSpecificTodo = async (e) => {
 };
 
 const getToDoItemToUpdateAfterSavedClicked = (e) => {
+
   let arrayOfNewValuesEnteredByUser = Array.from(document.querySelectorAll(`[value-number="${getDataNumberOfBtnClicked(e)}"]`));
+  console.log(arrayOfNewValuesEnteredByUser)
+
+
+  const title = arrayOfNewValuesEnteredByUser[0].value;
+  const description = arrayOfNewValuesEnteredByUser[1].value;
+  const date = arrayOfNewValuesEnteredByUser[2].value;
+  const priority = arrayOfNewValuesEnteredByUser[3].value;
+  const notes = arrayOfNewValuesEnteredByUser[4].value;
+
+  if (
+    title === '' ||
+    description === '' ||
+    date === '' ||
+    priority === '' ||
+    notes === ''
+  ) {
+    console.log('ranb')
+    showAlert2('Please Fill in all fields', 'error');
+    disableSaveBtn2();
+    return;
+  }
+  console.log('ran???????????')
+
+
+
+
   updateModals3();
   updateTodoInsideOfArray(e, findSpecificTodo(e), arrayOfNewValuesEnteredByUser);
   deletingTaskDetails();
@@ -432,12 +468,56 @@ const patchToDoFetch = async (title, description, date, priority, notes, daysunt
   return updatedToDo;
 };
 
+const showAlert2 = (msg, className) => {
+  console.log('ranc')
+  const div = document.createElement('div');
+  div.className = `alert ${className}`;
+  console.log('alert added')
+  div.appendChild(document.createTextNode(msg));
+
+  const container = document.querySelector('.modalFour');
+
+  const form = document.querySelector('.modalThree');
+  container.insertBefore(div, form);
+
+  console.log(container)
+  console.log(form)
+
+  setTimeout(function () {
+    document.querySelector('.alert').remove();
+  }, 3000);
+
+}
+
+const disableSaveBtn2 = () => {
+  const saveBtn = document.querySelector('.save');
+  saveBtn.disabled = true;
+
+  setTimeout(function () {
+    saveBtn.disabled = false;
+  }, 3000);
+}
+
+
 const updateDisplayedTitleToUserInputTitle = (e, updatedToDo) => {
+  console.log(updatedToDo)
+  console.log('rana')
+  // if (
+  //   updatedToDo.title === '' ||
+  //   updatedToDo.list === '' ||
+  //   updatedToDo.description === '' ||
+  //   updatedToDo.date === '' ||
+  //   updatedToDo.priority === '' ||
+  //   updatedToDo.notes === ''
+  // ) {
+  //   console.log('ranb')
+  //   showAlert2('Please Fill in all fields', 'error');
+  //   disableSaveBtn2();
+  //   return;
+  // }
+console.log('rannnnnnnnnnnnnn')
   const priorityColorDotElement = document.querySelector(`[data-border-color="${getDataNumberOfBtnClicked(e)}"]`);
-
-
   const displayedTitle = document.querySelector(`[data-title="${getDataNumberOfBtnClicked(e)}"]`);
-
 
   if (priorityColorDotElement.classList.contains(borderColor(updatedToDo.priority))) {
     displayedTitle.textContent = updatedToDo.title;
