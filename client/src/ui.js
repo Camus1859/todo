@@ -631,20 +631,30 @@ const displayListNumber = async () => {
 displayListNumber();
 
 const shutSidePanel = () => {
-  console.log('rana')
+
+
+  // const sliderBtn = document.querySelector('#sliderBtn')
+
+
   if (!document.querySelector('.listContainer').classList.contains('hide')) {
-    document.querySelector('.menu').style.width = '0';
+    document.querySelector('.menu').style.width = '5px';
+
     document.querySelector('.listContainer').classList.add('hide')
     document.querySelector('.short-Cuts-Container').classList.add('hide')
     document.querySelector('.containerForTodoLabel').classList.add('hide')
-    console.log('ranb')
+    document.querySelector('#create-task-btn-hidden').style.display = 'flex'
+    document.querySelector('.bottom-line').classList.add('hide')
+
+    
 
   } else {
-    console.log('ranc')
-    document.querySelector('.menu').style.width = '220px';
+    document.querySelector('.menu').style.width = '150px';
+
     document.querySelector('.listContainer').classList.remove('hide')
     document.querySelector('.short-Cuts-Container').classList.remove('hide')
     document.querySelector('.containerForTodoLabel').classList.remove('hide')
+    document.querySelector('#create-task-btn-hidden').style.display = 'none'
+
   }
 };
 

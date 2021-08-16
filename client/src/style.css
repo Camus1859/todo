@@ -9,14 +9,14 @@ html {
   overflow-y: visible;
 }
 
-body {
+ body {
   overflow-x: auto;
   overflow-y: visible;
   height: 100vh;
   background-image: url(/images/photo-1424581342241-2b1aba4d3462.jpeg);
   background-size: cover;
   opacity: 0.9;
-}
+} 
 
 .body {
   display: flex;
@@ -292,6 +292,20 @@ input[type='checkbox']:checked ~ del {
   cursor: pointer;
 }
 
+
+#create-task-btn-hidden {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem;
+  width: 1rem;
+  height: 1rem;
+  font-size: 0.9rem;
+  border-radius: 50%;
+  background-color: white;
+  cursor: pointer;
+}
+
 #create-task-btn:active {
   box-shadow: 0 1px rgb(122, 122, 122);
 }
@@ -483,24 +497,67 @@ select option[value="low"] {
 }
 
 
-@media screen and (min-width: 700px) {
-  .title-of-todo {
-    font-size: 30px;
+@media screen and (min-width: 300px) {
+
+
+
+  .appTitle {
+    font-size: 20px;
     font-weight: bold;
-    text-align: center;
+  }
+
+  #create-task-btn {
+    width: .5rem;
+    height: .5rem;
+
+
+  }
+
+
+  #create-task-btn-hidden {
+    width: .5rem;
+    height: .5rem;
+    display: none;
+
+
+  }
+
+  .shortCuts{
+    font-size: 20px;
+    font-weight: bold;
+
+  }
+
+  .list2{
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .side-item{
+    font-size: 15px
+  }
+
+  .menu{
+    padding-left: .5rem;
+    width: 150px;
+  }
+
+
   }
 
   .list-name {
     font-size: 40px;
   }
 
-  .title-of-todo {
-    font-size: 30px;
-    font-weight: bold;
-    text-align: center;
-    width: 200px;
-  }
+
+#sliderBtn{
+  margin-top: 1rem;
+  margin-left: .5rem;
+  margin-bottom: 2rem;
+  cursor: pointer;
 }
+
+
 
 @media screen and (min-width: 800px) {
   .holdingList {
