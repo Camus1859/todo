@@ -50,6 +50,7 @@ del * {
 }
 
 .content-line:hover {
+  background-color: rgb(224, 238, 248);
 }
 
 .holdingList
@@ -62,11 +63,6 @@ del * {
   padding-top: 1rem;
 }
 
-.title-of-todo {
-  /* font-size: 19px;
-  font-weight:bold;
-  text-align: center; */
-}
 
 .overlay {
   position: absolute;
@@ -148,24 +144,7 @@ input[type='checkbox']:checked ~ del {
   display: none;
 }
 
-.user-content {
-  /* border-radius: 3%; */
-  /* border: .5px solid rgb(211, 12, 12); */
-}
-
 .modalTwo {
-  /* position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
-  z-index: 10;
-  padding: 1rem 4rem 1rem 4rem;
-  min-width: 170px;
-  height: 500px; */
-
   position: absolute;
   top: 50%;
   left: 50%;
@@ -181,9 +160,6 @@ input[type='checkbox']:checked ~ del {
   box-shadow: 0 0 2px 1px rgb(0 0 0 / 50%);
   width: 650px;
   height: 650px;
-}
-
-.modalFour {
 }
 
 .close-modal {
@@ -244,10 +220,6 @@ input[type='checkbox']:checked ~ del {
 
 .modal {
   display: flex;
-  /* flex-direction: row; */
-  /* width: 100%; */
-  /* margin-left: 20.3rem; */
-  /* height: 100%; */
 }
 
 .menu {
@@ -263,8 +235,7 @@ input[type='checkbox']:checked ~ del {
   height: 100vh;
 }
 
-.todo-content {
-}
+
 
 .containerForTodoLabel {
   display: flex;
@@ -273,15 +244,11 @@ input[type='checkbox']:checked ~ del {
 }
 
 .appTitle {
-  /* padding-top: 3px; */
-  /* font-weight: normal */
   font-size: 35px;
 }
 
 .bottom-line {
   border: 0.5px solid rgb(233, 233, 233);
-  /* display: flex; */
-  /* width: 70%; */
   margin-bottom: 1rem;
 }
 
@@ -302,26 +269,8 @@ input[type='checkbox']:checked ~ del {
   cursor: pointer;
 }
 
-.menu {
-}
 
 #create-task-btn {
-  /* background-color: rgba(6, 61, 243, 0.925);
-  border: none;
-  color: black;
-  padding: .7rem 3.0rem;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 16px;
-  /* font-weight: bolder; 
-  /* font-size: 1rem; 
-  margin-bottom: 2rem;
-  outline: none;
-  border: none;
-  box-shadow: 0 4px #999; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -346,9 +295,6 @@ input[type='checkbox']:checked ~ del {
 }
 
 .shortCuts {
-  /* margin-bottom: .5rem;
-  font-size: 1.7rem;
-  font-weight: bolder; */
   font-size: 35px;
 }
 
@@ -363,30 +309,17 @@ input[type='checkbox']:checked ~ del {
 .listContainer {
   margin-top: 3rem;
 }
-.modalFour body > .body > .listContainer > .list2 {
-}
 
 .side-item {
-  /* display: flex;
-  flex-direction: column; */
-  /* padding-top: 1.2rem;
-  font-size: 20px; */
+ 
   font-size: 23px;
   margin-bottom: 10px;
 }
 
-.pwg {
-  /* display: flex;
-  flex-direction: column; */
-  /* padding-top: 1.2rem;
-  font-size: 20px;
-  cursor: pointer; */
-}
 
 .list-size {
   display: flex;
   flex-direction: row;
-  /* align-items: center; */
 }
 
 .num {
@@ -407,15 +340,6 @@ input[type='checkbox']:checked ~ del {
 }
 
 .the-form {
-  /* width: 100%;
-  padding: 10px 0 10px 5px;
-  border-radius: 10px;
-  border: none;
-  outline: none;
-  font-size: 17px;
-  color: rgb(33, 1, 175);
-  min-width: 180px; */
-
   width: 90%;
   text-decoration: none;
   outline: none;
@@ -534,6 +458,20 @@ input[type='checkbox']:checked ~ del {
   box-shadow: 1px 1px 2px #3300ff;
 }
 
+select option[value="high"] {
+  color: red
+}
+
+select option[value="medium"] {
+  color: yellow
+}
+
+select option[value="low"] {
+  color: blue
+}
+
+
+
 @media screen and (min-width: 700px) {
   .title-of-todo {
     font-size: 30px;
@@ -560,19 +498,9 @@ input[type='checkbox']:checked ~ del {
   }
 }
 
-@media screen and (min-width: 900px) {
-  .modal {
-    /* display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; */
-  }
-}
 
 @media screen and (min-width: 1250px) {
-  .modalTwo {
-    /* width: 400px; */
-  }
+ 
   .holdingList {
     display: flex;
     flex-direction: column;
@@ -598,26 +526,14 @@ input[type='checkbox']:checked ~ del {
   }
 
   .modal {
-    /* display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow-x: hidden;
-    height: 100vh; */
-  }
-
-  .modal {
     overflow-x: hidden;
   }
 
   .modal {
     display: flex;
     flex-direction: row;
-
     align-items: center;
     justify-content: center;
-    /*
-    margin-left: 11.5rem;
-    width: 100%; */
     margin-left: 20rem;
   }
 
@@ -632,7 +548,6 @@ input[type='checkbox']:checked ~ del {
     display: flex;
     justify-content: space-around;
     border-radius: 4%;
-    /* border: 1px solid #1e2245; */
     padding: 6% 2%;
     margin-top: 3%;
     align-items: center;
@@ -641,15 +556,42 @@ input[type='checkbox']:checked ~ del {
   }
 
   .borderRed {
-    border: 2px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem;
+    width: .1rem;
+    height: .1rem;
+    margin-left: .1rem;
+    font-size: .1rem;
+    border-radius: 50%;
+    background-color: rgb(255, 0, 0);
   }
 
   .borderYellow {
-    border: 2px solid yellow;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem;
+    width: .1rem;
+    height: .1rem;
+    margin-left: .1rem;
+    font-size: .1rem;
+    border-radius: 50%;
+    background-color: yellow; 
+   }
 
   .borderBlue {
-    border: 2px solid blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem;
+    width: .1rem;
+    height: .1rem;
+    margin-left: .1rem;
+    font-size: .1rem;
+    border-radius: 50%;
+    background-color:blue
   }
 
   .list2 {

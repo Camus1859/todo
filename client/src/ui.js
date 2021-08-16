@@ -17,6 +17,7 @@ const showAlert = (msg, className) => {
   div.appendChild(document.createTextNode(msg));
 
   const container = document.querySelector('.modalTwo');
+  
 
   const form = document.querySelector('#todo-form');
   container.insertBefore(div, form);
@@ -145,9 +146,10 @@ const borderColor = (priority) => {
 
 const createToDoInfo = (todoCategoryElement, toDoItem) => {
   const todoInfoElement = `
-<div class="content-line details-btn ${borderColor(toDoItem.priority)}" data-number=${toDoItem.id}>
+<div class="content-line details-btn " data-number=${toDoItem.id}>
+<span class = " ${borderColor(toDoItem.priority)}" data-border-color=${toDoItem.id}></span>
 <input data-index=${toDoItem.id} class="checkbox" type="checkbox">
-<del class="strike"><p class="title-of-todo details-btn" data-number=${toDoItem.id} >${toDoItem.title}</p></del>
+<del class="strike"><p class="title-of-todo details-btn" data-title=${toDoItem.id} data-number=${toDoItem.id} >${toDoItem.title}</p></del>
 <div class="days-until-due" id="until-due" data-class="${toDoItem.id}">${toDoItem.daysuntil}</div>
 </div>   `;
   addingCategoryNameAndTitleToModal(todoCategoryElement, todoInfoElement, toDoItem);
@@ -431,16 +433,20 @@ const patchToDoFetch = async (title, description, date, priority, notes, daysunt
 };
 
 const updateDisplayedTitleToUserInputTitle = (e, updatedToDo) => {
-  const displayedTitle = document.querySelector(`[data-number="${getDataNumberOfBtnClicked(e)}"]`);
+  const priorityColorDotElement = document.querySelector(`[data-border-color="${getDataNumberOfBtnClicked(e)}"]`);
 
-  if (displayedTitle.classList.contains(borderColor(updatedToDo.priority))) {
-    displayedTitle.querySelector('.title-of-todo').textContent = updatedToDo.title;
+
+  const displayedTitle = document.querySelector(`[data-title="${getDataNumberOfBtnClicked(e)}"]`);
+
+
+  if (priorityColorDotElement.classList.contains(borderColor(updatedToDo.priority))) {
+    displayedTitle.textContent = updatedToDo.title;
     return;
   } else {
-    const oldBorderColor = displayedTitle.classList.item(2);
-    displayedTitle.classList.remove(oldBorderColor);
-    displayedTitle.classList.add(borderColor(updatedToDo.priority));
-    displayedTitle.querySelector('.title-of-todo').textContent = updatedToDo.title;
+    const oldBorderColor = priorityColorDotElement.classList.item(0);
+    priorityColorDotElement.classList.remove(oldBorderColor);
+    priorityColorDotElement.classList.add(borderColor(updatedToDo.priority));
+    displayedTitle.textContent = updatedToDo.title;
   }
 };
 
