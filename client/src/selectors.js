@@ -8,7 +8,7 @@ const submit = document.querySelector('#submit');
 const createTaskBtn = document.querySelector('#create-task-btn');
 const modalTwo = document.querySelector('.modalTwo');
 const shortsContainer = document.querySelector('.short-Cuts-Container');
-const faIcon = document.querySelector('.fa');
+const sliderBtn = document.querySelector('#sliderBtn');
 
 const loadEventListeners = () => {
   modal.addEventListener('click', deleteTask);
@@ -18,7 +18,7 @@ const loadEventListeners = () => {
   submit.addEventListener('click', usersInfo);
   createTaskBtn.addEventListener('click', displayModalToAddToDo);
   shortsContainer.addEventListener('click', showCertainToDos);
-  faIcon.addEventListener('click', shutSidePanel);
+  sliderBtn.addEventListener('click', shutSidePanel);
 };
 
 export { loadEventListeners, overlay, modal, modalThree, modalTwo };

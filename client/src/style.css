@@ -233,8 +233,16 @@ input[type='checkbox']:checked ~ del {
   padding-right: 2rem;
   background: linear-gradient(to right, rgb(15, 29, 99) 60%, rgb(11, 22, 76));
   height: 100vh;
+  /* display: none; */
+
 }
 
+
+
+#sliderBtn{
+  margin-top: 1rem;
+  cursor: pointer;
+}
 
 
 .containerForTodoLabel {
@@ -470,6 +478,9 @@ select option[value="low"] {
   color: blue
 }
 
+.hide{
+  display: none;
+}
 
 
 @media screen and (min-width: 700px) {

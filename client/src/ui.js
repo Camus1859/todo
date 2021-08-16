@@ -11,11 +11,6 @@ const toDoListType = () => {
   return list;
 };
 
-
-
-
-
-
 const showAlert = (msg, className) => {
   const div = document.createElement('div');
   div.className = `alert ${className}`;
@@ -40,11 +35,6 @@ const disableSaveBtn = () => {
   }, 3000);
 };
 
-
-
-
-
-
 const usersInfo = async (e) => {
   e.preventDefault();
   const title = document.querySelector('#title').value;
@@ -66,7 +56,10 @@ const usersInfo = async (e) => {
   generateToDoItem(title, list, description, date, priority, notes, id, daysuntil);
   removeModalAndOverlay();
   displayListNumber();
-  document.querySelector('.selected').classList.remove('selected');
+
+  if (document.querySelector('.selected')) {
+    document.querySelector('.selected').classList.remove('selected');
+  }
 };
 
 const postToDoFetch = async (title, list, description, date, priority, notes, daysuntil) => {
@@ -124,7 +117,6 @@ const returnArrayOfToDosFromDB = async () => {
 
 const generateToDoItem = (title, list, description, date, priority, notes, id, daysuntil) => {
   const toDoItem = new ToDoItem(title, list, description, date, priority, notes, id, daysuntil);
-  console.log(toDoItem);
   createToDoCategegory(toDoItem);
   createTimeUntilTodo(toDoItem);
 };
@@ -334,7 +326,6 @@ const createDeleteAndSaveBtns = (toDoItem) => {
   const deleteAndSaveBtns = `
   <div class="save-del-container">
   <button class="user-content del" data-number=${toDoItem.id} >Delete</button>
-
 <button class="user-content save" data-number=${toDoItem.id}>Save</button>
 </div>`;
   placeBtnsOnModal(deleteAndSaveBtns);
@@ -366,7 +357,10 @@ const closeModal = () => {
   modalFour.classList.add('hidden');
   overlay.classList.add('hidden');
   modalTwo.classList.add('hidden');
-  document.querySelector('.selected').classList.remove('selected');
+
+  if (document.querySelector('.selected')) {
+    document.querySelector('.selected').classList.remove('selected');
+  }
 };
 
 const getAllElementsAssociatedWithCurrentToDo = async (e) => {
@@ -392,33 +386,19 @@ const findSpecificTodo = async (e) => {
 };
 
 const getToDoItemToUpdateAfterSavedClicked = (e) => {
-
   let arrayOfNewValuesEnteredByUser = Array.from(document.querySelectorAll(`[value-number="${getDataNumberOfBtnClicked(e)}"]`));
-  console.log(arrayOfNewValuesEnteredByUser)
-
-
   const title = arrayOfNewValuesEnteredByUser[0].value;
   const description = arrayOfNewValuesEnteredByUser[1].value;
   const date = arrayOfNewValuesEnteredByUser[2].value;
   const priority = arrayOfNewValuesEnteredByUser[3].value;
   const notes = arrayOfNewValuesEnteredByUser[4].value;
 
-  if (
-    title === '' ||
-    description === '' ||
-    date === '' ||
-    priority === '' ||
-    notes === ''
-  ) {
-    console.log('ranb')
-    showAlert2('Please Fill in all fields', 'error');
-    disableSaveBtn2();
+  if (title === '' || description === '' || date === '' || priority === '' || notes === '') {
+    console.log('ranb');
+    showAlertOnEditingForm('Please Fill in all fields', 'error');
+    disableSaveBtnOnEditSubmission();
     return;
   }
-  console.log('ran???????????')
-
-
-
 
   updateModals3();
   updateTodoInsideOfArray(e, findSpecificTodo(e), arrayOfNewValuesEnteredByUser);
@@ -468,54 +448,31 @@ const patchToDoFetch = async (title, description, date, priority, notes, daysunt
   return updatedToDo;
 };
 
-const showAlert2 = (msg, className) => {
-  console.log('ranc')
+const showAlertOnEditingForm = (msg, className) => {
+  console.log('ranc');
   const div = document.createElement('div');
   div.className = `alert ${className}`;
-  console.log('alert added')
+  console.log('alert added');
   div.appendChild(document.createTextNode(msg));
-
   const container = document.querySelector('.modalFour');
-
   const form = document.querySelector('.modalThree');
   container.insertBefore(div, form);
-
-  console.log(container)
-  console.log(form)
 
   setTimeout(function () {
     document.querySelector('.alert').remove();
   }, 3000);
+};
 
-}
-
-const disableSaveBtn2 = () => {
+const disableSaveBtnOnEditSubmission = () => {
   const saveBtn = document.querySelector('.save');
   saveBtn.disabled = true;
 
   setTimeout(function () {
     saveBtn.disabled = false;
   }, 3000);
-}
-
+};
 
 const updateDisplayedTitleToUserInputTitle = (e, updatedToDo) => {
-  console.log(updatedToDo)
-  console.log('rana')
-  // if (
-  //   updatedToDo.title === '' ||
-  //   updatedToDo.list === '' ||
-  //   updatedToDo.description === '' ||
-  //   updatedToDo.date === '' ||
-  //   updatedToDo.priority === '' ||
-  //   updatedToDo.notes === ''
-  // ) {
-  //   console.log('ranb')
-  //   showAlert2('Please Fill in all fields', 'error');
-  //   disableSaveBtn2();
-  //   return;
-  // }
-console.log('rannnnnnnnnnnnnn')
   const priorityColorDotElement = document.querySelector(`[data-border-color="${getDataNumberOfBtnClicked(e)}"]`);
   const displayedTitle = document.querySelector(`[data-title="${getDataNumberOfBtnClicked(e)}"]`);
 
@@ -673,7 +630,23 @@ const displayListNumber = async () => {
 };
 displayListNumber();
 
-const shutSidePanel = () => {};
+const shutSidePanel = () => {
+  console.log('rana')
+  if (!document.querySelector('.listContainer').classList.contains('hide')) {
+    document.querySelector('.menu').style.width = '0';
+    document.querySelector('.listContainer').classList.add('hide')
+    document.querySelector('.short-Cuts-Container').classList.add('hide')
+    document.querySelector('.containerForTodoLabel').classList.add('hide')
+    console.log('ranb')
+
+  } else {
+    console.log('ranc')
+    document.querySelector('.menu').style.width = '220px';
+    document.querySelector('.listContainer').classList.remove('hide')
+    document.querySelector('.short-Cuts-Container').classList.remove('hide')
+    document.querySelector('.containerForTodoLabel').classList.remove('hide')
+  }
+};
 
 export {
   usersInfo,
