@@ -496,9 +496,15 @@ const todaysDate = () => {
   const month = String(today.getMonth() + 1);
   const year = today.getFullYear();
   today = year + '-' + month.toString().padStart(2, '0') + '-' + day.toString().padStart(2, '0');
-
   return today;
 };
+
+const calendarStartingDate = () => {
+  const today = todaysDate();
+  const date = document.querySelector('#due-date');
+  date.setAttribute('min', today);
+};
+calendarStartingDate();
 
 const deleteTask = async (e) => {
   if (e.target.checked === true) {
