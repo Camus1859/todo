@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>ToDo App</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -18,13 +19,11 @@
           <!-- <i class="fa fa-bars fa-" aria-hidden="true"></i> -->
           <div class="appTitle">To Do List</div>
           <button id="create-task-btn"><span class="iconPlus">+</span></button>
-
         </div>
 
         <div class="bottom-line"></div>
 
-        <div>
-        </div>
+        <div></div>
 
         <div class="short-Cuts-Container">
           <div class="shortCuts">Shortcuts</div>
@@ -55,7 +54,6 @@
         </div>
       </div>
 
-      
       <div class="modal hidden"></div>
       <div class="modalFour hidden">
         <div class="modalThree"></div>
@@ -64,14 +62,7 @@
       <div class="modalTwo hidden">
         <form id="todo-form">
           <label for="title"></label><br />
-          <input
-            class="createTask the-form"
-            type="text"
-            id="title"
-            name="title"
-            value=""
-            placeholder="TASK NAME"
-          /><br />
+          <input class="createTask the-form" type="text" id="title" name="title" value="" placeholder="TASK NAME" /><br />
 
           <div class="listOptionsDiv">
             <label for="list"></label><br />
@@ -83,23 +74,9 @@
             ><br />
           </div>
           <label for="description"></label><br />
-          <input
-            class="createTask the-form"
-            type="text"
-            id="description"
-            name="description"
-            value=""
-            placeholder="DESCRIPTION"
-          /><br />
+          <input class="createTask the-form" type="text" id="description" name="description" value="" placeholder="DESCRIPTION" /><br />
           <label for="due-date"></label><br />
-          <input
-            type="date"
-            id="due-date"
-            class="the-form"
-            name="due-date"
-            value=""
-            placeholder="Due Date:"
-          /><br />
+          <input type="date" id="due-date" class="the-form" name="due-date" value="" placeholder="Due Date:" /><br />
 
           <label for="priority"></label><br />
           <select name="priority" id="priority" class="the-form">
@@ -111,15 +88,7 @@
           <br />
 
           <label for="notes"></label> <br />
-          <textarea
-            class="createTask the-form"
-            id="notes"
-            name="notes"
-            rows="4"
-            cols="20"
-            value=""
-            placeholder="Notes..."
-          ></textarea>
+          <textarea class="createTask the-form" id="notes" name="notes" rows="4" cols="20" value="" placeholder="Notes..."></textarea>
           <input id="submit" type="submit" class="the-form" value="Save" />
         </form>
       </div>

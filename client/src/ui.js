@@ -11,6 +11,30 @@ const toDoListType = () => {
   return list;
 };
 
+const showAlert = (msg, className) => {
+  const div = document.createElement('div');
+  div.className = `alert ${className}`;
+  div.appendChild(document.createTextNode(msg));
+
+  const container = document.querySelector('.modalTwo');
+
+  const form = document.querySelector('#todo-form');
+  container.insertBefore(div, form);
+
+  setTimeout(function () {
+    document.querySelector('.alert').remove();
+  }, 3000);
+};
+
+const disableSaveBtn = () => {
+  const saveBtn = document.querySelector('#submit');
+  saveBtn.disabled = true;
+
+  setTimeout(function () {
+    saveBtn.disabled = false;
+  }, 3000);
+};
+
 const usersInfo = async (e) => {
   e.preventDefault();
   const title = document.querySelector('#title').value;
@@ -22,9 +46,11 @@ const usersInfo = async (e) => {
   const list = toDoListType();
 
   if (title === '' || list === '' || description === '' || date === '' || priority === '' || notes === '') {
-    alert('Please fill in all fields');
+    showAlert('Please Fill in all fields', 'error');
+    disableSaveBtn();
     return;
   }
+
   const id = await postToDoFetch(title, list, description, date, priority, notes, daysuntil);
 
   generateToDoItem(title, list, description, date, priority, notes, id, daysuntil);
@@ -88,6 +114,7 @@ const returnArrayOfToDosFromDB = async () => {
 
 const generateToDoItem = (title, list, description, date, priority, notes, id, daysuntil) => {
   const toDoItem = new ToDoItem(title, list, description, date, priority, notes, id, daysuntil);
+  console.log(toDoItem);
   createToDoCategegory(toDoItem);
   createTimeUntilTodo(toDoItem);
 };
@@ -103,9 +130,22 @@ const createToDoCategegory = (toDoItem) => {
   createToDoInfo(todoCategoryElement, toDoItem);
 };
 
+const borderColor = (priority) => {
+  if (priority.toLowerCase() === 'high') {
+    return 'borderRed';
+  }
+  if (priority.toLowerCase() === 'medium') {
+    return 'borderYellow';
+  }
+  if (priority.toLowerCase() === 'low') {
+    return 'borderBlue';
+  }
+  return;
+};
+
 const createToDoInfo = (todoCategoryElement, toDoItem) => {
   const todoInfoElement = `
-<div class="content-line details-btn" data-number=${toDoItem.id}>
+<div class="content-line details-btn ${borderColor(toDoItem.priority)}" data-number=${toDoItem.id}>
 <input data-index=${toDoItem.id} class="checkbox" type="checkbox">
 <del class="strike"><p class="title-of-todo details-btn" data-number=${toDoItem.id} >${toDoItem.title}</p></del>
 <div class="days-until-due" id="until-due" data-class="${toDoItem.id}">${toDoItem.daysuntil}</div>
@@ -392,7 +432,16 @@ const patchToDoFetch = async (title, description, date, priority, notes, daysunt
 
 const updateDisplayedTitleToUserInputTitle = (e, updatedToDo) => {
   const displayedTitle = document.querySelector(`[data-number="${getDataNumberOfBtnClicked(e)}"]`);
-  displayedTitle.querySelector('.title-of-todo').textContent = updatedToDo.title;
+
+  if (displayedTitle.classList.contains(borderColor(updatedToDo.priority))) {
+    displayedTitle.querySelector('.title-of-todo').textContent = updatedToDo.title;
+    return;
+  } else {
+    const oldBorderColor = displayedTitle.classList.item(2);
+    displayedTitle.classList.remove(oldBorderColor);
+    displayedTitle.classList.add(borderColor(updatedToDo.priority));
+    displayedTitle.querySelector('.title-of-todo').textContent = updatedToDo.title;
+  }
 };
 
 const deleteAtoDo = async (e) => {
@@ -469,6 +518,7 @@ const crossOutTitle = (e) => {
   let daysUntilElement = Array.from(document.querySelectorAll(`[data-class="${checkBoxNumber}"]`));
   daysUntilElement = daysUntilElement[0];
   let xElement = document.createElement('div');
+  xElement.classList.add('crossout-x');
   xElement.innerHTML = 'X';
   xElement.setAttribute('data-class', checkBoxNumber);
   xElement.setAttribute('data-number', checkBoxNumber);
@@ -529,6 +579,7 @@ const displayListNumber = async () => {
   document.querySelector('.wor').textContent = totalWork.length;
   document.querySelector('.gst').textContent = totalGS.length;
 };
+displayListNumber();
 
 const shutSidePanel = () => {};
 

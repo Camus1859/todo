@@ -13,6 +13,9 @@ body {
   overflow-x: auto;
   overflow-y: visible;
   height: 100vh;
+  background-image: url(/images/photo-1424581342241-2b1aba4d3462.jpeg);
+  background-size: cover;
+  opacity: 0.9;
 }
 
 .body {
@@ -51,6 +54,10 @@ del * {
   display: none;
 }
 
+#title {
+  padding-top: 1rem;
+}
+
 .title-of-todo {
   /* font-size: 19px;
   font-weight:bold;
@@ -67,6 +74,18 @@ del * {
   backdrop-filter: blur(1px);
   z-index: 5;
   position: fixed;
+  opacity: 0.3;
+}
+
+.error {
+  color: white;
+  padding: 5px;
+  position: fixed;
+  font-weight: bolder;
+}
+
+.error {
+  background-color: red;
 }
 
 del {
@@ -87,12 +106,21 @@ input[type='checkbox']:checked ~ del {
   align-items: center;
   font-size: 16px;
   text-decoration: none;
+  width: 10%;
 }
 
 .details-btn {
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
+  /* width: 100%; */
+}
 
+.crossout-x {
+  width: 10%;
+}
+
+.checkbox {
+  width: 10%;
 }
 
 .modalFour {
@@ -119,10 +147,6 @@ input[type='checkbox']:checked ~ del {
 .user-content {
   /* border-radius: 3%; */
   /* border: .5px solid rgb(211, 12, 12); */
-
-
-
-
 }
 
 .modalTwo {
@@ -152,12 +176,10 @@ input[type='checkbox']:checked ~ del {
   border-radius: 0.5rem;
   box-shadow: 0 0 2px 1px rgb(0 0 0 / 50%);
   width: 650px;
-  height: 650px
-
+  height: 650px;
 }
 
-.modalFour{
- 
+.modalFour {
 }
 
 .close-modal {
@@ -253,7 +275,7 @@ input[type='checkbox']:checked ~ del {
 }
 
 .bottom-line {
-  border: .5px solid rgb(233, 233, 233);
+  border: 0.5px solid rgb(233, 233, 233);
   /* display: flex; */
   /* width: 70%; */
   margin-bottom: 1rem;
@@ -264,7 +286,7 @@ input[type='checkbox']:checked ~ del {
 }
 
 .bottom-line2 {
-  border: .5px solid rgb(15, 29, 99);
+  border: 0.5px solid rgb(15, 29, 99);
 
   margin-bottom: 1rem;
   text-align: center;
@@ -337,13 +359,7 @@ input[type='checkbox']:checked ~ del {
 .listContainer {
   margin-top: 3rem;
 }
-.modalFour
-
-.list2 {
-  /* margin-bottom: .5rem;
-  font-size: 1.7rem;
-  font-weight: bolder; */
-  font-size: 35px;
+.modalFour body > .body > .listContainer > .list2 {
 }
 
 .side-item {
@@ -386,8 +402,6 @@ input[type='checkbox']:checked ~ del {
   padding-bottom: 4rem;
 }
 
-
-
 .the-form {
   /* width: 100%;
   padding: 10px 0 10px 5px;
@@ -408,7 +422,7 @@ input[type='checkbox']:checked ~ del {
   border-bottom: 2px solid rgb(99, 99, 99);
   font-family: 'Poppins', sans-serif;
   font-size: 1.5rem;
-  overflow: hidden
+  overflow: hidden;
 }
 
 #todo-form {
@@ -416,7 +430,6 @@ input[type='checkbox']:checked ~ del {
   flex-direction: column;
   align-items: stretch;
   height: 100%;
-  margin: -25px;
 }
 
 .modalThree {
@@ -434,7 +447,6 @@ input[type='checkbox']:checked ~ del {
   color: rgb(0, 0, 0);
   font-weight: bolder;
   font-family: 'Poppins', sans-serif;
-
 }
 
 .save-del-container {
@@ -456,7 +468,6 @@ input[type='checkbox']:checked ~ del {
   padding: 4%;
   font-weight: bolder;
   font-size: 1.1rem;
-
 }
 
 .del {
@@ -490,7 +501,6 @@ input[type='checkbox']:checked ~ del {
   font-weight: bolder;
   font-size: 25px;
   font-family: 'Poppins', sans-serif;
-
 }
 
 .times {
@@ -578,7 +588,7 @@ input[type='checkbox']:checked ~ del {
   }
 
   .title-of-todo {
-    font-size: 18px;
+    font-size: 23px;
     font-weight: bold;
     text-align: center;
   }
@@ -598,18 +608,17 @@ input[type='checkbox']:checked ~ del {
   .modal {
     display: flex;
     flex-direction: row;
-   
+
     align-items: center;
     justify-content: center;
-      /*
+    /*
     margin-left: 11.5rem;
     width: 100%; */
     margin-left: 20rem;
-
   }
 
   .title-of-todo {
-    font-size: 18px;
+    font-size: 23px;
     font-weight: bold;
     text-align: center;
     width: 200px;
@@ -619,11 +628,27 @@ input[type='checkbox']:checked ~ del {
     display: flex;
     justify-content: space-around;
     border-radius: 4%;
-    border: 1px solid #1e2245;
+    /* border: 1px solid #1e2245; */
     padding: 6% 2%;
     margin-top: 3%;
     align-items: center;
     max-height: 24px;
     width: 95%;
+  }
+
+  .borderRed {
+    border: 2px solid red;
+  }
+
+  .borderYellow {
+    border: 2px solid yellow;
+  }
+
+  .borderBlue {
+    border: 2px solid blue;
+  }
+
+  .list2 {
+    font-size: 35px;
   }
 }
