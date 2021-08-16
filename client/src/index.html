@@ -5,26 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ToDo App</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet" />
   </head>
 
   <body>
     <div class="body">
       <div class="menu">
         <div class="containerForTodoLabel">
-          <i class="fa fa-bars fa-" aria-hidden="true"></i>
-          <div class="appTitle">ToDo List</div>
+          <!-- <i class="fa fa-bars fa-" aria-hidden="true"></i> -->
+          <div class="appTitle">To Do List</div>
+          <button id="create-task-btn"><span class="iconPlus">+</span></button>
+
         </div>
 
         <div class="bottom-line"></div>
 
         <div>
-          <button id="create-task-btn">
-            <span class="iconPlus"> +</span>Create Task
-          </button>
         </div>
 
         <div class="short-Cuts-Container">
@@ -56,6 +55,7 @@
         </div>
       </div>
 
+      
       <div class="modal hidden"></div>
       <div class="modalFour hidden">
         <div class="modalThree"></div>
@@ -120,7 +120,7 @@
             value=""
             placeholder="Notes..."
           ></textarea>
-          <input id="submit" type="submit" class="the-form" value="Submit" />
+          <input id="submit" type="submit" class="the-form" value="Save" />
         </form>
       </div>
 

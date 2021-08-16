@@ -192,16 +192,15 @@ const yearMonthDayFormat = (toDoItem) => {
 //refractor
 
 const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
-  console.log(toDoItem);
   let toDoItemValueInElement;
   deletingTaskDetails();
 
   for (let [key, value] of Object.entries(toDoItem)) {
-    if (key === 'id' || key === 'list' || key === 'daysuntil' || key === 'priority') {
+    if (key === 'id' || key === 'list' || key === 'daysuntil') {
       continue;
     }
 
-    switch (key || value.toLowerCase()) {
+    switch (key || value) {
       case 'title':
         toDoItemValueInElement = getTitleOfToDoElement(toDoItem);
         break;
@@ -210,15 +209,15 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
         toDoItemValueInElement = getDescriptionOfToDoElement(toDoItem);
         break;
 
-      case 'high':
+      case 'high' && 'priority':
         toDoItemValueInElement = getPriorityDropDownElement(toDoItem.id, value);
         break;
 
-      case 'medium':
+      case 'medium' && 'priority':
         toDoItemValueInElement = getPriorityDropDownElement(toDoItem.id, value);
         break;
 
-      case 'low':
+      case 'low' && 'priority':
         toDoItemValueInElement = getPriorityDropDownElement(toDoItem.id, value);
         break;
 
@@ -230,7 +229,6 @@ const getValuesFromToDoPlaceInInputElement = (toDoItem) => {
         toDoItemValueInElement = getDateOfToDoElement(toDoItem);
         break;
     }
-    console.log(toDoItemValueInElement);
     appendsInputElementToModalThree(toDoItemValueInElement);
   }
   createDeleteAndSaveBtns(toDoItem);
@@ -266,7 +264,7 @@ const getNotesOfToDoElement = (toDoItem) => {
 };
 
 const getDateOfToDoElement = (toDoItem) => {
-  return `<input type="date" id="due-date" min="${todaysDate2()}"value-number=${toDoItem.id} value="${yearMonthDayFormat(
+  return `<input type="date" id="due-date" min="${todaysDate()}"value-number=${toDoItem.id} value="${yearMonthDayFormat(
     toDoItem
   )}" class="user-content the-form" data-number=${toDoItem.id} ></input><br>`;
 };
@@ -282,8 +280,12 @@ const appendsInputElementToModalThree = (toDoItemValueInElement) => {
 };
 
 const createDeleteAndSaveBtns = (toDoItem) => {
-  const deleteAndSaveBtns = `<div class="save-del-container"><button class="user-content save" data-number=${toDoItem.id}>Save</button>
-<button class="user-content del" data-number=${toDoItem.id} >Delete</button></div>`;
+  const deleteAndSaveBtns = `
+  <div class="save-del-container">
+  <button class="user-content del" data-number=${toDoItem.id} >Delete</button>
+
+<button class="user-content save" data-number=${toDoItem.id}>Save</button>
+</div>`;
   placeBtnsOnModal(deleteAndSaveBtns);
 };
 
@@ -439,24 +441,12 @@ const generatesDueDateMsg = (diffDays) => {
   return;
 };
 
-//fix min date issue in calendar
-
 const todaysDate = () => {
-  let today = new Date();
-  const dd = String(today.getDate());
-  const mm = String(today.getMonth() + 1);
-  const yyyy = today.getFullYear();
-  today = `${yyyy}-${mm}-${dd}`;
-  return document.querySelector('#due-date').setAttribute('min', today);
-};
-// todaysDate();
-
-const todaysDate2 = () => {
   let today = new Date();
   const day = String(today.getDate());
   const month = String(today.getMonth() + 1);
   const year = today.getFullYear();
-   today = year + '-' + month.toString().padStart(2, '0') + '-' + day.toString().padStart(2, '0');
+  today = year + '-' + month.toString().padStart(2, '0') + '-' + day.toString().padStart(2, '0');
 
   return today;
 };
@@ -494,7 +484,6 @@ const deleteTitle = (e) => {
 };
 
 const showCertainToDos = (e) => {
-  console.log(e.target);
   if (e.target.classList.contains('today')) {
     return showToDosForToday();
   } else if (e.target.classList.contains('next-7-days')) {
