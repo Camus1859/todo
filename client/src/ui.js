@@ -303,7 +303,7 @@ const getPriorityDropDownElement = (id, value) => {
 };
 
 const getNotesOfToDoElement = (toDoItem) => {
-  return `<textarea rows="4" cols="50" value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id} >${toDoItem.notes}</textarea><br>`;
+  return `<textarea rows="4" cols="50" id="text-area"value-number=${toDoItem.id} class="user-content the-form" data-number=${toDoItem.id} >${toDoItem.notes}</textarea><br>`;
 };
 
 const getDateOfToDoElement = (toDoItem) => {

@@ -236,6 +236,7 @@ input[type='checkbox']:checked ~ del {
 #sliderBtn {
   margin-top: 1rem;
   cursor: pointer;
+  font-size: 25px;
 }
 
 .containerForTodoLabel {
@@ -356,13 +357,11 @@ input[type='checkbox']:checked ~ del {
   width: 90%;
   text-decoration: none;
   outline: none;
-  padding: 20px;
-  padding-bottom: 5px;
   height: 25px;
   border: none;
   border-bottom: 2px solid rgb(99, 99, 99);
   font-family: 'Poppins', sans-serif;
-  font-size: 1.5rem;
+  font-size: 1rem;
   overflow: hidden;
 }
 
@@ -535,9 +534,9 @@ select option[value='low'] {
   }
 
   .modalTwo, .modalFour {
-    width: 70%;
-    height: 60%;
-    padding: 1rem 1.5rem 1rem 1.5rem;
+    width: 45%;
+    /* height: 55%; */
+    padding-top: .5rem;
   }
 
   .list {
@@ -546,7 +545,7 @@ select option[value='low'] {
 
   .the-form {
     font-size: 1rem;
-    padding: 0px 0px 0px 0px;
+    padding-right: 0px;
     width: 100%;
   }
 
@@ -587,9 +586,6 @@ select option[value='low'] {
     background-color: blue;
   }
 
-  .modalFour{
-    height: 45%;
-  }
   
   .save, .del{
     width: 100%;
@@ -604,6 +600,27 @@ select option[value='low'] {
   .days-until-due{
     font-weight: 100;
     font-size: 12px;
+
+    }
+    .modalTwo {
+      height: 530px;
+    }
+
+    .modalFour{
+    height: 400px;
+    }
+
+    .task-details{
+      font-size: 1.5rem;
+    }
+
+    #todo-form{
+
+    }
+
+    #notes, #text-area{
+      padding-top: 2rem;
+      overflow-y: scroll;
 
     }
 
@@ -629,19 +646,20 @@ select option[value='low'] {
 }
 
 .modalTwo, .modalFour {
-  width: 500px;
+  width: 400px;
   height: 530px;
-  padding: 1rem 1.5rem 1rem 1.5rem;
+  /* padding: 1rem 1.5rem 1rem 1.5rem; */
 }
 
 .modalFour{
-  height: 400px;
+  height: 460px;
 
 
 }
 
 .the-form{
-  font-size: 1.5rem;
+  font-size: 1rem;
+  /* padding-top: 1rem; */
 }
 
 .modalThree{
@@ -655,6 +673,35 @@ select option[value='low'] {
 
 
 } 
+
+@media screen and (min-width: 1000px) {
+
+  .details-btn{
+    font-size: 20px;
+  
+  }
+
+  .task-details{
+    font-size: 2rem;
+  }
+
+
+  .days-until-due{
+    font-size: 14px;
+
+    }
+
+    .appTitle, .shortCuts, .list2 {
+      font-size: 35px;
+    }
+
+    #text-area{
+      padding-top: 1.5rem;
+      padding-bottom: 3rem;
+      overflow-y: auto;
+
+    }
+}
 
 
 
