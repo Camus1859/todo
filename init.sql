@@ -1,0 +1,10 @@
+CREATE TABLE todo_items (
+  ID SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  list VARCHAR(255) NOT NULL,
+  description VARCHAR(255) NOT NULL,
+  date DATE NOT NULL,
+  priority VARCHAR(255) NOT NULL,
+  notes VARCHAR(255) NOT NULL,
+  daysuntil VARCHAR(255) NOT NULL
+);
