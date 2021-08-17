@@ -26,19 +26,19 @@ body {
 }
 
 .content-line {
-  display: flex;
-  justify-content: space-around;
   border-radius: 4%;
-  border: 2px solid #020a42;
+  border: 2px solid rgb(2, 10, 66);
   padding: 6% 4%;
   margin-top: 3%;
-  align-items: center;
   max-height: 24px;
   width: 90%;
+  display: grid;
+  grid-template-columns: 10% 5% 2fr 1fr;
+  align-items: center;
 }
 
 del * {
-  min-width: 100px;
+  min-width: 200px;
   display: flex;
   width: 10px;
   text-overflow: ellipsis;
@@ -55,9 +55,6 @@ del * {
   display: none;
 }
 
-#title {
-  padding-top: 1rem;
-}
 
 .overlay {
   position: absolute;
@@ -92,16 +89,16 @@ input[type='checkbox']:checked ~ del {
 }
 
 .checkbox {
-  margin-right: 5px;
+  /* margin-right: 5px; */
 }
 
 .days-until-due {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  justify-content: center;
   font-size: 12px;
   text-decoration: none;
-  width: 10%;
+  /* width: 10%; */
 }
 
 .details-btn {
@@ -111,11 +108,14 @@ input[type='checkbox']:checked ~ del {
 }
 
 .crossout-x {
-  width: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
 }
 
 .checkbox {
-  width: 10%;
+  width: 50%;
 }
 
 .modalFour {
@@ -656,9 +656,9 @@ select option[value='low'] {
     padding: 1rem;
   }
 
-  /* .details-btn {
-    font-size: 17px;
-  } */
+  .details-btn {
+    font-size: 18px;
+  }
 }
 
 @media screen and (min-width: 1000px) {

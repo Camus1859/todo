@@ -148,7 +148,7 @@ const borderColor = (priority) => {
 const createToDoInfo = (todoCategoryElement, toDoItem) => {
   const todoInfoElement = `
 <div class="content-line details-btn " data-number=${toDoItem.id}>
-<span class = " ${borderColor(toDoItem.priority)}" data-border-color=${toDoItem.id}></span>
+<span class = " ${borderColor(toDoItem.priority)}" id="dot"data-border-color=${toDoItem.id}></span>
 <input data-index=${toDoItem.id} class="checkbox" type="checkbox">
 <del class="strike"><p class="title-of-todo details-btn" data-title=${toDoItem.id} data-number=${toDoItem.id} >${toDoItem.title}</p></del>
 <div class="days-until-due" id="until-due" data-class="${toDoItem.id}">${toDoItem.daysuntil}</div>
