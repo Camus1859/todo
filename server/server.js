@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(todosRouter)
 
-app.listen(process.env.PORT || 3002, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log(`Server is listening`);
 })
 

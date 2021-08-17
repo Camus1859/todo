@@ -66,7 +66,7 @@ const postToDoFetch = async (title, list, description, date, priority, notes, da
   let response = await fetch('/todo', {
     method: 'POST',
     headers: {
-      'Content-type': 'application/json;charset=UTF-8',
+      'Content-type': 'application/json',
       Accept: 'application/json',
     },
     body: JSON.stringify({
@@ -89,7 +89,7 @@ const getAllToDosFromDBAndDisplayEach = async () => {
   let allToDos = await fetch('/allTodos', {
     method: 'GET',
     headers: {
-      'Content-type': 'application/json;charset=UTF-8',
+      'Content-type': 'application/json',
       Accept: 'application/json',
     },
   });
@@ -106,7 +106,7 @@ const returnArrayOfToDosFromDB = async () => {
   let allToDos = await fetch('/allTodos', {
     method: 'GET',
     headers: {
-      'Content-type': 'application/json;charset=UTF-8',
+      'Content-type': 'application/json',
       Accept: 'application/json',
     },
   });
@@ -431,7 +431,7 @@ const patchToDoFetch = async (title, description, date, priority, notes, daysunt
   let response = await fetch(`/todo/${toDo.id}`, {
     method: 'PATCH',
     headers: {
-      'Content-type': 'application/json;charset=UTF-8',
+      'Content-type': 'application/json',
       Accept: 'application/json',
     },
     body: JSON.stringify({
