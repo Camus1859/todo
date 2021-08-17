@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(todosRouter)
 
 app.listen(process.env.PORT || 3002, () => {
-  console.log(`Server is listening at http://localhost:${port}`);
+  console.log(`Server is listening`);
 })
 
 
