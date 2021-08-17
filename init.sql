@@ -6,5 +6,5 @@ CREATE TABLE todo_items (
   date DATE NOT NULL,
   priority VARCHAR(255) NOT NULL,
   notes VARCHAR(255) NOT NULL,
-  daysuntil VARCHAR(255) NOT NULL
+  daysuntil VARCHAR(255)
 );
