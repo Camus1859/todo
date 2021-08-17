@@ -1,6 +1,6 @@
 const express = require('express');
 const router = new express.Router();
-const pool = require('../db/queries');
+const pool = require('../db/config');
 require('dotenv').config();
 
 router.post('/todo', (req, res) => {
