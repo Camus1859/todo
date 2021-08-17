@@ -630,30 +630,47 @@ const displayListNumber = async () => {
 };
 displayListNumber();
 
-const shutSidePanel = () => {
+const shutSidePanel = (e) => {
 
 
-  // const sliderBtn = document.querySelector('#sliderBtn')
+  const sliderBtn = document.querySelector('#sliderBtn')
+
+    const createToDoBtn = document.querySelector('#create-task-btn')
+
+    const title = document.querySelector('.appTitle')
+
+console.log(e.target.id)
 
 
-  if (!document.querySelector('.listContainer').classList.contains('hide')) {
+  if (!document.querySelector('.listContainer').classList.contains('hide') && e.target.id === 'sliderBtn')  {
     document.querySelector('.menu').style.width = '5px';
 
     document.querySelector('.listContainer').classList.add('hide')
     document.querySelector('.short-Cuts-Container').classList.add('hide')
     document.querySelector('.containerForTodoLabel').classList.add('hide')
-    document.querySelector('#create-task-btn-hidden').style.display = 'flex'
+    // document.querySelector('#create-task-btn-hidden').style.display = 'flex'
     document.querySelector('.bottom-line').classList.add('hide')
+
+    sliderBtn.appendChild(createToDoBtn)
+    createToDoBtn.style.marginLeft = "-.5rem"
+    createToDoBtn.style.marginTop = "1rem"
+
 
     
 
-  } else {
+  } else  if( e.target.id === 'sliderBtn') {
+    console.log('ran')
     document.querySelector('.menu').style.width = '150px';
 
     document.querySelector('.listContainer').classList.remove('hide')
     document.querySelector('.short-Cuts-Container').classList.remove('hide')
     document.querySelector('.containerForTodoLabel').classList.remove('hide')
-    document.querySelector('#create-task-btn-hidden').style.display = 'none'
+    // document.querySelector('#create-task-btn-hidden').style.display = 'none'
+    createToDoBtn.style.marginLeft = "1rem"
+    createToDoBtn.style.marginTop = "0rem"
+    title.appendChild(createToDoBtn)
+
+
 
   }
 };
