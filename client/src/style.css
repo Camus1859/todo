@@ -99,7 +99,7 @@ input[type='checkbox']:checked ~ del {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 16px;
+  font-size: 12px;
   text-decoration: none;
   width: 10%;
 }
@@ -656,23 +656,23 @@ select option[value='low'] {
     padding: 1rem;
   }
 
-  .details-btn {
+  /* .details-btn {
     font-size: 17px;
-  }
+  } */
 }
 
 @media screen and (min-width: 1000px) {
-  .details-btn {
+  /* .details-btn {
     font-size: 20px;
-  }
+  } */
 
   .task-details {
     font-size: 2rem;
   }
 
-  .days-until-due {
+  /* .days-until-due {
     font-size: 14px;
-  }
+  } */
 
   .appTitle,
   .shortCuts,
