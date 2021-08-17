@@ -660,7 +660,7 @@ console.log(e.target.id)
 
   } else  if( e.target.id === 'sliderBtn') {
     console.log('ran')
-    document.querySelector('.menu').style.width = '270px';
+    document.querySelector('.menu').style.width = '225px';
 
     document.querySelector('.listContainer').classList.remove('hide')
     document.querySelector('.short-Cuts-Container').classList.remove('hide')

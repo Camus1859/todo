@@ -217,6 +217,7 @@ input[type='checkbox']:checked ~ del {
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-left: 220px;
 }
 
 .menu {
@@ -519,7 +520,7 @@ select option[value='low'] {
 
   .menu {
     padding-left: 0.5rem;
-    width: 150px;
+    width: 225px;
   }
 
   .list-name {
@@ -631,9 +632,9 @@ select option[value='low'] {
     font-size: 23px;
   }
 
-  .menu {
+  /* .menu {
     width: 270px;
-  }
+  } */
 
   .modalTwo,
   .modalFour {
