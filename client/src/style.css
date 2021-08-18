@@ -177,6 +177,8 @@ input[type='checkbox']:checked ~ del {
   align-items: center;
   margin: 10px;
   box-shadow: 0 4px #999;
+  overflow-y: scroll;
+
 }
 
 .holdingList:active {
