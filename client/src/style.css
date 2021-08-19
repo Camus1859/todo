@@ -26,15 +26,16 @@ body {
 }
 
 .content-line {
-  border-radius: 4%;
+  border-radius: 10px;
   border: 2px solid rgb(2, 10, 66);
   padding: 6% 4%;
-  margin-top: 3%;
   max-height: 24px;
   width: 90%;
   display: grid;
   grid-template-columns: 10% 5% 2fr 1fr;
   align-items: center;
+  margin-bottom: 2rem;
+
 }
 
 del * {
@@ -168,6 +169,8 @@ input[type='checkbox']:checked ~ del {
   background: none;
 }
 
+
+
 .holdingList {
   display: flex;
   flex-direction: column;
@@ -178,6 +181,7 @@ input[type='checkbox']:checked ~ del {
   margin: 10px;
   box-shadow: 0 4px #999;
   overflow-y: scroll;
+  padding: 2rem;
 
 }
 
@@ -266,7 +270,7 @@ input[type='checkbox']:checked ~ del {
 .bottom-line2 {
   border: 0.5px solid rgb(15, 29, 99);
 
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   text-align: center;
 }
 
@@ -431,10 +435,12 @@ input[type='checkbox']:checked ~ del {
 
 .containerForMoreLists {
   display: flex;
-  margin-left: 1rem;
+  flex-direction: row;
+  /* margin-left: 1rem; */
   padding-top: 20px;
-  padding-bottom: 20px;
-  justify-content: center;
+  padding-bottom: 10px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .list-name {

@@ -122,13 +122,17 @@ const generateToDoItem = (title, list, description, date, priority, notes, id, d
 };
 
 const createToDoCategegory = (toDoItem) => {
-  const todoCategoryElement = `<div class="holdingList">
+  const todoCategoryElement = `
+  
+  <div class="holdingList">
   <div class="listTypeModal ${toDoItem.list}">
   <div class="containerForMoreLists">
   <div class="list-name">${toDoItem.list}</div>
   <div class="btn-for-list-type">+</div></div>
   <div class="bottom-line2"></div>
-</div>`;
+</div>
+
+`;
   createToDoInfo(todoCategoryElement, toDoItem);
 };
 
