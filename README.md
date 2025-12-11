@@ -1,8 +1,21 @@
-## This app was built from scratch (no tutorial, only google). It was built with the guidance of an open source online curriculum called  <a href="https://www.theodinproject.com/">The Odin Project</a> a Project Based Learning curriculum.
+  ## Todo App
 
+  A full-stack task manager with PostgreSQL persistence.
 
-## <a href="https://www.theodinproject.com/courses/javascript/lessons/todo-list">ToDo App Directions.</a>
+  ### Features
 
-## <a href="https://todo-app-laventure.herokuapp.com/">ToDo App</a> Live.
- 
+  - Create, edit, delete tasks
+  - Filter by due date (today, 7 days, all)
+  - Organize by category (Personal, Work, Groceries)
+  - Priority levels with color coding
 
+  ### Tech Stack
+
+  Express, PostgreSQL, Vanilla JavaScript
+
+  ### Run Locally
+
+  ```bash
+  # Set up PostgreSQL and run init.sql to create tables
+  cd server && npm install && npm run dev
+  cd client && npm install && npm start
