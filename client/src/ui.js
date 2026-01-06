@@ -62,8 +62,10 @@ const usersInfo = async (e) => {
   }
 };
 
+const API_URL = 'https://todo-u63g.onrender.com';
+
 const postToDoFetch = async (title, list, description, date, priority, notes, daysuntil) => {
-  let response = await fetch('/todo', {
+  let response = await fetch(`${API_URL}/todo`, {
     method: 'POST',
     headers: {
       'Content-type': 'application/json',
@@ -86,7 +88,7 @@ const postToDoFetch = async (title, list, description, date, priority, notes, da
 };
 
 const getAllToDosFromDBAndDisplayEach = async () => {
-  let allToDos = await fetch('/allTodos', {
+  let allToDos = await fetch(`${API_URL}/allTodos`, {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
@@ -103,7 +105,7 @@ const getAllToDosFromDBAndDisplayEach = async () => {
 getAllToDosFromDBAndDisplayEach();
 
 const returnArrayOfToDosFromDB = async () => {
-  let allToDos = await fetch('/allTodos', {
+  let allToDos = await fetch(`${API_URL}/allTodos`, {
     method: 'GET',
     headers: {
       'Content-type': 'application/json',
@@ -432,7 +434,7 @@ const updateTodoInsideOfArray = async (e, toDoResult, userInputElement) => {
 };
 
 const patchToDoFetch = async (title, description, date, priority, notes, daysuntil, toDo) => {
-  let response = await fetch(`/todo/${toDo.id}`, {
+  let response = await fetch(`${API_URL}/todo/${toDo.id}`, {
     method: 'PATCH',
     headers: {
       'Content-type': 'application/json',
@@ -494,7 +496,7 @@ const updateDisplayedTitleToUserInputTitle = (e, updatedToDo) => {
 const deleteAtoDo = async (e) => {
   const id = getDataNumberOfBtnClicked(e);
 
-  await fetch(`/todo/${id}`, {
+  await fetch(`${API_URL}/todo/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-type': 'application/json',
