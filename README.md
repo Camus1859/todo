@@ -1,15 +1,13 @@
- ## Todo App
-
-  **Live:** https://todo-u63g.onrender.com
-
   A full-stack task manager with PostgreSQL persistence.
+
+  **Live Demo:** https://todo-u63g.onrender.com
 
   ### Features
 
-  - Create, edit, delete tasks
-  - Filter by due date (today, 7 days, all)
+  - Create, edit, and delete tasks
   - Organize by category (Personal, Work, Groceries)
   - Priority levels with color coding
+  - Filter by due date (Today, Next 7 Days, All)
 
   ### Tech Stack
 
@@ -17,7 +15,4 @@
 
   ### Run Locally
 
-  ```bash
-  # Set up PostgreSQL and run init.sql to create tables
-  cd server && npm install && npm run dev
-  cd client && npm install && npm start
+  Requires PostgreSQL connection credentials in a `.env` file.
